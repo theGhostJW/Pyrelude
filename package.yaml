@@ -87,12 +87,17 @@ default-extensions:
 
 library:
   source-dirs: src
+  dependencies:
+    - tasty
+    - tasty-hunit
+    - text
 
 tests:
   principled-extended-test:
     main:                driver.hs
     source-dirs:         test
     dependencies:
+      - principled-extended
       - tasty
       - tasty-hunit
       - tasty-hedgehog
