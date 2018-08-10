@@ -1,0 +1,100 @@
+name:                principled-extended
+version:             0.1.0.0
+github:              "githubuser/simple-hpack"
+license:             BSD3
+author:              "Author name here"
+maintainer:          "example@example.com"
+copyright:           "2018 Author name here"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/githubuser/simple-hpack#readme>
+
+dependencies:
+  - base
+  - foundation
+  - freer-simple
+  - extra
+
+ghc-options:
+  - -fmax-pmcheck-iterations=10000000
+  - -ferror-spans
+  - -O2
+  - -Wall
+  - -Werror
+  - -fprint-potential-instances
+  - -Wcompat
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wredundant-constraints
+  - -fno-warn-name-shadowing
+  - -fno-warn-missing-signatures
+  - -fno-warn-type-defaults
+  - -fno-warn-unused-matches
+  - -fno-warn-unused-binds
+
+default-extensions:
+  - RecordWildCards
+  - DisambiguateRecordFields
+  - DuplicateRecordFields
+  - NamedFieldPuns
+  - DeriveFunctor
+  - NoImplicitPrelude
+  - OverloadedStrings
+  - BangPatterns
+  - ConstraintKinds
+  - DataKinds
+  - DefaultSignatures
+  - DeriveFoldable
+  - DeriveFunctor
+  - DeriveGeneric
+  - DeriveLift
+  - DeriveTraversable
+  - DerivingStrategies
+  - EmptyCase
+  - ExistentialQuantification
+  - ExtendedDefaultRules
+  - FlexibleContexts
+  - FlexibleInstances
+  - FunctionalDependencies
+  - GADTs
+  - GeneralizedNewtypeDeriving
+  - InstanceSigs
+  - KindSignatures
+  - LambdaCase
+  - MultiParamTypeClasses
+  - MultiWayIf
+  - NamedFieldPuns
+  - OverloadedStrings
+  - PatternSynonyms
+  - RankNTypes
+  - ScopedTypeVariables
+  - StandaloneDeriving
+  - TupleSections
+  - TypeApplications
+  - TypeFamilies
+  - TypeFamilyDependencies
+  - TypeOperators
+
+library:
+  source-dirs: src
+
+tests:
+  principled-extended-test:
+    main:                driver.hs
+    source-dirs:         test
+    dependencies:
+      - tasty
+      - tasty-hunit
+      - tasty-hedgehog
+      - tasty-discover
+      - hedgehog

@@ -1,2 +1,2 @@
-# Extensions
+# Principled Extended
 
