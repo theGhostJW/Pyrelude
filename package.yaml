@@ -21,9 +21,11 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
   - base
+  - extra
   - foundation
   - freer-simple
-  - extra
+  - tasty
+  - tasty-hunit
 
 ghc-options:
   - -fmax-pmcheck-iterations=10000000
@@ -46,7 +48,6 @@ default-extensions:
   - RecordWildCards
   - DisambiguateRecordFields
   - DuplicateRecordFields
-  - NamedFieldPuns
   - DeriveFunctor
   - NoImplicitPrelude
   - OverloadedStrings
@@ -88,8 +89,7 @@ default-extensions:
 library:
   source-dirs: src
   dependencies:
-    - tasty
-    - tasty-hunit
+    - foundation-edge
     - text
 
 tests:
@@ -98,8 +98,6 @@ tests:
     source-dirs:         test
     dependencies:
       - principled-extended
-      - tasty
-      - tasty-hunit
       - tasty-hedgehog
       - tasty-discover
       - hedgehog

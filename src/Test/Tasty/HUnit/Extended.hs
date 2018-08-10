@@ -10,9 +10,8 @@ module Test.Tasty.HUnit.Extended (
 ) where
 
 import           Control.Exception.Base
-import qualified Data.List              as List
-import           Foundation
-import qualified Prelude
+import           Debug.Trace.Extended
+import           Foundation.Extended
 import           Test.Tasty.HUnit
 
 
@@ -28,15 +27,15 @@ chkEq = (@=?)
                         -> Assertion
 (?>) = (@=?)
 
-chkContains :: Show s => s -> s -> Assertion
+chkContains :: StringLike s => s -> s -> Assertion
 chkContains needle hayStack = let
-                                needleStr = Prelude.show needle
-                                hayStackStr = Prelude.show hayStack
+                                needleStr = debug' "Needle" $ toString needle
+                                hayStackStr = debug' "Haystack" $ toString hayStack
                               in
                                 assertBool (toList $ "substring not found: " <> needleStr <> "\n<<<IN>>>\n" <> hayStackStr)
-                                $ needleStr `List.isInfixOf` hayStackStr
+                                $ needleStr `isInfixOf` hayStackStr
 
-chk :: Foundation.Bool -> Assertion
+chk :: Bool -> Assertion
 chk = assertBool "check failed"
 
 chkFalse :: Bool -> Assertion
