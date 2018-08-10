@@ -19,3 +19,5 @@ instance StringLike Text.Text where
 
 instance StringLike Prelude.String where
   toString = fromList
+
+--print s = Prelude. $ toString s
