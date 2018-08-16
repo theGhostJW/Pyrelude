@@ -25,6 +25,6 @@ hprop_stringLike_text = genericStringLike text
 hprop_stringLike_string :: Property
 hprop_stringLike_string = genericStringLike string
 
--- unit_chkEq = chkEq 1 1
+unit_chkEq = chkEq 1 1
 --
 -- unit_chkContains = chkContains "cool wor" "hello cool world"
