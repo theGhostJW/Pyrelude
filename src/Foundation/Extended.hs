@@ -2,8 +2,7 @@ module Foundation.Extended (
   module Foundation
   , module Debug.Trace.Extended
   , StringLike(..)
-  , (?)
-  , (!?)
+  , Truthy(..)
 ) where
 
 import           Data.Either
@@ -30,28 +29,12 @@ instance StringLike Prelude.String where
   toStr = fromList
   fromStr = toList
 
-class Truthy  b where
+class Truthy b where
   isTruthy :: b -> Bool
 
   infixl 1 ?
   (?) :: b -> a -> a -> a
   (?) b a1 a2 = if isTruthy b then a1 else a2
 
-  infixl 1 !?
-  (!?) :: b -> a -> a -> a
-  (!?) b = (not (isTruthy b) ?)
-
 instance Truthy Bool where
   isTruthy  = id
-
-
--- infixl 1 ?
--- (?) :: Bool -> a -> a -> a
--- (?) True x _  = x
--- (?) False _ y = y
---
--- infixl 1 !?
--- (!?) :: Bool -> a -> a -> a
--- (!?) b = (?) (not b)
-
---print s = Prelude. $ toString s
