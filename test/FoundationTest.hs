@@ -13,7 +13,7 @@ import           Test.Extended
 
 genericStringLike g =  property $ do
                         -- str <- forAll $ debug <$> g (Range.linear 0 100) Gen.ascii
-                        str <- forAll $ g (Range.linear 0 100) Gen.ascii
+                        str <- forAll $ g (linear 0 100) ascii
                         fromStr (toStr str) === str
 
 hprop_stringLike_prelude_string :: Property
