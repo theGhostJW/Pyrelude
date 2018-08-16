@@ -1,4 +1,4 @@
-module Test.Hedgehog.Internal (
+module Internal.Test.Hedgehog.Extended.Gen  (
   module Gen
 ) where
 
