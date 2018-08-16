@@ -26,6 +26,7 @@ dependencies:
   - freer-simple
   - tasty
   - tasty-hunit
+  - hedgehog
 
 ghc-options:
   - -fmax-pmcheck-iterations=10000000
@@ -88,6 +89,8 @@ default-extensions:
 
 library:
   source-dirs: src
+  other-modules:
+    - Debug.Trace.Extended
   dependencies:
     - foundation-edge
     - text
@@ -98,6 +101,4 @@ tests:
     source-dirs:         test
     dependencies:
       - principled-extended
-      - tasty-hedgehog
       - tasty-discover
-      - hedgehog

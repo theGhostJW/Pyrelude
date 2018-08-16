@@ -13,7 +13,6 @@ module Test.Tasty.HUnit.Extended (
 
 import           Control.Exception.Base
 import           Control.Monad
-import           Debug.Trace.Extended
 import           Foundation.Extended
 import qualified Prelude
 import           Test.Tasty.HUnit
@@ -33,8 +32,8 @@ chkEq = (@=?)
 
 chkContains :: StringLike s => s -> s -> Assertion
 chkContains needle hayStack = let
-                                needleStr = debug' "Needle" $ toString needle
-                                hayStackStr = debug' "Haystack" $ toString hayStack
+                                needleStr = toStr needle
+                                hayStackStr = toStr hayStack
                               in
                                 assertBool (toList $ "substring not found: " <> needleStr <> "\n<<<IN>>>\n" <> hayStackStr)
                                 $ needleStr `isInfixOf` hayStackStr
@@ -62,5 +61,5 @@ chkErrorContainsPriv wantLogging leftToTxt expectedText eth  =
     Left err     -> do
                       let errs = leftToTxt err
                       when wantLogging $
-                          Prelude.print $ "Error Generated: " <> toString errs
+                          Prelude.print $ "Error Generated: " <> toStr errs
                       chkContains expectedText errs
