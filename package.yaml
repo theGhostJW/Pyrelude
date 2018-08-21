@@ -94,6 +94,8 @@ library:
   dependencies:
     - foundation-edge
     - text
+    - path
+    - path-io
 
 tests:
   principled-extended-test:
