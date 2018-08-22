@@ -1,6 +1,8 @@
 module Foundation.Extended (
   module Foundation
   , module Debug.Trace.Extended
+  , module Path
+  , module Path.IO
   , StringLike(..)
   , Truthy(..)
 ) where
@@ -10,6 +12,8 @@ import qualified Data.Text              as Text
 import           Debug.Trace.Extended
 import           Foundation
 import           Foundation.Compat.Text
+import           Path
+import           Path.IO
 import qualified Prelude
 
   -- fromString clashes with isString typeclass
