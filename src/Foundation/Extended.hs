@@ -5,6 +5,7 @@ module Foundation.Extended (
   , module Foundation.Internal -- exports most of Path.IO
   , StringLike(..)
   , Truthy(..)
+  , Foundation.Extended.writeFile
 ) where
 
 import           Data.Either
