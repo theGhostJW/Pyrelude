@@ -1,6 +1,6 @@
 module Test.Hedgehog.Extended (
     module Hedgehog
-  , module Internal.Test.Hedgehog.Extended.Gen
+  , module Internal.Test.Hedgehog.Gen.Extended
   , module Hedgehog.Range
   , discardGenerator
   , preludeString
@@ -11,7 +11,7 @@ import           Foundation.Extended
 import           Hedgehog
 import           Hedgehog.Gen                        as GenFull
 import           Hedgehog.Range
-import           Internal.Test.Hedgehog.Extended.Gen
+import           Internal.Test.Hedgehog.Gen.Extended
 import qualified Prelude
 
 -- discard conflicts with Hedgehog.discard
