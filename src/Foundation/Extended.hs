@@ -12,7 +12,7 @@ import           Data.Either
 import qualified Data.Text              as Text
 import           Debug.Trace.Extended
 import           Foundation
-import           Foundation.Compat.Text
+import           Foundation.Compat.Text as Compat
 import           Foundation.Internal
 import           Path.Extended
 import           Path.IO.Extended       as PathIO
@@ -23,21 +23,25 @@ class StringLike a where
   toStr :: a -> String
   fromStr :: String -> a
   toPreludeStr :: a -> Prelude.String
+  toText :: a -> Text.Text
 
 instance StringLike String where
-  toStr = id
   fromStr = id
+  toStr = id
   toPreludeStr = toList
+  toText = Compat.toText
 
 instance StringLike Text.Text where
+  fromStr = Compat.toText
   toStr = fromText
-  fromStr = toText
   toPreludeStr = Text.unpack
+  toText = id
 
 instance StringLike Prelude.String where
-  toStr = fromList
   fromStr = toList
+  toStr = fromList
   toPreludeStr = id
+  toText = Text.pack
 
 class Truthy b where
   isTruthy :: b -> Bool
