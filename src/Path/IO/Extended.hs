@@ -43,8 +43,8 @@ readFile encoding path = let
                           in
                            toReadResult . String.fromBytes encoding . fromByteString <$> readFileByteString path
 
-readFileUTF8 :: (MonadIO m) => String.Encoding -> Path a File -> m StrictReadResult
-readFileUTF8 path = readFile UTF8
+readFileUTF8 :: (MonadIO m) => Path a File -> m StrictReadResult
+readFileUTF8 = readFile UTF8
 
 writeFile :: MonadIO m => String.Encoding -> Path a File -> String -> m ()
 writeFile encoding path content = Foundation.Monad.liftIO $ ByteString.writeFile (toFilePath path) (toByteString $ toBytes encoding content)
