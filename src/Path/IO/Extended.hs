@@ -5,6 +5,7 @@ module Path.IO.Extended (
   , readFileUTF8
   , writeFile
   , writeFileUTF8
+  , StrictReadResult
   , StrictReadFailure
   , StrictReadError
 ) where
