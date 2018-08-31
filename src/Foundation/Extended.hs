@@ -2,10 +2,10 @@ module Foundation.Extended (
   module Foundation
   , module Debug.Trace.Extended
   , module Path.Extended
+  , module PathIO
   , module Foundation.Internal -- exports most of Path.IO
   , StringLike(..)
   , Truthy(..)
-  , Foundation.Extended.writeFile
 ) where
 
 import           Data.Either
@@ -52,6 +52,3 @@ class Truthy b where
 
 instance Truthy Bool where
   isTruthy  = id
-
-writeFile :: StringLike s => Path a File -> s -> Prelude.IO ()
-writeFile = PathIO.writeFile toPreludeStr

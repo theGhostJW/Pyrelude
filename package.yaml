@@ -44,6 +44,7 @@ ghc-options:
   - -fno-warn-type-defaults
   - -fno-warn-unused-matches
   - -fno-warn-unused-binds
+  - -fno-warn-unused-imports
 
 default-extensions:
   - RecordWildCards
@@ -96,6 +97,7 @@ library:
     - text
     - path
     - path-io
+    - bytestring
 
 tests:
   principled-extended-test:
