@@ -27,3 +27,5 @@ instance Truthy StopSign where
 
 unit_ternary_custom_true = chk $ Go ? True $ False
 unit_ternary_custom_false = chkFalse $ Stop ? True $ False
+
+unit_module_of = chkEq "FoundationTest" $ moduleOf ''StopSign

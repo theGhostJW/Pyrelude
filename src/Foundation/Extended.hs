@@ -4,18 +4,20 @@ module Foundation.Extended (
   , module Path.Extended
   , module PathIO
   , module Foundation.Internal -- exports most of Path.IO
+  , module THEx
   , StringLike(..)
   , Truthy(..)
 ) where
 
 import           Data.Either
-import qualified Data.Text              as Text
+import qualified Data.Text                           as Text
 import           Debug.Trace.Extended
 import           Foundation
-import           Foundation.Compat.Text as Compat
+import           Foundation.Compat.Text              as Compat
 import           Foundation.Internal
+import           Language.Haskell.TH.Syntax.Extended as THEx (moduleOf)
 import           Path.Extended
-import           Path.IO.Extended       as PathIO
+import           Path.IO.Extended                    as PathIO
 import qualified Prelude
 
   -- fromString clashes with isString typeclass

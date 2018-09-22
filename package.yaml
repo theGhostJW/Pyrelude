@@ -87,6 +87,7 @@ default-extensions:
   - TypeFamilies
   - TypeFamilyDependencies
   - TypeOperators
+  - TemplateHaskell
 
 library:
   source-dirs: src
@@ -98,6 +99,7 @@ library:
     - path
     - path-io
     - bytestring
+    - template-haskell
 
 tests:
   principled-extended-test:
