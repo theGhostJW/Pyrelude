@@ -3,6 +3,8 @@ module Debug.Trace.Extended (
   module Debug.Trace
   , debug
   , debug'
+  , debugf
+  , debugf'
 ) where
 
 import           Debug.Trace
