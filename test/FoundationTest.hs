@@ -48,14 +48,14 @@ boolCheckSingle ft fb = property $ do
                          b <- forAll T.bool
                          ft b === fb b
 
-hprop_truty_and :: Property
-hprop_truty_and = boolCheck (B.&&) (&&)
+hprop_truthy_and :: Property
+hprop_truthy_and = boolCheck (B.&&) (&&)
 
-hprop_truty_or :: Property
-hprop_truty_or = boolCheck (B.||)  (||)
+hprop_truthy_or :: Property
+hprop_truthy_or = boolCheck (B.||)  (||)
 
-hprop_truty_bool :: Property
-hprop_truty_bool = boolCheckSingle (B.bool 1 2) (F.bool 1 2)
+hprop_truthy_bool :: Property
+hprop_truthy_bool = boolCheckSingle (B.bool 1 2) (F.bool 1 2)
 
-hprop_truty_not :: Property
-hprop_truty_not = boolCheckSingle B.not F.not
+hprop_truthy_not :: Property
+hprop_truthy_not = boolCheckSingle B.not F.not
