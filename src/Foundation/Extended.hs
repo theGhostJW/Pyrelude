@@ -9,12 +9,15 @@ module Foundation.Extended (
   , StringLike(..)
   , Truthy(..)
   , count
+  , safeHead
+  , firstDuplicate
 ) where
 
 import qualified Data.Bool                           as B
 import           Data.Discrimination
 import           Data.Either
 import qualified Data.Text                           as Text
+import qualified Data.List                           as L
 import           Debug.Trace.Extended
 import           Foundation                          hiding (not, (&&), (||))
 import           Foundation.Collection
@@ -86,3 +89,11 @@ instance Truthy Bool where
 
 count :: (Foldable collection, Truthy b, Additive a, P.Num a) => (Element collection -> b) -> collection -> a
 count p = foldl' (\n x -> p x ? n + 1 $ n) 0
+
+safeHead :: [a]-> Maybe a
+safeHead = \case
+              [] -> Nothing
+              (x : xs) -> pure x
+
+firstDuplicate :: Grouping a => [a] -> Maybe a
+firstDuplicate xs = L.find (\l -> length l > 1) (group xs) >>= safeHead
