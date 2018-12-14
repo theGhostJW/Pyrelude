@@ -101,6 +101,7 @@ library:
     - bytestring
     - template-haskell
     - silently
+    - discrimination
 
 tests:
   principled-extended-test:

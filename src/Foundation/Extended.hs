@@ -5,12 +5,14 @@ module Foundation.Extended (
   , module PathIO
   , module Foundation.Internal -- exports most of Path.IO
   , module THEx
+  , module Data.Discrimination
   , StringLike(..)
   , Truthy(..)
   , count
 ) where
 
 import qualified Data.Bool                           as B
+import           Data.Discrimination
 import           Data.Either
 import qualified Data.Text                           as Text
 import           Debug.Trace.Extended
