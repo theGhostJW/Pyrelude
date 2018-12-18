@@ -16,8 +16,9 @@ module Foundation.Extended (
 import qualified Data.Bool                           as B
 import           Data.Discrimination
 import           Data.Either
-import qualified Data.Text                           as Text
 import qualified Data.List                           as L
+import qualified Data.Maybe                          as M
+import qualified Data.Text                           as Text
 import           Debug.Trace.Extended
 import           Foundation                          hiding (not, (&&), (||))
 import           Foundation.Collection
@@ -91,9 +92,7 @@ count :: (Foldable collection, Truthy b, Additive a, P.Num a) => (Element collec
 count p = foldl' (\n x -> p x ? n + 1 $ n) 0
 
 safeHead :: [a]-> Maybe a
-safeHead = \case
-              [] -> Nothing
-              (x : xs) -> pure x
+safeHead = M.listToMaybe
 
 firstDuplicate :: Grouping a => [a] -> Maybe a
 firstDuplicate xs = L.find (\l -> length l > 1) (group xs) >>= safeHead
