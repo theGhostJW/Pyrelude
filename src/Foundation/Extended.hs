@@ -3,17 +3,15 @@ module Foundation.Extended (
   , module Debug.Trace.Extended
   , module Path.Extended
   , module PathIO
-  , module Foundation.Internal -- exports most of Path.IO
+  , module Foundation.Extended.Internal -- exports most of Path.IO and Foundation.Internal.Truthy
   , module THEx
   , module Data.Discrimination
   , StringLike(..)
-  , Truthy(..)
   , count
   , safeHead
   , firstDuplicate
 ) where
 
-import qualified Data.Bool                           as B
 import           Data.Discrimination
 import           Data.Either
 import qualified Data.List                           as L
@@ -23,7 +21,7 @@ import           Debug.Trace.Extended
 import           Foundation                          hiding (not, (&&), (||))
 import           Foundation.Collection
 import           Foundation.Compat.Text              as Compat
-import           Foundation.Internal
+import           Foundation.Extended.Internal
 import           Language.Haskell.TH.Syntax.Extended as THEx (moduleOf)
 import           Path.Extended
 import           Path.IO.Extended                    as PathIO
@@ -53,40 +51,6 @@ instance StringLike P.String where
   toStr = fromList
   toPreludeStr = id
   toText = Text.pack
-
--- redeclare to complement truthy
-{-# ANN otherwise "HLint: ignore" #-}
-otherwise :: Bool
-otherwise = True
-
-
-class Truthy b where
-  isTruthy :: b -> Bool
-
-  infixl 1 ?
-  (?) :: b -> a -> a -> a
-  (?) b a1 a2 = if isTruthy b then a1 else a2
-
-  -- and
-  infixr 3 &&
-  (&&) :: b -> b -> Bool
-  (&&) a b = isTruthy a B.&& isTruthy b
-
-  -- or
-  infixr 2 ||
-  (||) :: b -> b -> Bool
-  (||) a b = isTruthy a B.|| isTruthy b
-
-  -- not
-  not :: b -> Bool
-  not = B.not . isTruthy
-
-  -- reverse ternary operator
-  bool :: a -> a -> b -> a
-  bool fv tv b = B.bool fv tv $ isTruthy b
-
-instance Truthy Bool where
-  isTruthy  = id
 
 count :: (Foldable collection, Truthy b, Additive a, P.Num a) => (Element collection -> b) -> collection -> a
 count p = foldl' (\n x -> p x ? n + 1 $ n) 0

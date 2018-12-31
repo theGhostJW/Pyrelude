@@ -8,15 +8,20 @@ module Path.IO.Extended (
   , StrictReadResult
   , StrictReadFailure
   , StrictReadError
+  , seekDirFromBase
+  , seekInDir
 ) where
 
-import qualified Data.ByteString              as ByteString
+import qualified Data.ByteString                     as ByteString
 import           Foundation
-import           Foundation.Compat.ByteString as CompatByteString
+import           Foundation.Compat.ByteString        as CompatByteString
+import           Foundation.Extended.Internal.Truthy
 import           Foundation.Monad
-import           Foundation.String            as String
+import           Foundation.String                   as String
+import           GHC.IO.Exception
 import           Path.Extended
 import           Path.IO
+import           System.IO.Error
 
 data StrictReadFailure = Failure ValidationFailure
                              | IncompleteRead -- should never happen as is strict
@@ -52,11 +57,25 @@ writeFile encoding path content = Foundation.Monad.liftIO $ ByteString.writeFile
 writeFileUTF8 :: MonadIO m => Path a File -> String -> m ()
 writeFileUTF8 = writeFile UTF8
 
--- writeFile
--- -- maybe include a non-lenient variant that throws exceptions or
--- -- returns an Either value on bad character encoding
--- writeFile :: MonadIO m => FilePath -> ByteString -> m ()
--- writeFileUtf8 :: MonadIO m => FilePath -> Text -> m ()
--- writeFileUtf8 fp = writeFile fp . encodeUtf8
--- -- conduit, pipes, streaming, etc, can handle the too-large-for-memory
--- -- case
+notExistError :: Path a t  -> Either IOError (Path a t)
+notExistError missingFile = Left (mkIOError doesNotExistErrorType (toFilePath missingFile) Nothing Nothing)
+
+-- seekDirFromBase :: (Monad m)  => m (Path a t) -> (Path a Dir  -> m Bool) -> m (Either IOError (Path a Dir))
+-- seekDirFromBase base dirPredicate = do
+--                                      path <- base
+--                                      result <- seekInDir path dirPredicate
+--                                      pure $ (result == "") ?
+--                                                  notExistError "Directory not found" $
+--                                                  Right result
+
+seekInDir :: (Monad m) => Path a t -> (Path a Dir -> m Bool) -> m (Path a Dir)
+seekInDir dir prd =
+  let
+    thisParent = parent dir
+    atBase = parent == dir
+  in
+    do
+       found <- prd dir
+       found ? pure dir $
+         atBase ? pure "" $
+         seekInDir parent prd
