@@ -1,8 +1,7 @@
 module Foundation.Extended.Internal (
-  module PathIO,
-  module Truthy
+  module Truthy,
+  module StringLike
 ) where
 
-import           Foundation.Extended.Internal.Truthy as Truthy
-import           Path.IO.Extended                    as PathIO hiding
-                                                                (writeFile)
+import           Foundation.Extended.Internal.StringLike as StringLike
+import           Foundation.Extended.Internal.Truthy     as Truthy

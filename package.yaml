@@ -21,13 +21,15 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
   - base
+  - either
+  - exceptions
   - extra
+  - hedgehog
   - foundation
   - freer-simple
   - tasty
   - tasty-hunit
   - tasty-hedgehog
-  - hedgehog
 
 ghc-options:
   - -fmax-pmcheck-iterations=10000000
@@ -79,6 +81,7 @@ default-extensions:
   - NamedFieldPuns
   - OverloadedStrings
   - PatternSynonyms
+  - QuasiQuotes
   - RankNTypes
   - ScopedTypeVariables
   - StandaloneDeriving

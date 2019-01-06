@@ -1,5 +1,5 @@
 
-module FoundationTest where
+module Foundation.Extended.Test where
 
 import qualified Data.Bool                           as B
 import           Foundation.Extended as F
@@ -18,7 +18,7 @@ hprop_stringLike_text = genericStringLike text
 hprop_stringLike_string :: Property
 hprop_stringLike_string = genericStringLike string
 
-unit_module_of = chkEq "FoundationTest" $ moduleOf ''StopSign
+unit_module_of = chkEq "Foundation.Extended.Test" $ moduleOf ''StopSign
 
 --- count ---
 unit_count_many = chkEq 4 $ count (== 5) [1, 2, 3, 5, 5, 6, 7, 5, 5]

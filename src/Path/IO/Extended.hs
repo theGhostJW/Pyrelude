@@ -8,20 +8,21 @@ module Path.IO.Extended (
   , StrictReadResult
   , StrictReadFailure
   , StrictReadError
-  , seekDirFromBase
-  , seekInDir
+  , seekDirUp
+  , subDirFromBaseDir
 ) where
 
 import qualified Data.ByteString                     as ByteString
 import           Foundation
 import           Foundation.Compat.ByteString        as CompatByteString
 import           Foundation.Extended.Internal.Truthy
-import           Foundation.Monad
+import           Foundation.Monad                    as FM
 import           Foundation.String                   as String
 import           GHC.IO.Exception
 import           Path.Extended
 import           Path.IO
 import           System.IO.Error
+import           Foundation.Extended.Internal.StringLike
 
 data StrictReadFailure = Failure ValidationFailure
                              | IncompleteRead -- should never happen as is strict
@@ -35,7 +36,7 @@ data StrictReadError  = StrictReadError {
 type StrictReadResult = Either StrictReadError String
 
 readFileByteString :: MonadIO m => Path a File -> m ByteString.ByteString
-readFileByteString path = Foundation.Monad.liftIO $ ByteString.readFile $ toFilePath path
+readFileByteString path = FM.liftIO $ ByteString.readFile $ toFilePath path
 
 readFile :: (MonadIO m) => String.Encoding -> Path a File -> m StrictReadResult
 readFile encoding path = let
@@ -52,30 +53,45 @@ readFileUTF8 :: (MonadIO m) => Path a File -> m StrictReadResult
 readFileUTF8 = readFile UTF8
 
 writeFile :: MonadIO m => String.Encoding -> Path a File -> String -> m ()
-writeFile encoding path content = Foundation.Monad.liftIO $ ByteString.writeFile (toFilePath path) (toByteString $ toBytes encoding content)
+writeFile encoding path content = FM.liftIO $ ByteString.writeFile (toFilePath path) (toByteString $ toBytes encoding content)
 
 writeFileUTF8 :: MonadIO m => Path a File -> String -> m ()
 writeFileUTF8 = writeFile UTF8
 
-notExistError :: Path a t  -> Either IOError (Path a t)
-notExistError missingFile = Left (mkIOError doesNotExistErrorType (toFilePath missingFile) Nothing Nothing)
+notExistError :: String  -> Either IOError (Path a t)
+notExistError errMsg = Left (mkIOError doesNotExistErrorType (toCharList errMsg) Nothing Nothing)
 
--- seekDirFromBase :: (Monad m)  => m (Path a t) -> (Path a Dir  -> m Bool) -> m (Either IOError (Path a Dir))
--- seekDirFromBase base dirPredicate = do
---                                      path <- base
---                                      result <- seekInDir path dirPredicate
---                                      pure $ (result == "") ?
---                                                  notExistError "Directory not found" $
---                                                  Right result
-
-seekInDir :: (Monad m) => Path a t -> (Path a Dir -> m Bool) -> m (Path a Dir)
-seekInDir dir prd =
+seekDirUp :: forall m a. Monad m => String -> Path a Dir -> (Path a Dir -> m Bool) -> m (Either IOError (Path a Dir))
+seekDirUp errLabel dir prd =
   let
+    thisParent :: Path a Dir
     thisParent = parent dir
-    atBase = parent == dir
+
+    atBase :: Bool
+    atBase = thisParent == dir
+
+    seekDir' :: Path a Dir -> (Path a Dir -> m Bool) -> m (Either IOError (Path a Dir))
+    seekDir' = seekDirUp errLabel
   in
     do
        found <- prd dir
-       found ? pure dir $
-         atBase ? pure "" $
-         seekInDir parent prd
+       found ? pure (Right dir) $
+        atBase ?
+          pure (notExistError errLabel) $
+          seekDir' thisParent prd
+
+hasSubDir :: MonadIO m => Path a Dir -> Path Rel Dir -> m Bool
+hasSubDir parentDir subDir = doesDirExist (parentDir </> subDir)
+
+subDirFromBaseDir :: MonadIO m => m (Path a Dir) -> Path Rel Dir -> m (Either IOError (Path a Dir))
+subDirFromBaseDir dir subDir =
+  do
+    baseParent <- dir
+    let
+      errLbl :: String
+      errLbl = "Seeking directorry: " <> toStr (toFilePath subDir) <> " out from " <> toStr (toFilePath baseParent)
+
+      dirPred :: MonadIO m => Path a Dir ->  m Bool
+      dirPred parentDir = hasSubDir parentDir subDir
+
+    seekDirUp errLbl baseParent dirPred
