@@ -6,6 +6,7 @@ module Test.Tasty.HUnit.Extended (
   , (?>)
   , chkContains
   , chk
+  , chkFail
   , chkFalse
   , chkErrorContains'
   , chkErrorContains
@@ -20,6 +21,9 @@ import qualified Prelude
 
 safeLoad :: (Exception e) => (s -> IO a)  -> (Either e a -> Assertion) -> s -> Assertion
 safeLoad stringLoader eitherConverter inputStr = eitherConverter =<< Control.Exception.Base.try (stringLoader inputStr)
+
+chkFail :: StringLike s => s -> Assertion
+chkFail = assertFailure . toCharList
 
 chkEq :: (Eq a, Show a) => a -> a -> Assertion
 chkEq = (@=?)

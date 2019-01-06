@@ -12,8 +12,10 @@ type PathParser ar fd = forall m s. (C.MonadCatch m, StringLike s) => s -> m (Ei
 chkValid :: String -> String -> PathParser ar fd -> Assertion
 chkValid expected parseTarget psr = do
                                       rslt <- psr parseTarget
-                                      chk $ isRight rslt
-                                      chkEq expected (toStr $ toFilePath $ fromRight' rslt)
+                                      either
+                                       (\l -> chkFail $ "Parsing expected valid path resulted in error: " <> show l)
+                                       (\pth -> chkEq expected (toStr $ toFilePath pth))
+                                       rslt
 
 chkInvalid :: String -> PathParser ar fd -> Assertion
 chkInvalid parseTarget psr = do
