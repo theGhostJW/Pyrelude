@@ -1,5 +1,6 @@
 module Path.IO.Extended (
   module Path.IO
+  , hasSubDir
   , readFile
   , readFileByteString
   , readFileUTF8

@@ -1,17 +1,17 @@
 module Test.Hedgehog.Extended (
     module Hedgehog
-  , module Internal.Test.Hedgehog.Gen.Extended
+  , module Gen
   , module Hedgehog.Range
   , discardGenerator
-  , preludeString
+  , charList
   , Test.Hedgehog.Extended.string
   ) where
 
 import           Foundation.Extended
 import           Hedgehog
-import           Hedgehog.Gen                        as GenFull
+import           Hedgehog.Gen        as GenFull
+import qualified Hedgehog.Gen        as Gen hiding (constant, discard, string)
 import           Hedgehog.Range
-import           Internal.Test.Hedgehog.Gen.Extended
 import qualified Prelude
 
 -- discard conflicts with Hedgehog.discard
@@ -19,8 +19,8 @@ discardGenerator :: MonadGen m => m a
 discardGenerator = GenFull.discard
 
 -- switch string to generate Foundation.String
-preludeString :: MonadGen m => Range Int -> m Char -> m Prelude.String
-preludeString = GenFull.string
+charList :: MonadGen m => Range Int -> m Char -> m Prelude.String
+charList = GenFull.string
 
 string :: MonadGen m => Range Int -> m Char -> m String
 string range = (toStr <$>) <$> GenFull.string range

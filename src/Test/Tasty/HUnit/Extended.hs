@@ -1,6 +1,6 @@
 
 module Test.Tasty.HUnit.Extended (
-  module Internal.Test.HUnit.Extended
+  module HUnit
   , safeLoad
   , chkEq
   , (?>)
@@ -16,8 +16,10 @@ module Test.Tasty.HUnit.Extended (
 import           Control.Exception.Base
 import           Control.Monad
 import           Foundation.Extended
-import           Internal.Test.HUnit.Extended
 import qualified Prelude
+import           Test.Tasty.HUnit       as HUnit hiding (Assertable,
+                                                  AssertionPredicate, assert,
+                                                  assertString)
 
 
 safeLoad :: (Exception e) => (s -> IO a)  -> (Either e a -> Assertion) -> s -> Assertion

@@ -10,7 +10,7 @@ genericStringLike g = property $ do
                         fromStr (toStr str) === str
 
 hprop_stringLike_prelude_string :: Property
-hprop_stringLike_prelude_string = genericStringLike preludeString
+hprop_stringLike_prelude_string = genericStringLike charList
 
 hprop_stringLike_text :: Property
 hprop_stringLike_text = genericStringLike text
