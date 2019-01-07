@@ -6,6 +6,7 @@ module Test.Tasty.HUnit.Extended (
   , (?>)
   , chkContains
   , chk
+  , chk'
   , chkFail
   , chkFalse
   , chkErrorContains'
@@ -44,6 +45,9 @@ chkContains needle hayStack = let
 
 chk :: Bool -> Assertion
 chk = assertBool "check failed"
+
+chk' :: String -> Bool -> Assertion
+chk' errMsg = assertBool $ toCharList errMsg
 
 chkFalse :: Bool -> Assertion
 chkFalse condition = chk $ not condition

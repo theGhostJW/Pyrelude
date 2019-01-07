@@ -94,4 +94,4 @@ subDirFromBaseDir dir subDir =
       dirPred :: MonadIO m => Path a Dir ->  m Bool
       dirPred parentDir = hasSubDir parentDir subDir
 
-    seekDirUp errLbl baseParent dirPred
+    ((</> subDir) <$>) <$> seekDirUp errLbl baseParent dirPred
