@@ -88,6 +88,7 @@ subDirFromBaseDir :: MonadIO m => m (Path a Dir) -> Path Rel Dir -> m (Either IO
 subDirFromBaseDir dir subDir =
   do
     baseParent <- dir
+    baseExists <- doesDirExist baseParent
     let
       errLbl :: String
       errLbl = "Seeking directorry: " <> toStr (toFilePath subDir) <> " out from " <> toStr (toFilePath baseParent)
@@ -95,4 +96,6 @@ subDirFromBaseDir dir subDir =
       dirPred :: MonadIO m => Path a Dir ->  m Bool
       dirPred parentDir = hasSubDir parentDir subDir
 
-    ((</> subDir) <$>) <$> seekDirUp errLbl baseParent dirPred
+    baseExists
+      ? (((</> subDir) <$>) <$> seekDirUp errLbl baseParent dirPred)
+      $ pure (notExistError $ "subDirFromBaseDir base directory does not exist: " <> toStr (toFilePath baseParent)) 

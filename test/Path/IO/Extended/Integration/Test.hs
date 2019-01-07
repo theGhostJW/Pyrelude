@@ -35,7 +35,6 @@ unit_subDirFromBaseDir_finds_correct_temp =
     do
       base <- baseDir
       dir <- subDirFromBaseDir (eitherToError base) [reldir|temp|]
-      either
+      eitherf dir
         (\l -> chkFail $ "testDir returned Left: " <> show l)
         (chkSuffix "\\subFolder\\subSubFolder\\temp\\")
-        dir

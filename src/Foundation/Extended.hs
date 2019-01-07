@@ -10,6 +10,7 @@ module Foundation.Extended (
   , count
   , safeHead
   , firstDuplicate
+  , eitherf
 ) where
 
 import           Data.Discrimination
@@ -32,3 +33,6 @@ safeHead = M.listToMaybe
 
 firstDuplicate :: Grouping a => [a] -> Maybe a
 firstDuplicate xs = L.find (\l -> length l > 1) (group xs) >>= safeHead
+
+eitherf :: Either a b -> (a -> c) -> (b -> c) -> c
+eitherf e lf rf = either lf rf e
