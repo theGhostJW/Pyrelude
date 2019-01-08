@@ -13,6 +13,7 @@ import           Test.Extended
 
 testDir = subDirFromBaseDir (parseAbsDir =<< getBinDir) [reldir|test|]
 baseDir = ((</> [reldir|path\IO\Extended\Integration\testData\subFolder\subSubFolder\subSubFolder\base|] ) <$>) <$> testDir
+invalidBaseDir = ((</> [reldir|path\IOExtended\Integration\testData\subFolder\subSubFolder\subSubFolder\base|] ) <$>) <$> testDir
 
 chkSuffix :: String -> Path a Dir -> Assertion
 chkSuffix sfx dir =
@@ -25,10 +26,9 @@ unit_subDirFromBaseDir_finds_test_dir :: Assertion
 unit_subDirFromBaseDir_finds_test_dir =
   do
     dir <- testDir
-    either
+    eitherf dir
       (\l -> chkFail $ "testDir returned Left: " <> show l)
       (chkSuffix "\\test\\")
-      dir
 
 unit_subDirFromBaseDir_finds_correct_temp :: Assertion
 unit_subDirFromBaseDir_finds_correct_temp =

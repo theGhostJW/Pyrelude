@@ -24,6 +24,7 @@ import           Path.Extended
 import           Path.IO
 import           System.IO.Error
 import           Foundation.Extended.Internal.StringLike
+import           Debug.Trace.Extended
 
 data StrictReadFailure = Failure ValidationFailure
                              | IncompleteRead -- should never happen as is strict
@@ -88,7 +89,6 @@ subDirFromBaseDir :: MonadIO m => m (Path a Dir) -> Path Rel Dir -> m (Either IO
 subDirFromBaseDir dir subDir =
   do
     baseParent <- dir
-    baseExists <- doesDirExist baseParent
     let
       errLbl :: String
       errLbl = "Seeking directorry: " <> toStr (toFilePath subDir) <> " out from " <> toStr (toFilePath baseParent)
@@ -96,6 +96,4 @@ subDirFromBaseDir dir subDir =
       dirPred :: MonadIO m => Path a Dir ->  m Bool
       dirPred parentDir = hasSubDir parentDir subDir
 
-    baseExists
-      ? (((</> subDir) <$>) <$> seekDirUp errLbl baseParent dirPred)
-      $ pure (notExistError $ "subDirFromBaseDir base directory does not exist: " <> toStr (toFilePath baseParent)) 
+    ((</> subDir) <$>) <$> seekDirUp errLbl baseParent dirPred

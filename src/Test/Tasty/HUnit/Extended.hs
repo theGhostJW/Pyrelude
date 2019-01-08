@@ -9,8 +9,9 @@ module Test.Tasty.HUnit.Extended (
   , chk'
   , chkFail
   , chkFalse
-  , chkErrorContains'
-  , chkErrorContains
+  , chkLeft
+  , chkLeftContains'
+  , chkLeftContains
 ) where
 
 import           Control.Exception.Base
@@ -54,22 +55,17 @@ chk' errMsg = assertBool $ toCharList errMsg
 chkFalse :: Bool -> Assertion
 chkFalse condition = chk $ not condition
 
-chkErrorContains :: (Show r, StringLike s) => (l -> s) -> s -> Either l r -> Assertion
-chkErrorContains = chkErrorContainsPriv False
+chkLeftContains :: (Show r, Show l) => String -> Either l r -> Assertion
+chkLeftContains = chkLeftContains' show
 
-chkErrorContains' :: (Show r, StringLike s) => (l -> s) -> s -> Either l r -> Assertion
-chkErrorContains' = chkErrorContainsPriv True
-
-chkErrorContainsPriv   :: (Show r, StringLike s) =>  Bool  -> (l -> s) -> s -> Either l r -> Assertion
-chkErrorContainsPriv wantLogging leftToTxt expectedText eth  =
+chkLeftContains' :: (Show r, StringLike s) => (l -> s) -> s -> Either l r -> Assertion
+chkLeftContains' leftToTxt expectedText eth =
   case eth of
-    Right actual -> do
-                      let actualInfo =  "actual is: " <> show actual
-                      when wantLogging  $
-                          Prelude.print actualInfo
-                      assertFailure . toList $ "Error expected but no error generated: " <> actualInfo
-    Left err     -> do
-                      let errs = leftToTxt err
-                      when wantLogging $
-                          Prelude.print $ "Error Generated: " <> toStr errs
-                      chkContains expectedText errs
+    Right actual -> chkFail $ "Error expected but no error generated. Actual is: " <> show actual
+    Left err     -> chkContains expectedText (leftToTxt err)
+
+chkLeft :: Show r => (l -> Bool) -> Either l r -> Assertion
+chkLeft leftPred eth =
+  case eth of
+    Right actual -> chkFail $ "Error expected but no error generated. Actual is: " <> show actual
+    Left err     -> chk $ leftPred err
