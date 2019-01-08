@@ -18,28 +18,26 @@ hprop_stringLike_text = genericStringLike text
 hprop_stringLike_string :: Property
 hprop_stringLike_string = genericStringLike string
 
-unit_module_of = chkEq "Foundation.Extended.Test" $ moduleOf ''StopSign
+unit_module_of = "Foundation.Extended.Test" ... moduleOf ''StopSign
 
 --- count ---
-unit_count_many = chkEq 4 $ count (== 5) [1, 2, 3, 5, 5, 6, 7, 5, 5]
-unit_count_last = chkEq 1 $ count (== 5) [1, 2, 3, 3, 2, 6, 7, 1, 5]
-unit_count_first = chkEq 1 $ count (== 5) [5, 2, 3, 3, 2, 6, 7, 1, 9]
-unit_count_zero = chkEq 0 $ count (== 5) [7, 2, 3, 3, 2, 6, 7, 1, 9]
-unit_count_empty = chkEq 0 $ count (== 5) []
+unit_count_many = 4 ... count (== 5) [1, 2, 3, 5, 5, 6, 7, 5, 5]
+unit_count_last = 1 ... count (== 5) [1, 2, 3, 3, 2, 6, 7, 1, 5]
+unit_count_first = 1 ... count (== 5) [5, 2, 3, 3, 2, 6, 7, 1, 9]
+unit_count_zero = 0 ... count (== 5) [7, 2, 3, 3, 2, 6, 7, 1, 9]
+unit_count_empty = 0 ... count (== 5) []
 
 --- safeHead ---
-unit_safeHead_null = chkEq Nothing $ safeHead []
-unit_safeHead_populated = chkEq (Just 7) $ safeHead [7, 6, 4, 3]
-unit_safeHead_silgleton = chkEq (Just 0) $ safeHead [0]
+unit_safeHead_null = Nothing ... safeHead []
+unit_safeHead_populated = Just 7 ... safeHead [7, 6, 4, 3]
+unit_safeHead_silgleton = Just 0 ... safeHead [0]
 
 --- firstDuplicate ---
-unit_firstDuplicate_null = chkEq Nothing $ firstDuplicate []
-unit_firstDuplicate_none = chkEq Nothing $ firstDuplicate ([7, 6, 4, 3] :: [Int])
-unit_firstDuplicate_silgleton = chkEq (Just 7) $ firstDuplicate ([7, 6, 4, 3, 7] :: [Int])
-unit_firstDuplicate_multiple = chkEq (Just 9) $ firstDuplicate ([9, 0, 6, 4, 3, 0, 9] :: [Int])
-unit_firstDuplicate_big = chkEq (Just 10000) $ firstDuplicate (10000 : 700 : [0..20000] :: [Int])
-
-
+unit_firstDuplicate_null = Nothing ... firstDuplicate []
+unit_firstDuplicate_none = Nothing ... firstDuplicate ([7, 6, 4, 3] :: [Int])
+unit_firstDuplicate_silgleton = Just 7 ... firstDuplicate ([7, 6, 4, 3, 7] :: [Int])
+unit_firstDuplicate_multiple = Just 9 ... firstDuplicate ([9, 0, 6, 4, 3, 0, 9] :: [Int])
+unit_firstDuplicate_big = Just 10000 ... firstDuplicate (10000 : 700 : [0..20000] :: [Int])
 
 -- Truthy --
 unit_bool_ternary_true = chk $ (1 < 2) ? True $ False

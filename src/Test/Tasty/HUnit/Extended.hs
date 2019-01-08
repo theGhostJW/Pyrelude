@@ -3,7 +3,7 @@ module Test.Tasty.HUnit.Extended (
   module HUnit
   , safeLoad
   , chkEq
-  , (?>)
+  , (...)
   , chkContains
   , chk
   , chk'
@@ -32,11 +32,11 @@ chkFail = assertFailure . toCharList
 chkEq :: (Eq a, Show a) => a -> a -> Assertion
 chkEq = (@=?)
 
-(?>) :: (Eq a, Show a)
+(...) :: (Eq a, Show a)
                         => a -- ^ The expected value
                         -> a -- ^ The actual value
                         -> Assertion
-(?>) = (@=?)
+(...) = (@=?)
 
 chkContains :: StringLike s => s -> s -> Assertion
 chkContains needle hayStack = let
