@@ -55,14 +55,14 @@ chk' errMsg = assertBool $ toCharList errMsg
 chkFalse :: Bool -> Assertion
 chkFalse condition = chk $ not condition
 
-chkLeftContains :: (Show r, Show l) => String -> Either l r -> Assertion
+chkLeftContains :: (Show r, Show l, StringLike s) => s -> Either l r -> Assertion
 chkLeftContains = chkLeftContains' show
 
-chkLeftContains' :: (Show r, StringLike s) => (l -> s) -> s -> Either l r -> Assertion
+chkLeftContains' :: (Show r, StringLike s, StringLike s1) => (l -> s1) -> s -> Either l r -> Assertion
 chkLeftContains' leftToTxt expectedText eth =
   case eth of
     Right actual -> chkFail $ "Error expected but no error generated. Actual is: " <> show actual
-    Left err     -> chkContains expectedText (leftToTxt err)
+    Left err     -> chkContains (toStr expectedText) (toStr $ leftToTxt err)
 
 chkLeft :: Show r => (l -> Bool) -> Either l r -> Assertion
 chkLeft leftPred eth =
