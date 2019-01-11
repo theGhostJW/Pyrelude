@@ -21,7 +21,6 @@ import           Data.Discrimination
 import           Data.Either.Combinators
 import qualified Data.List                           as L
 import           Data.Maybe
-import qualified Data.Maybe                          as M
 import           Debug.Trace.Extended
 import           Foundation                          hiding (not, (&&), (||))
 import           Foundation.Collection
@@ -36,7 +35,7 @@ count :: (Foldable collection, Truthy b, Additive a, P.Num a) => (Element collec
 count p = foldl' (\n x -> p x ? n + 1 $ n) 0
 
 safeHead :: [a]-> Maybe a
-safeHead = M.listToMaybe
+safeHead = listToMaybe
 
 firstDuplicate :: Grouping a => [a] -> Maybe a
 firstDuplicate xs = L.find (\l -> length l > 1) (group xs) >>= safeHead
