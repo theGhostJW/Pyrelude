@@ -3,23 +3,26 @@ module Foundation.Extended (
   , module Debug.Trace.Extended
   , module Path.Extended
   , module Path.IO.Extended
-  , module Foundation.Extended.Internal -- exports most of Path.IO and Foundation.Internal.Truthy
+  , module Foundation.Extended.Truthy
+  , module Foundation.Extended.Stringy
   , module THEx
   , module Data.Discrimination
-  , StringLike(..)
+  , Stringy(..)
   , count
   , safeHead
   , firstDuplicate
   , eitherf
 ) where
 
+import           Control.Monad.Catch
 import           Data.Discrimination
 import qualified Data.List                           as L
 import qualified Data.Maybe                          as M
 import           Debug.Trace.Extended
 import           Foundation                          hiding (not, (&&), (||))
 import           Foundation.Collection
-import           Foundation.Extended.Internal
+import           Foundation.Extended.Stringy
+import           Foundation.Extended.Truthy
 import           Language.Haskell.TH.Syntax.Extended as THEx (moduleOf)
 import           Path.Extended
 import           Path.IO.Extended

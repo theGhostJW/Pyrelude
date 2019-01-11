@@ -5,18 +5,18 @@ import qualified Data.Bool                           as B
 import           Foundation.Extended as F
 import           Test.Extended as T
 
-genericStringLike g = property $ do
+genericStringy g = property $ do
                         str <- forAll $ g (linear 0 100) ascii
                         fromStr (toStr str) === str
 
-hprop_stringLike_prelude_string :: Property
-hprop_stringLike_prelude_string = genericStringLike charList
+hprop_stringy_prelude_string :: Property
+hprop_stringy_prelude_string = genericStringy charList
 
-hprop_stringLike_text :: Property
-hprop_stringLike_text = genericStringLike text
+hprop_stringy_text :: Property
+hprop_stringy_text = genericStringy text
 
-hprop_stringLike_string :: Property
-hprop_stringLike_string = genericStringLike string
+hprop_stringy_string :: Property
+hprop_stringy_string = genericStringy string
 
 unit_module_of = "Foundation.Extended.Test" ... moduleOf ''StopSign
 

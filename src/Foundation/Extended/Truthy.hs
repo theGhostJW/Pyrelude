@@ -1,4 +1,4 @@
-module Foundation.Extended.Internal.Truthy (
+module Foundation.Extended.Truthy (
   Truthy(..)
 ) where
 

@@ -15,14 +15,14 @@ module Path.IO.Extended (
 import qualified Data.ByteString                     as ByteString
 import           Foundation
 import           Foundation.Compat.ByteString        as CompatByteString
-import           Foundation.Extended.Internal.Truthy
+import           Foundation.Extended.Truthy
 import           Foundation.Monad                    as FM
 import           Foundation.String                   as String
 import           GHC.IO.Exception
 import           Path.Extended
 import           Path.IO
 import           System.IO.Error
-import           Foundation.Extended.Internal.StringLike
+import           Foundation.Extended.Stringy
 import           Debug.Trace.Extended
 import           Control.Monad.Catch as C
 

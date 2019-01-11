@@ -7,7 +7,7 @@ import           Foundation.Extended
 import           Path.Extended
 import           Test.Extended
 
-type PathParser ar fd = forall m s. (C.MonadCatch m, StringLike s) => s -> m (Either PathException (Path ar fd))
+type PathParser ar fd = forall m s. (C.MonadCatch m, Stringy s) => s -> m (Either PathException (Path ar fd))
 
 chkValid :: String -> String -> PathParser ar fd -> Assertion
 chkValid expected parseTarget psr = do
