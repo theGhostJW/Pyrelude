@@ -1,13 +1,14 @@
 module Foundation.Extended (
   module Foundation
+  , module Control.Monad.Catch
   , module Debug.Trace.Extended
   , module Path.Extended
   , module Path.IO.Extended
+  , module Data.Discrimination
+  , module Data.Either.Combinators
+  , module THEx
   , module Foundation.Extended.Truthy
   , module Foundation.Extended.Stringy
-  , module THEx
-  , module Data.Discrimination
-  , Stringy(..)
   , count
   , safeHead
   , firstDuplicate
@@ -16,6 +17,7 @@ module Foundation.Extended (
 
 import           Control.Monad.Catch
 import           Data.Discrimination
+import           Data.Either.Combinators
 import qualified Data.List                           as L
 import qualified Data.Maybe                          as M
 import           Debug.Trace.Extended

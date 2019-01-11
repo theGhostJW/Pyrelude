@@ -1,5 +1,9 @@
 
-module Language.Haskell.TH.Syntax.Extended where
+module Language.Haskell.TH.Syntax.Extended (
+ module S,
+ moduleOf
+)
+ where
 
 import           Foundation
 import           Language.Haskell.TH.Syntax as S
