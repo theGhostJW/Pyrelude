@@ -7,7 +7,6 @@ module Path.IO.Extended (
   , writeFile
   , writeFileUTF8
   , StrictReadResult
-  , StrictReadFailure
   , StrictReadError
   , seekDirUp
   , subDirFromBaseDir
@@ -25,33 +24,36 @@ import           Path.IO
 import           System.IO.Error
 import           Foundation.Extended.Internal.StringLike
 import           Debug.Trace.Extended
+import           Control.Monad.Catch as C
 
-data StrictReadFailure = Failure ValidationFailure
-                             | IncompleteRead -- should never happen as is strict
+
+data StrictReadError =  IOFailure IOError
+                             | StringValidationFailure  {
+                                validationFailure :: ValidationFailure,
+                                remainder :: UArray Word8
+                             }
+                             | IncompleteRead {remainder :: UArray Word8} -- should never happen as strict
                              deriving Show
-
-data StrictReadError  = StrictReadError {
-  error     :: StrictReadFailure,
-  remainder :: UArray Word8
-} deriving Show
 
 type StrictReadResult = Either StrictReadError String
 
 readFileByteString :: MonadIO m => Path a File -> m ByteString.ByteString
 readFileByteString path = FM.liftIO $ ByteString.readFile $ toFilePath path
 
-readFile :: (MonadIO m) => String.Encoding -> Path a File -> m StrictReadResult
+readFile :: (MonadIO m, C.MonadCatch m) => String.Encoding -> Path a File -> m StrictReadResult
 readFile encoding path = let
                            toReadResult :: (String, Maybe String.ValidationFailure, UArray Word8) -> StrictReadResult
                            toReadResult (s, m, uw) = case m of
-                                                       Just v -> Left $ StrictReadError (Failure v) uw
-                                                       Nothing -> if null uw
-                                                                  then Right s
-                                                                  else Left $ StrictReadError IncompleteRead uw
+                                                       Just v -> Left $ StringValidationFailure v uw
+                                                       Nothing -> null uw ?
+                                                                    Right s $
+                                                                    Left $ IncompleteRead uw
                           in
-                           toReadResult . String.fromBytes encoding . fromByteString <$> readFileByteString path
+                            handleIOError
+                              (pure . Left . IOFailure)
+                              $ toReadResult . String.fromBytes encoding . fromByteString <$> readFileByteString path
 
-readFileUTF8 :: (MonadIO m) => Path a File -> m StrictReadResult
+readFileUTF8 :: (MonadIO m, C.MonadCatch m) => Path a File -> m StrictReadResult
 readFileUTF8 = readFile UTF8
 
 writeFile :: MonadIO m => String.Encoding -> Path a File -> String -> m ()

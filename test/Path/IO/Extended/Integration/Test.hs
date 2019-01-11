@@ -38,3 +38,5 @@ unit_subDirFromBaseDir_finds_correct_temp =
       eitherf dir
         (\l -> chkFail $ "testDir returned Left: " <> show l)
         (chkSuffix "\\subFolder\\subSubFolder\\temp\\")
+
+_readMe = readFileUTF8 [absfile|C:\idoNotExist\idonotexist.txt|] :: IO StrictReadResult
