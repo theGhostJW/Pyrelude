@@ -1,5 +1,6 @@
 module Foundation.Extended (
   module Foundation
+  , module Data.Maybe
   , module Control.Monad.Catch
   , module Debug.Trace.Extended
   , module Path.Extended
@@ -19,6 +20,7 @@ import           Control.Monad.Catch
 import           Data.Discrimination
 import           Data.Either.Combinators
 import qualified Data.List                           as L
+import           Data.Maybe
 import qualified Data.Maybe                          as M
 import           Debug.Trace.Extended
 import           Foundation                          hiding (not, (&&), (||))
