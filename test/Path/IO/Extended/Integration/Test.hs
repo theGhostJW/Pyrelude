@@ -32,7 +32,7 @@ unit_subDirFromBaseDir_finds_test_dir =
 unit_subDirFromBaseDir_finds_correct_temp :: Assertion
 unit_subDirFromBaseDir_finds_correct_temp =
     do
-      base <- baseDir
+      base <- debug <$> baseDir
       dir <- subDirFromBaseDir (eitherToError base) [reldir|temp|]
       eitherf dir
         (\l -> chkFail $ "testDir returned Left: " <> show l)
