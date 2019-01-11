@@ -6,7 +6,6 @@ module Path.IO.Extended.Integration.Test where
 import           Control.Monad.IO.Class
 import           Data.Either.Combinators
 import           Foundation.Extended
-import           Path.IO.Extended
 import           Paths_principled_extended
 import           System.IO.Error
 import           Test.Extended
@@ -39,4 +38,12 @@ unit_subDirFromBaseDir_finds_correct_temp =
         (\l -> chkFail $ "testDir returned Left: " <> show l)
         (chkSuffix "\\subFolder\\subSubFolder\\temp\\")
 
-_readMe = readFileUTF8 [absfile|C:\idoNotExist\idonotexist.txt|] :: IO StrictReadResult
+unit_IOError_returned_from_invalid_read :: Assertion
+unit_IOError_returned_from_invalid_read = do
+                                    rr <- readFileUTF8 [absfile|C:\idoNotExist\idonotexist.txt|]
+                                    chkLeft
+                                     (\case
+                                        IOFailure _ -> True
+                                        err -> False
+                                     )
+                                     rr

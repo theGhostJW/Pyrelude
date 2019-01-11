@@ -7,7 +7,7 @@ module Path.IO.Extended (
   , writeFile
   , writeFileUTF8
   , StrictReadResult
-  , StrictReadError
+  , StrictReadError(..)
   , seekDirUp
   , subDirFromBaseDir
 ) where
