@@ -42,3 +42,6 @@ firstDuplicate xs = L.find (\l -> length l > 1) (group xs) >>= safeHead
 
 eitherf :: Either a b -> (a -> c) -> (b -> c) -> c
 eitherf e lf rf = either lf rf e
+
+maybef :: Maybe a -> b -> (a -> b) -> b
+maybef m d f = maybe d f m
