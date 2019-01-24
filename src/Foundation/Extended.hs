@@ -14,6 +14,7 @@ module Foundation.Extended (
   , safeHead
   , firstDuplicate
   , eitherf
+  , maybef
 ) where
 
 import           Control.Monad.Catch
