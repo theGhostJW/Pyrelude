@@ -85,6 +85,7 @@ default-extensions:
   - RankNTypes
   - ScopedTypeVariables
   - StandaloneDeriving
+  - StrictData
   - TupleSections
   - TypeApplications
   - TypeFamilies
