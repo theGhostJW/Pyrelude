@@ -15,6 +15,7 @@ module Foundation.Extended (
   , firstDuplicate
   , eitherf
   , maybef
+  , enumList
 ) where
 
 import           Control.Monad.Catch
@@ -46,3 +47,7 @@ eitherf e lf rf = either lf rf e
 
 maybef :: Maybe a -> b -> (a -> b) -> b
 maybef m d f = maybe d f m
+
+enumList :: Enum a => [a]
+enumList = enumFrom $ toEnum 0
+

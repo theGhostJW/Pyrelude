@@ -71,3 +71,14 @@ hprop_truthy_bool = boolCheckSingle (B.bool 1 2) (F.bool 1 2)
 
 hprop_truthy_not :: Property
 hprop_truthy_not = boolCheckSingle B.not F.not
+
+data MyEnum = Hot 
+              | Warm
+              | Tepid 
+              | Cool 
+              | Cold 
+              | Freezing 
+              deriving (Show, Eq, Enum)
+
+unit_enum_list = [Hot, Warm, Tepid, Cool, Cold, Freezing] ... (enumList :: [MyEnum])
+unit_enum_list_of_Int = [0..10] ... take 11 (enumList :: [Natural])
