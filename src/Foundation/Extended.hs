@@ -12,6 +12,7 @@ module Foundation.Extended (
   , module Foundation.Extended.Stringy
   , count
   , safeHead
+  , safeLast
   , firstDuplicate
   , eitherf
   , maybef
@@ -38,6 +39,9 @@ count p = foldl' (\n x -> p x ? n + 1 $ n) 0
 
 safeHead :: [a]-> Maybe a
 safeHead = listToMaybe
+
+safeLast :: [a]-> Maybe a
+safeLast l = L.null l ? Nothing $ Just $ L.last l
 
 firstDuplicate :: Grouping a => [a] -> Maybe a
 firstDuplicate xs = L.find (\l -> length l > 1) (group xs) >>= safeHead
