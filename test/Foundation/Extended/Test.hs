@@ -5,19 +5,6 @@ import qualified Data.Bool                           as B
 import           Foundation.Extended as F
 import           Test.Extended as T
 
-genericStringy g = property $ do
-                        str <- forAll $ g (linear 0 100) ascii
-                        fromStr (toStr str) === str
-
-hprop_stringy_prelude_string :: Property
-hprop_stringy_prelude_string = genericStringy charList
-
-hprop_stringy_text :: Property
-hprop_stringy_text = genericStringy text
-
-hprop_stringy_string :: Property
-hprop_stringy_string = genericStringy string
-
 unit_module_of = "Foundation.Extended.Test" ... moduleOf ''StopSign
 
 --- count ---

@@ -1,2 +1,4 @@
 - arguments:
   - -XQuasiQuotes
+
+- ignore: {name: Use camelCase}
