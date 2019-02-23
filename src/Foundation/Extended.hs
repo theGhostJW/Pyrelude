@@ -10,6 +10,7 @@ module Foundation.Extended (
   , module THEx
   , module Foundation.Extended.Truthy
   , module Foundation.Extended.Stringy
+  , module Data.String.Encode
   , count
   , safeHead
   , safeLast
@@ -33,6 +34,8 @@ import           Language.Haskell.TH.Syntax.Extended as THEx (moduleOf)
 import           Path.Extended
 import           Path.IO.Extended
 import qualified Prelude                             as P
+import Foundation.Extended.ConvertStringOrphans
+import Data.String.Encode
 
 count :: (Foldable collection, Truthy b, Additive a, P.Num a) => (Element collection -> b) -> collection -> a
 count p = foldl' (\n x -> p x ? n + 1 $ n) 0

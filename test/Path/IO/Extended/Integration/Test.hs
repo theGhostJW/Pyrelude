@@ -17,7 +17,7 @@ invalidBaseDir = ((</> [reldir|path\IOExtended\Integration\testData\subFolder\su
 chkSuffix :: String -> Path a Dir -> Assertion
 chkSuffix sfx dir =
   let
-    filePth = toStr $ toFilePath dir
+    filePth = toS $ toFilePath dir
   in
     chk' (sfx <> " is not a suffix of actual: " <> filePth) $ sfx `isSuffixOf` filePth
 

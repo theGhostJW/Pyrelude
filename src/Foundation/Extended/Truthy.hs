@@ -3,7 +3,7 @@ module Foundation.Extended.Truthy (
 ) where
 
 import qualified Data.Bool  as B
-import           Foundation hiding (not, (&&), (||))
+import           Foundation
 
 class Truthy b where
   isTruthy :: b -> Bool

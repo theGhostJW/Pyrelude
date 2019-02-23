@@ -16,13 +16,13 @@ import qualified Data.ByteString                     as ByteString
 import           Foundation
 import           Foundation.Compat.ByteString        as CompatByteString
 import           Foundation.Extended.Truthy
+import           Foundation.Extended.Stringy
 import           Foundation.Monad                    as FM
 import           Foundation.String                   as String
 import           GHC.IO.Exception
 import           Path.Extended
 import           Path.IO
 import           System.IO.Error
-import           Foundation.Extended.Stringy
 import           Debug.Trace.Extended
 import           Control.Monad.Catch as C
 
@@ -63,7 +63,7 @@ writeFileUTF8 :: MonadIO m => Path a File -> String -> m ()
 writeFileUTF8 = writeFile UTF8
 
 notExistError :: String  -> Either IOError (Path a t)
-notExistError errMsg = Left (mkIOError doesNotExistErrorType (toCharList errMsg) Nothing Nothing)
+notExistError errMsg = Left (mkIOError doesNotExistErrorType (toS errMsg) Nothing Nothing)
 
 seekDirUp :: forall m a. Monad m => String -> Path a Dir -> (Path a Dir -> m Bool) -> m (Either IOError (Path a Dir))
 seekDirUp errLabel dir prd =
@@ -93,7 +93,7 @@ subDirFromBaseDir dir subDir =
     baseParent <- dir
     let
       errLbl :: String
-      errLbl = "Seeking directorry: " <> toStr (toFilePath subDir) <> " out from " <> toStr (toFilePath baseParent)
+      errLbl = "Seeking directorry: " <> toS (toFilePath subDir) <> " out from " <> toS (toFilePath baseParent)
 
       dirPred :: MonadIO m => Path a Dir ->  m Bool
       dirPred parentDir = hasSubDir parentDir subDir

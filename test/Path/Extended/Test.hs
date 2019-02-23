@@ -6,15 +6,17 @@ import           Data.Either.Combinators
 import           Foundation.Extended
 import           Path.Extended
 import           Test.Extended
+import Data.String.Encode
+import qualified Prelude as P
 
-type PathParser ar fd = forall m s. (C.MonadCatch m, Stringy s) => s -> m (Either PathException (Path ar fd))
+type PathParser ar fd = forall m s. (C.MonadCatch m, ConvertString s P.String) => s -> m (Either PathException (Path ar fd))
 
 chkValid :: String -> String -> PathParser ar fd -> Assertion
 chkValid expected parseTarget psr = do
                                       rslt <- psr parseTarget
                                       either
                                        (\l -> chkFail $ "Parsing expected valid path resulted in error: " <> show l)
-                                       (\pth -> chkEq expected (toStr $ toFilePath pth))
+                                       (\pth -> chkEq expected (toS $ toFilePath pth))
                                        rslt
 
 chkInvalid :: String -> PathParser ar fd -> Assertion

@@ -1,6 +1,7 @@
+
 module Test.Hedgehog.Extended (
     module Hedgehog
-  , module Gen
+  , module Gen 
   , module Hedgehog.Range
   , discardGenerator
   , charList
@@ -14,6 +15,8 @@ import qualified Hedgehog.Gen        as Gen hiding (constant, discard, string)
 import           Hedgehog.Range
 import qualified Prelude
 
+{-# ANN module "HLint: Unnecessary hiding" #-}
+
 -- discard conflicts with Hedgehog.discard
 discardGenerator :: MonadGen m => m a
 discardGenerator = GenFull.discard
@@ -23,4 +26,4 @@ charList :: MonadGen m => Range Int -> m Char -> m Prelude.String
 charList = GenFull.string
 
 string :: MonadGen m => Range Int -> m Char -> m String
-string range = (toStr <$>) <$> GenFull.string range
+string range = (toS <$>) <$> GenFull.string range

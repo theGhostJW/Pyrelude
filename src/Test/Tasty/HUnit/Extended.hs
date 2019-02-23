@@ -17,7 +17,7 @@ module Test.Tasty.HUnit.Extended (
 import           Control.Exception.Base
 import           Control.Monad
 import           Foundation.Extended
-import qualified Prelude
+import qualified Prelude as P
 import           Test.Tasty.HUnit       as HUnit hiding (Assertable,
                                                   AssertionPredicate, assert,
                                                   assertString)
@@ -26,8 +26,8 @@ import           Test.Tasty.HUnit       as HUnit hiding (Assertable,
 safeLoad :: (Exception e) => (s -> IO a)  -> (Either e a -> Assertion) -> s -> Assertion
 safeLoad stringLoader eitherConverter inputStr = eitherConverter =<< Control.Exception.Base.try (stringLoader inputStr)
 
-chkFail :: Stringy s => s -> Assertion
-chkFail = assertFailure . toCharList
+chkFail :: ConvertString s P.String  => s -> Assertion
+chkFail = assertFailure . toS
 
 chkEq :: (Eq a, Show a) => a -> a -> Assertion
 chkEq = (@=?)
@@ -38,31 +38,37 @@ chkEq = (@=?)
                         -> Assertion
 (...) = (@=?)
 
-chkContains :: Stringy s => s -> s -> Assertion
+chkContains :: ConvertString s String => s -> s -> Assertion
 chkContains needle hayStack = let
-                                needleStr = toStr needle
-                                hayStackStr = toStr hayStack
+                                needleStr = toS needle
+                                hayStackStr = toS hayStack
                               in
-                                assertBool (toList $ "substring not found: " <> needleStr <> "\n<<<IN>>>\n" <> hayStackStr)
-                                $ needleStr `isInfixOf` hayStackStr
+                                chk' (toS $ "substring not found: " <> needleStr <> "\n<<<IN>>>\n" <> hayStackStr) $ needleStr `isInfixOf` (hayStackStr :: String)
 
 chk :: Bool -> Assertion
 chk = assertBool "check failed"
 
 chk' :: String -> Bool -> Assertion
-chk' errMsg = assertBool $ toCharList errMsg
+chk' errMsg = assertBool $ toS errMsg
 
 chkFalse :: Bool -> Assertion
 chkFalse condition = chk $ not condition
 
-chkLeftContains :: (Show r, Show l, Stringy s) => s -> Either l r -> Assertion
+chkLeftContains :: (Show r, Show l, ConvertString s String) => s -> Either l r -> Assertion
 chkLeftContains = chkLeftContains' show
 
-chkLeftContains' :: (Show r, Stringy s, Stringy s1) => (l -> s1) -> s -> Either l r -> Assertion
-chkLeftContains' leftToTxt expectedText eth =
-  case eth of
-    Right actual -> chkFail $ "Error expected but no error generated. Actual is: " <> show actual
-    Left err     -> chkContains (toStr expectedText) (toStr $ leftToTxt err)
+chkLeftContains' :: forall r s s1 l. (Show r, ConvertString s String, ConvertString s1 String) => (l -> s1) -> s -> Either l r -> Assertion
+chkLeftContains' leftToStr expectedText eth =
+  let 
+    expected :: String
+    expected = toS expectedText
+    
+    errStr :: l -> String
+    errStr = toS . leftToStr
+  in
+    eitherf eth
+      (chkContains  expected . errStr)
+      (\actual -> chkFail $ "Error expected but no error generated. Actual is: " <> show actual)
 
 chkLeft :: Show r => (l -> Bool) -> Either l r -> Assertion
 chkLeft leftPred eth =

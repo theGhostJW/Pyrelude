@@ -30,6 +30,9 @@ dependencies:
   - tasty
   - tasty-hunit
   - tasty-hedgehog
+  - text
+  - encode-string
+
 
 ghc-options:
   - -fmax-pmcheck-iterations=10000000
@@ -99,7 +102,6 @@ library:
     - Debug.Trace.Extended
   dependencies:
     - foundation-edge
-    - text
     - path
     - path-io
     - bytestring
