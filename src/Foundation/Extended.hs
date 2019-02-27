@@ -18,6 +18,7 @@ module Foundation.Extended (
   , eitherf
   , maybef
   , enumList
+  , uu
 ) where
 
 import           Control.Monad.Catch
@@ -36,6 +37,10 @@ import           Path.IO.Extended
 import qualified Prelude                             as P
 import Foundation.Extended.ConvertStringOrphans
 import Data.String.Encode
+
+-- undefined in less keystrokes
+uu :: forall a. a
+uu = undefined
 
 count :: (Foldable collection, Truthy b, Additive a, P.Num a) => (Element collection -> b) -> collection -> a
 count p = foldl' (\n x -> p x ? n + 1 $ n) 0
