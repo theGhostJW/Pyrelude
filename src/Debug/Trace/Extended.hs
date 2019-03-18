@@ -8,18 +8,22 @@ module Debug.Trace.Extended (
 ) where
 
 import           BasePrelude
+import    qualified       Data.Text as T
 
-debugPrint :: String -> a -> a
-debugPrint s = trace (toList ("DEBUG: " <> s))
+debugPrint :: T.Text -> a -> a
+debugPrint s = trace (T.unpack ("DEBUG: " <> s))
 
 debug :: Show a => a -> a
-debug x = debugPrint (show x) x
+debug a = debugPrint (T.pack $ show a) a
 
-debug' :: Show a => String -> a -> a
-debug' name x = debugPrint (name <> ": " <> show x) x
+label :: Show a => T.Text -> a -> T.Text
+label name a = name <> ": " <> T.pack (show a)
+
+debug' :: Show a => T.Text -> a -> a
+debug' name a = debugPrint (label name a) a
 
 debugf :: Show b => (a -> b) -> a -> a
-debugf shower x = debugPrint (show (shower x)) x
+debugf shower a = debugPrint (T.pack $ show (shower a)) a
 
-debugf' :: Show b => (a -> b) -> String -> a -> a
-debugf' shower name x = debugPrint (name <> ": " <> show (shower x)) x
+debugf' :: Show b => (a -> b) -> T.Text -> a -> a
+debugf' shower name a = debugPrint (label name $ shower a) a
