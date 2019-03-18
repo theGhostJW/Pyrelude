@@ -1,15 +1,13 @@
 
 module Debug.Trace.Extended (
-  module Debug.Trace
-  , debug
+   debug
   , debug'
   , debugf
   , debugf'
   , debugPrint
 ) where
 
-import           Debug.Trace
-import           Foundation
+import           BasePrelude
 
 debugPrint :: String -> a -> a
 debugPrint s = trace (toList ("DEBUG: " <> s))

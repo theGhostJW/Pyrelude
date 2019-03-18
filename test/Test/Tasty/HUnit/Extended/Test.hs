@@ -1,8 +1,7 @@
 
 module Test.Tasty.HUnit.Extended.Test where
 
-import           Test.Tasty.HUnit.Extended
-
+import           Pyrelude.Test 
 
 unit_chkEq = chkEq 1 1
 

@@ -3,15 +3,14 @@ module Path.Extended.Test where
 
 import qualified Control.Monad.Catch     as C
 import           Data.Either.Combinators
-import           Foundation.Extended
+import           Pyrelude
 import           Path.Extended
-import           Test.Extended
-import Data.String.Encode
+import           Pyrelude.Test
 import qualified Prelude as P
 
 type PathParser ar fd = forall m s. (C.MonadCatch m, ConvertString s P.String) => s -> m (Either PathException (Path ar fd))
 
-chkValid :: String -> String -> PathParser ar fd -> Assertion
+chkValid :: Text -> Text -> PathParser ar fd -> Assertion
 chkValid expected parseTarget psr = do
                                       rslt <- psr parseTarget
                                       either
@@ -19,7 +18,7 @@ chkValid expected parseTarget psr = do
                                        (\pth -> chkEq expected (toS $ toFilePath pth))
                                        rslt
 
-chkInvalid :: String -> PathParser ar fd -> Assertion
+chkInvalid :: Text -> PathParser ar fd -> Assertion
 chkInvalid parseTarget psr = do
                                rslt <- psr parseTarget
                                chk $ isLeft rslt

@@ -1,0 +1,93 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.1.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 762912b0495b3208303e7c98662ff31e4e061da6db4dc3f01acd1b3454f33316
+
+name:           pyrelude
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/simple-hpack#readme>
+homepage:       https://github.com/githubuser/simple-hpack#readme
+bug-reports:    https://github.com/githubuser/simple-hpack/issues
+author:         John Walker
+maintainer:     theghostjw@gmail.com
+copyright:      2018 John Walker
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/simple-hpack
+
+library
+  exposed-modules:
+      Debug.Trace.Extended
+      Language.Haskell.TH.Syntax.Extended
+      Path.Extended
+      Path.IO.Extended
+      Pyrelude
+      Pyrelude.Test
+      Pyrelude.Test.Hedgehog.Extended
+      Pyrelude.Test.Tasty.HUnit.Extended
+      Stringy
+      Ternary
+  other-modules:
+      Paths_pyrelude
+  hs-source-dirs:
+      src
+  default-extensions: RecordWildCards DisambiguateRecordFields DuplicateRecordFields DeriveFunctor NoImplicitPrelude OverloadedStrings BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveFoldable DeriveFunctor DeriveGeneric DeriveLift DeriveTraversable DerivingStrategies EmptyCase ExistentialQuantification ExtendedDefaultRules FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PatternSynonyms QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TemplateHaskell
+  ghc-options: -fmax-pmcheck-iterations=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
+  build-depends:
+      base
+    , base-prelude
+    , bytestring
+    , discrimination
+    , either
+    , encode-string
+    , exceptions
+    , extra
+    , hedgehog
+    , path
+    , path-io
+    , tasty
+    , tasty-hedgehog
+    , tasty-hunit
+    , template-haskell
+    , text
+  default-language: Haskell2010
+
+test-suite pyrelude-test
+  type: exitcode-stdio-1.0
+  main-is: driver.hs
+  other-modules:
+      Foundation.Extended.ConvertStringOrphansTest
+      Foundation.Extended.Test
+      Path.Extended.Test
+      Path.IO.Extended.Integration.Test
+      Test.Tasty.HUnit.Extended.Test
+      Paths_pyrelude
+  hs-source-dirs:
+      test
+  default-extensions: RecordWildCards DisambiguateRecordFields DuplicateRecordFields DeriveFunctor NoImplicitPrelude OverloadedStrings BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveFoldable DeriveFunctor DeriveGeneric DeriveLift DeriveTraversable DerivingStrategies EmptyCase ExistentialQuantification ExtendedDefaultRules FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PatternSynonyms QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TemplateHaskell
+  ghc-options: -fmax-pmcheck-iterations=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
+  build-depends:
+      base
+    , base-prelude
+    , either
+    , encode-string
+    , exceptions
+    , extra
+    , hedgehog
+    , pyrelude
+    , tasty
+    , tasty-discover
+    , tasty-hedgehog
+    , tasty-hunit
+    , text
+  default-language: Haskell2010

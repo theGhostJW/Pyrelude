@@ -1,10 +1,10 @@
-name:                principled-extended
+name:                pyrelude
 version:             0.1.0.0
 github:              "githubuser/simple-hpack"
-license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2018 Author name here"
+license:             MIT
+author:              "John Walker"
+maintainer:          "theghostjw@gmail.com"
+copyright:           "2018 John Walker"
 
 extra-source-files:
 - README.md
@@ -20,17 +20,16 @@ extra-source-files:
 description:         Please see the README on GitHub at <https://github.com/githubuser/simple-hpack#readme>
 
 dependencies:
-  - base
+  - base-prelude
   - either
   - exceptions
   - extra
   - hedgehog
-  - foundation
-  - freer-simple
   - tasty
   - tasty-hunit
   - tasty-hedgehog
   - text
+  - base
   - encode-string
 
 
@@ -98,21 +97,20 @@ default-extensions:
 
 library:
   source-dirs: src
-  other-modules:
-    - Debug.Trace.Extended
+  exports:
+    - Pyrelude
+    - Pyrelude.Test
   dependencies:
-    - foundation-edge
     - path
     - path-io
     - bytestring
     - template-haskell
-    - silently
     - discrimination
 
 tests:
-  principled-extended-test:
+  pyrelude-test:
     main:                driver.hs
     source-dirs:         test
     dependencies:
-      - principled-extended
+      - pyrelude
       - tasty-discover
