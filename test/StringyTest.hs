@@ -1,5 +1,5 @@
 
-module Foundation.Extended.ConvertStringOrphansTest where
+module StringyTest where
 
 import qualified Data.Bool                           as B
 import           Pyrelude

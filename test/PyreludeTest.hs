@@ -1,11 +1,11 @@
 
-module Foundation.Extended.Test where
+module PyreludeTest where
 
 import qualified Data.Bool                           as B
 import           Pyrelude
 import           Pyrelude.Test as T
 
-unit_module_of = "Foundation.Extended.Test" ... moduleOf ''MyEnum
+unit_module_of = "PyreludeTest" ... moduleOf ''MyEnum
 
 --- count ---
 unit_count_many = 4 ... count (== 5) [1, 2, 3, 5, 5, 6, 7, 5, 5]

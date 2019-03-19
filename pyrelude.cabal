@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 762912b0495b3208303e7c98662ff31e4e061da6db4dc3f01acd1b3454f33316
+-- hash: acc10cb6fabd5a4688d45b3563b6fb58d3789431025d5d6144b15cb9e946c3d0
 
 name:           pyrelude
 version:        0.1.0.0
@@ -66,10 +66,10 @@ test-suite pyrelude-test
   type: exitcode-stdio-1.0
   main-is: driver.hs
   other-modules:
-      Foundation.Extended.ConvertStringOrphansTest
-      Foundation.Extended.Test
       Path.Extended.Test
       Path.IO.Extended.Integration.Test
+      PyreludeTest
+      StringyTest
       Test.Tasty.HUnit.Extended.Test
       Paths_pyrelude
   hs-source-dirs:
