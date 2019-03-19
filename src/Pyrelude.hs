@@ -38,6 +38,10 @@ import           BasePrelude as P hiding (
    -- hiding in favour of safe versions
    head, last, tail, init,
 
+   -- Hidden because unlikely to be used an clashes with
+   -- filter constructors in Pyretherum
+   All, Last,
+
    -- hidng in favour of Control.Monad.Catch -- exceptions
    -- TODO: work this out make sure behaviour is the same
    Handler, catches, bracket, bracketOnError, bracket_, catchJust, finally, handle, handleJust,
