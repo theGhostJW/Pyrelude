@@ -1,10 +1,9 @@
 
-module Path.Extended.Test where
+module PathExtendedTest where
 
 import qualified Control.Monad.Catch     as C
 import           Data.Either.Combinators
 import           Pyrelude
-import           Path.Extended
 import           Pyrelude.Test
 import qualified Prelude as P
 

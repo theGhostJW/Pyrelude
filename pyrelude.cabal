@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: acc10cb6fabd5a4688d45b3563b6fb58d3789431025d5d6144b15cb9e946c3d0
+-- hash: c895c4d944f58c96d2126cee6cf0ff896c4cf5a18ac0732367a509a2b4cdc717
 
 name:           pyrelude
 version:        0.1.0.0
@@ -27,18 +27,18 @@ source-repository head
 
 library
   exposed-modules:
+      Pyrelude
+      Pyrelude.Data.Text.Hidden
+      Pyrelude.Test
+  other-modules:
       Debug.Trace.Extended
       Language.Haskell.TH.Syntax.Extended
       Path.Extended
       Path.IO.Extended
-      Pyrelude
-      Pyrelude.Test
       Pyrelude.Test.Hedgehog.Extended
       Pyrelude.Test.Tasty.HUnit.Extended
       Stringy
       Ternary
-  other-modules:
-      Paths_pyrelude
   hs-source-dirs:
       src
   default-extensions: RecordWildCards DisambiguateRecordFields DuplicateRecordFields DeriveFunctor NoImplicitPrelude OverloadedStrings BangPatterns ConstraintKinds DataKinds DefaultSignatures DeriveFoldable DeriveFunctor DeriveGeneric DeriveLift DeriveTraversable DerivingStrategies EmptyCase ExistentialQuantification ExtendedDefaultRules FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving InstanceSigs KindSignatures LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PatternSynonyms QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators TemplateHaskell
@@ -66,11 +66,12 @@ test-suite pyrelude-test
   type: exitcode-stdio-1.0
   main-is: driver.hs
   other-modules:
-      Path.Extended.Test
-      Path.IO.Extended.Integration.Test
+      PathExtendedTest
+      PathIOExtendedIntegrationTest
+      PyreludeDataTextHiddenTest
       PyreludeTest
       StringyTest
-      Test.Tasty.HUnit.Extended.Test
+      TastyHUnitExtendedTest
       Paths_pyrelude
   hs-source-dirs:
       test

@@ -1,5 +1,5 @@
 
-module Test.Tasty.HUnit.Extended.Test where
+module TastyHUnitExtendedTest where
 
 import           Pyrelude.Test 
 

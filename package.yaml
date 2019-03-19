@@ -97,9 +97,15 @@ default-extensions:
 
 library:
   source-dirs: src
-  exports:
-    - Pyrelude
-    - Pyrelude.Test
+  other-modules:
+    - Debug.Trace.Extended
+    - Language.Haskell.TH.Syntax.Extended
+    - Path.Extended
+    - Path.IO.Extended
+    - Pyrelude.Test.Hedgehog.Extended
+    - Pyrelude.Test.Tasty.HUnit.Extended
+    - Stringy
+    - Ternary
   dependencies:
     - path
     - path-io

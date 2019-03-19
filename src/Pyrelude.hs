@@ -1,6 +1,7 @@
 module Pyrelude (
   module P
   , module Data.Maybe
+  , module Data.Text.IO
   , module Control.Monad.Catch
   , module Debug.Trace.Extended
   , module Path.Extended
@@ -12,12 +13,14 @@ module Pyrelude (
   , module Data.Text
   , module Ternary
   , count
-  , safeHead
-  , safeLast
   , firstDuplicate
   , eitherf
   , maybef
   , enumList
+  , Pyrelude.head
+  , Pyrelude.last
+  , Pyrelude.tail
+  , Pyrelude.init
   , uu
 ) where
 
@@ -30,6 +33,9 @@ import           BasePrelude as P hiding (
    -- hiding groupy functions -- favouring Descrimination
    group, groupWith, nub, sort, sortWith,
 
+   -- hiding in favour of safe versions
+   head, last, tail, init,
+
    -- hidng in favour of Control.Monad.Catch -- exceptions
    -- TODO: work this out make sure behaviour is the same
    Handler, catches, bracket, bracketOnError, bracket_, catchJust, finally, handle, handleJust,
@@ -39,8 +45,11 @@ import           BasePrelude as P hiding (
    -- favouring Data.Either.Combinators
    isLeft, fromRight, isRight, fromLeft,
 
-   -- Faour Text
+   -- Favour Text
    toLower, toTitle, toUpper, 
+
+   -- Favour Data.Text.IO
+   appendFile, getContents, getLine, interact, putStr, putStrLn, 
      ) 
 import Data.Text hiding (
   -- favouring Discrimination (need another module for these conflicts)
@@ -58,6 +67,7 @@ import Data.Text hiding (
   count
   )
 import           Data.Discrimination as D
+import BasePrelude as B
 import           Data.Either.Combinators
 import qualified Data.List                           as L
 import           Data.Maybe
@@ -67,6 +77,7 @@ import           Path.Extended
 import           Path.IO.Extended
 import Stringy
 import Ternary
+import Data.Text.IO
 
 -- undefined in less keystrokes
 uu :: forall a. a
@@ -75,14 +86,8 @@ uu = undefined
 count :: (Foldable f, Num n) => (a -> Bool) -> f a -> n
 count p = P.foldl' (\n x -> p x ? n + 1 $ n) 0
 
-safeHead :: [a]-> Maybe a
-safeHead = listToMaybe
-
-safeLast :: [a]-> Maybe a
-safeLast l = L.null l ? Nothing $ Just $ L.last l
-
 firstDuplicate :: Grouping a => [a] -> Maybe a
-firstDuplicate xs = L.find (\l -> P.length l > 1) (D.group xs) >>= safeHead
+firstDuplicate xs = L.find (\l -> P.length l > 1) (D.group xs) >>= Pyrelude.head
 
 eitherf :: Either a b -> (a -> c) -> (b -> c) -> c
 eitherf e lf rf = either lf rf e
@@ -93,22 +98,22 @@ maybef m d f = maybe d f m
 enumList :: Enum a => [a]
 enumList = enumFrom $ toEnum 0
 
-{- rename reimplement these as maybe
-head :: [a] -> a
+safe :: ([a] -> a) -> [a] -> Maybe a
+safe f l  = null l ? Nothing $ Just $ f l
 
-Extract the first element of a list, which must be non-empty.
+safeLst :: ([a] -> [a]) -> [a] -> Maybe [a]
+safeLst f l  = null l ? Nothing $ Just $ f l
 
-last :: [a] -> a
+head :: [a] -> Maybe a
+head = safe B.head
 
-Extract the last element of a list, which must be finite and non-empty.
+last :: [a] -> Maybe a
+last = safe B.last
 
-tail :: [a] -> [a]
+tail :: [a] -> Maybe [a]
+tail = safeLst B.tail
 
-Extract the elements after the head of a list, which must be non-empty.
+init :: [a] -> Maybe [a]
+init = safeLst B.init
 
-init :: [a] -> [a]
-
-Return all the elements of a list except the last one. The list must be non-empty.
-
--}
 

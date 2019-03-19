@@ -1,6 +1,6 @@
 {-# LANGUAGE QuasiQuotes #-}
 
-module Path.IO.Extended.Integration.Test where
+module PathIOExtendedIntegrationTest where
 
 
 import           Control.Monad.IO.Class
@@ -12,8 +12,8 @@ import           Pyrelude.Test
 import qualified Data.Text as T
 
 testDir = subDirFromBaseDir (parseAbsDir =<< getBinDir) [reldir|test|]
-baseDir = ((</> [reldir|path\IO\Extended\Integration\testData\subFolder\subSubFolder\subSubFolder\base|] ) <$>) <$> testDir
-invalidBaseDir = ((</> [reldir|path\IOExtended\Integration\testData\subFolder\subSubFolder\subSubFolder\base|] ) <$>) <$> testDir
+baseDir = ((</> [reldir|Integration\testData\subFolder\subSubFolder\subSubFolder\base|] ) <$>) <$> testDir
+invalidBaseDir = ((</> [reldir|Integration\testData\subFolder\subSubFolder\subSubFolder\base|] ) <$>) <$> testDir
 
 chkSuffix :: Text -> Path a Dir -> Assertion
 chkSuffix sfx dir =
@@ -38,14 +38,3 @@ unit_subDirFromBaseDir_finds_correct_temp =
       eitherf dir
         (\l -> chkFail $ "testDir returned Left: " <> show l)
         (chkSuffix "\\subFolder\\subSubFolder\\temp\\")
-
--- TODO: reinstate
--- unit_IOError_returned_from_invalid_read :: Assertion
--- unit_IOError_returned_from_invalid_read = do
---                                     rr <- readFileUTF8 [absfile|C:\idoNotExist\idonotexist.txt|]
---                                     chkLeft
---                                      (\case
---                                         IOFailure _ -> True
---                                         err -> False
---                                      )
---                                      rr
