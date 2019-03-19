@@ -15,6 +15,9 @@ import Data.Text as T (
   isPrefixOf, isSuffixOf, stripPrefix, tails, transpose, unfoldr, mapAccumL, mapAccumR,
   drop, foldl1', replicate, length, scanl, scanl1, scanr, scanr1,
   span, splitAt, take, takeWhile, uncons, zipWith, index, 
+
+  dropEnd, takeEnd, takeWhileEnd, stripSuffix, breakOn, breakOnEnd, 
+  splitOn, split, chunksOf, unsnoc, cons, snoc, replace,
   
   count
   )

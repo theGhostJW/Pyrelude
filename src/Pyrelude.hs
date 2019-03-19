@@ -2,6 +2,7 @@ module Pyrelude (
   module P
   , module Data.Maybe
   , module Data.Text.IO
+  , module Data.List.Extra
   , module Control.Monad.Catch
   , module Debug.Trace.Extended
   , module Path.Extended
@@ -63,6 +64,10 @@ import Data.Text hiding (
   drop, foldl1', head, init, last, replicate, length, scanl, scanl1, scanr, scanr1,
   span, splitAt, tail, take, takeWhile, uncons, zipWith, index, 
 
+  -- Favouring Data.List.Extra
+  dropEnd, takeEnd, takeWhileEnd, stripSuffix, breakOn, breakOnEnd, 
+  splitOn, split, chunksOf, unsnoc, cons, snoc, replace,
+
   -- favouring my own function
   count
   )
@@ -78,6 +83,29 @@ import           Path.IO.Extended
 import Stringy
 import Ternary
 import Data.Text.IO
+import Data.List.Extra (
+      --- * Note string functions excluded
+      --- * depricated for function excluded
+      dropEnd, takeEnd, splitAtEnd, breakEnd, spanEnd,
+      dropWhileEnd, dropWhileEnd', takeWhileEnd,
+      stripSuffix, stripInfix, stripInfixEnd,
+      dropPrefix, dropSuffix,
+      wordsBy, linesBy,
+      breakOn, breakOnEnd, splitOn, split, chunksOf,
+      -- * Basics
+      notNull, list, uncons, unsnoc, cons, snoc, drop1, mconcatMap,
+      -- * List operations
+      groupSort, groupSortOn, groupSortBy,
+      nubOrd, nubOrdBy, nubOrdOn,
+      nubOn, groupOn, sortOn,
+      nubSort, nubSortBy, nubSortOn,
+      maximumOn, minimumOn,
+      disjoint, allSame, anySame,
+      repeatedly, firstJust,
+      concatUnzip, concatUnzip3,
+      zipFrom, zipWithFrom,
+      replace, merge, mergeBy
+  )
 
 -- undefined in less keystrokes
 uu :: forall a. a
