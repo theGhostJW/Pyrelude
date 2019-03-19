@@ -18,6 +18,7 @@ module Pyrelude (
   , eitherf
   , maybef
   , enumList
+  , txt
   , Pyrelude.head
   , Pyrelude.last
   , Pyrelude.tail
@@ -110,6 +111,10 @@ import Data.List.Extra (
 -- undefined in less keystrokes
 uu :: forall a. a
 uu = undefined
+
+-- equivalent of show for text
+txt :: Show a => a -> Text
+txt = toS . show
 
 count :: (Foldable f, Num n) => (a -> Bool) -> f a -> n
 count p = P.foldl' (\n x -> p x ? n + 1 $ n) 0
