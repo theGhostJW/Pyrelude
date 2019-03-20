@@ -3,6 +3,8 @@ module Pyrelude (
   , module Data.Maybe
   , module Data.Text.IO
   , module Data.List.Extra
+  , module Data.Text.Encoding
+  , module EncodeError
   , module Control.Monad.Catch
   , module Debug.Trace.Extended
   , module Path.Extended
@@ -18,6 +20,7 @@ module Pyrelude (
   , eitherf
   , maybef
   , enumList
+  , encodeErrorReplace
   , txt
   , Pyrelude.head
   , Pyrelude.last
@@ -85,6 +88,9 @@ import           Debug.Trace.Extended
 import           Language.Haskell.TH.Syntax.Extended as THEx (moduleOf)
 import           Path.Extended
 import           Path.IO.Extended
+import           Data.Text.Encoding
+import           Data.Text.Encoding.Error as EncodeError hiding (replace)
+import           Data.Text.Encoding.Error (replace)
 import Stringy
 import Ternary
 import Data.Text.IO
@@ -111,6 +117,10 @@ import Data.List.Extra (
       zipFrom, zipWithFrom,
       replace, merge, mergeBy
   )
+
+
+encodeErrorReplace :: b -> OnError a b 
+encodeErrorReplace = Data.Text.Encoding.Error.replace
 
 -- undefined in less keystrokes
 uu :: forall a. a
