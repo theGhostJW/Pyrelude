@@ -31,7 +31,9 @@ module Pyrelude (
 
 import           Control.Monad.Catch
 import           BasePrelude as P hiding (
-   
+   -- clashes with log in pyrethrym reexport as log10
+   log,
+
    -- hiding String et. al. -- favouring Text
    String, lines, words, unlines, unwords, readFile, writeFile,
    
@@ -117,6 +119,10 @@ import Data.List.Extra (
       zipFrom, zipWithFrom,
       replace, merge, mergeBy
   )
+
+
+log10 :: Floating a => a -> a
+log10 = B.log
 
 
 encodeErrorReplace :: b -> OnError a b 
