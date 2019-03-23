@@ -11,6 +11,7 @@ module Pyrelude (
   , module Path.IO.Extended
   , module D
   , module Data.Either.Combinators
+  , module Listy
   , module THEx
   , module Stringy
   , module Data.Text
@@ -22,10 +23,10 @@ module Pyrelude (
   , enumList
   , encodeErrorReplace
   , txt
-  , Pyrelude.head
-  , Pyrelude.last
-  , Pyrelude.tail
-  , Pyrelude.init
+  -- , Pyrelude.head
+  -- , Pyrelude.last
+  -- , Pyrelude.tail
+  -- , Pyrelude.init
   , uu
 ) where
 
@@ -40,8 +41,64 @@ import           BasePrelude as P hiding (
    -- hiding groupy functions -- favouring Descrimination
    group, groupWith, nub, sort, sortWith,
 
-   -- hiding in favour of safe versions
-   head, last, tail, init,
+   -- favourung listy
+   concat,
+   concatMap,
+   groupBy,
+   group,
+   reverse,
+   dropWhile,
+   head,
+   last,
+   tail,
+   init,
+   maximum,
+   minimum,
+   null,
+   and,
+   any,
+   all,
+   filter,
+   find,
+   foldl,
+   foldlLazy,
+   foldl1,
+   foldl1Lazy,
+   foldr,
+   foldr1,
+   map,
+   zip,
+   empty,
+   partition,
+   break,
+   span,
+   dropWhileEnd,
+   findIndex,
+   inits,
+   intercalate,
+   intersperse,
+   isInfixOf,
+   isPrefixOf,
+   isSuffixOf,
+   stripPrefix,
+   tails,
+   transpose,
+   unfoldr,
+   mapAccumL,
+   mapAccumR,
+   drop,
+   replicate,
+   length,
+   scanl,
+   scanl1,
+   scanr,
+   scanr1,
+   splitAt,
+   take,
+   takeWhile,
+   uncons,
+   zipWithSimple,
+  
 
    -- Hidden because unlikely to be used an clashes with
    -- filter constructors in Pyretherum
@@ -51,7 +108,9 @@ import           BasePrelude as P hiding (
    -- TODO: work this out make sure behaviour is the same
    Handler, catches, bracket, bracketOnError, bracket_, catchJust, finally, handle, handleJust,
    onException, try, tryJust, catch, mask, mask_, uninterruptibleMask, uninterruptibleMask_, 
-   catchIOError,
+   catchIOError, 
+   
+   (!!), -- use unsafeIndex
 
    -- favouring Data.Either.Combinators
    isLeft, fromRight, isRight, fromLeft,
@@ -63,28 +122,69 @@ import           BasePrelude as P hiding (
    appendFile, getContents, getLine, interact, putStr, putStrLn, 
      ) 
 import Data.Text hiding (
-  -- favouring Discrimination (need another module for these conflicts)
-  group, 
-
-  -- Favouring Prelude List
-  reverse, dropWhile, concat, filter, map, zip, foldr, empty, foldl, foldl', 
-  foldl1, foldr1, maximum, minimum, null, all, any, concatMap, find, partition,
-  break, dropWhileEnd, findIndex, groupBy, inits, intercalate, intersperse, isInfixOf,
-  isPrefixOf, isSuffixOf, stripPrefix, tails, transpose, unfoldr, mapAccumL, mapAccumR,
-  drop, foldl1', head, init, last, replicate, length, scanl, scanl1, scanr, scanr1,
-  span, splitAt, tail, take, takeWhile, uncons, zipWith, index, 
-
-  -- Favouring Data.List.Extra
-  dropEnd, takeEnd, takeWhileEnd, stripSuffix, breakOn, breakOnEnd, 
-  splitOn, split, chunksOf, unsnoc, cons, snoc, replace,
-
-  -- favouring my own function
-  count
+ count, -- use countText
+ concat,
+ concatMap,
+ groupBy,
+ group,
+ reverse,
+ dropWhile,
+ head,
+ last,
+ tail,
+ init,
+ maximum,
+ minimum,
+ null,
+ and,
+ any,
+ all,
+ filter,
+ find,
+ foldl,
+ foldlLazy,
+ foldl1,
+ foldl1Lazy,
+ foldr,
+ foldr1,
+ map,
+ zip,
+ empty,
+ partition,
+ break,
+ span,
+ dropWhileEnd,
+ findIndex,
+ inits,
+ intercalate,
+ intersperse,
+ isInfixOf,
+ isPrefixOf,
+ isSuffixOf,
+ stripPrefix,
+ tails,
+ transpose,
+ unfoldr,
+ mapAccumL,
+ mapAccumR,
+ drop,
+ replicate,
+ length,
+ scanl,
+ scanl1,
+ scanr,
+ scanr1,
+ splitAt,
+ take,
+ takeWhile,
+ uncons,
+ zipWithSimple
   )
 import           Data.Discrimination as D
 import BasePrelude as B
 import           Data.Either.Combinators
 import qualified Data.List                           as L
+import  Listy
 import           Data.Maybe
 import           Debug.Trace.Extended
 import           Language.Haskell.TH.Syntax.Extended as THEx (moduleOf)
@@ -120,10 +220,8 @@ import Data.List.Extra (
       replace, merge, mergeBy
   )
 
-
 log10 :: Floating a => a -> a
 log10 = B.log
-
 
 encodeErrorReplace :: b -> OnError a b 
 encodeErrorReplace = Data.Text.Encoding.Error.replace
@@ -140,7 +238,7 @@ count :: (Foldable f, Num n) => (a -> Bool) -> f a -> n
 count p = P.foldl' (\n x -> p x ? n + 1 $ n) 0
 
 firstDuplicate :: Grouping a => [a] -> Maybe a
-firstDuplicate xs = L.find (\l -> P.length l > 1) (D.group xs) >>= Pyrelude.head
+firstDuplicate xs = L.find (\l -> B.length l > 1) (D.group xs) >>= Pyrelude.head
 
 eitherf :: Either a b -> (a -> c) -> (b -> c) -> c
 eitherf e lf rf = either lf rf e
@@ -152,21 +250,21 @@ enumList :: Enum a => [a]
 enumList = enumFrom $ toEnum 0
 
 safe :: ([a] -> a) -> [a] -> Maybe a
-safe f l  = null l ? Nothing $ Just $ f l
+safe f l  = L.null l ? Nothing $ Just $ f l
 
-safeLst :: ([a] -> [a]) -> [a] -> Maybe [a]
-safeLst f l  = null l ? Nothing $ Just $ f l
+-- safeLst :: ([a] -> [a]) -> [a] -> Maybe [a]
+-- safeLst f l  = Listy.null l ? Nothing $ Just $ f l
 
 head :: [a] -> Maybe a
 head = safe B.head
 
-last :: [a] -> Maybe a
-last = safe B.last
+-- last :: [a] -> Maybe a
+-- last = safe B.last
 
-tail :: [a] -> Maybe [a]
-tail = safeLst B.tail
+-- tail :: [a] -> Maybe [a]
+-- tail = safeLst B.tail
 
-init :: [a] -> Maybe [a]
-init = safeLst B.init
+-- init :: [a] -> Maybe [a]
+-- init = safeLst B.init
 
 

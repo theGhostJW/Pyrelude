@@ -32,7 +32,6 @@ dependencies:
   - base
   - encode-string
 
-
 ghc-options:
   - -fmax-pmcheck-iterations=10000000
   - -ferror-spans
