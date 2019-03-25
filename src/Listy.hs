@@ -1,5 +1,28 @@
 module Listy (
-  Listy(..)
+  Listy(..),
+  countText,
+  concatFoldable,
+  concatMapFoldable,
+  andFoldable,
+  orFoldable,
+  anyFoldable,
+  allFoldable,
+  findFoldable,
+  foldrFoldable,
+  nullFoldable,
+  lengthFoldable,
+  elemFoldable,
+  foldlFoldable,
+  foldlFoldableLazy,
+  foldr1Foldable,
+  maximumFoldable, 
+  minimumFoldable,
+  foldl1FoldableLazy,
+  unsafeFoldr1Foldable,
+  unsafeMaximumFoldable,
+  unsafeMinimumFoldable,
+  unsafeFoldl1FoldableLazy
+
 ) where
 
 import qualified Data.List as L
