@@ -1,6 +1,9 @@
+{-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
+
 module Listy (
   Listy(..),
   countText,
+  countTextLazy,
   concatFoldable,
   concatMapFoldable,
   andFoldable,
@@ -21,8 +24,10 @@ module Listy (
   unsafeFoldr1Foldable,
   unsafeMaximumFoldable,
   unsafeMinimumFoldable,
-  unsafeFoldl1FoldableLazy
-
+  unsafeFoldl1FoldableLazy,
+  replicateText,
+  replicateTextLazy,
+  findIndexText
 ) where
 
 import qualified Data.List as L
@@ -38,12 +43,17 @@ import Data.Eq
 import Data.Ord
 import Data.Function
 import Data.Char
+import Data.List.Extra as E
+import GHC.Real
 
 -- TODO: check reexported list functions: zip, scanl, scanr, zipWith, index
 -- TODO: hide count in text an lazy -- Text -> Text -> Int -- hide sub-count
 
 countText :: T.Text -> T.Text -> Int
 countText = T.count
+
+countTextLazy :: LT.Text -> LT.Text -> Int64
+countTextLazy = LT.count
 
 concatFoldable ::  Foldable t => t [a] -> [a]
 concatFoldable = L.concat
@@ -147,13 +157,22 @@ unsafeMinimumFoldable = L.minimum
 unsafeFoldl1FoldableLazy :: Foldable t =>  (a -> a -> a) -> t a -> a
 unsafeFoldl1FoldableLazy = F.foldl1
 
-safel :: Listy m a => (m -> b) -> m -> Maybe b
+safel :: Listy m a i => (m -> b) -> m -> Maybe b
 safel = safeFShared Listy.null
 
-safeFold1l :: Listy m a => ((a -> a -> a) -> m -> a) -> (a -> a -> a) -> m -> Maybe a
+safeFold1l :: Listy m a i => ((a -> a -> a) -> m -> a) -> (a -> a -> a) -> m -> Maybe a
 safeFold1l = safeF3Shared Listy.null
 
-class Listy m a | m -> a where
+replicateText :: Int64 -> LT.Text -> LT.Text
+replicateText = LT.replicate
+
+replicateTextLazy :: Int64 -> LT.Text -> LT.Text
+replicateTextLazy = LT.replicate 
+
+findIndexText :: (Char -> Bool) -> T.Text -> Maybe Int
+findIndexText = T.findIndex
+
+class Integral i => Listy m a i | m -> a i where
   concat :: [m] -> m 
   concatMap :: (a -> m) -> m -> m
 
@@ -191,7 +210,7 @@ class Listy m a | m -> a where
   unsafeMinimum :: (Ord a) => m -> a 
 
   -- no safe version
-  unsafeIndex :: m -> Int -> a
+  unsafeIndex :: m -> i -> a
 
   null :: m -> Bool
   any :: (a -> Bool) -> m -> Bool
@@ -225,7 +244,7 @@ class Listy m a | m -> a where
   mapSimple :: (a -> a) -> m -> m
   zipSimple :: m -> m -> [(a, a)] 
 
-  chunksOf :: Int -> m -> [m] 
+  chunksOf :: i -> m -> [m] 
   empty :: m
 
   unsnoc :: m -> Maybe (m, a)
@@ -236,14 +255,13 @@ class Listy m a | m -> a where
   breakOnEnd :: Eq a => m -> m -> (m, m) 
   span :: (a -> Bool) -> m -> (m, m) 
 
-  takeEnd :: Int -> m -> m
+  takeEnd :: i -> m -> m
   takeWhileEnd :: (a -> Bool) -> m -> m
 
   splitOn :: Eq a => m -> m -> [m]
   split :: (a -> Bool) -> m -> [m] 
 
   dropWhileEnd :: (a -> Bool) -> m -> m 
-  findIndex :: (a -> Bool) -> m -> Maybe Int
   inits :: m -> [m]
   intercalate :: m -> [m] -> m
   intersperse :: a -> m -> m
@@ -257,22 +275,21 @@ class Listy m a | m -> a where
   unfoldr :: (b -> Maybe (a, b)) -> b -> m
   mapAccumL :: (b -> a -> (b, a)) -> b -> m -> (b, m) 
   mapAccumR :: (b -> a -> (b, a)) -> b -> m -> (b, m) 
-  drop :: Int -> m -> m
-  replicate :: Int -> m -> m
-  length :: m -> Int
+  drop :: i -> m -> m
+  length :: m -> i
   scanlSimple :: (a -> a -> a) -> a -> m -> m
   scanl1 :: (a -> a -> a) -> m -> m 
   scanrSimple :: (a -> a -> a) -> a -> m -> m 
   scanr1 :: (a -> a -> a) -> m -> m 
-  splitAt :: Int -> m -> (m, m)
-  take :: Int -> m -> m
+  splitAt :: i -> m -> (m, m)
+  take :: i -> m -> m
   takeWhile :: (a -> Bool) -> m -> m
   cons :: a -> m -> m
   snoc :: m -> a -> m
   uncons :: m -> Maybe (a, m) 
   zipWithSimple :: (a -> a -> a) -> m -> m -> m
 
-instance Listy T.Text Char where
+instance Listy T.Text Char Int where
   concat :: [T.Text] -> T.Text 
   concat = T.concat
 
@@ -423,9 +440,6 @@ instance Listy T.Text Char where
   dropWhileEnd :: (Char -> Bool) -> T.Text -> T.Text 
   dropWhileEnd = T.dropWhileEnd
 
-  findIndex :: (Char -> Bool) -> T.Text -> Maybe Int
-  findIndex = T.findIndex
-
   inits :: T.Text -> [T.Text]
   inits = T.inits
 
@@ -468,9 +482,6 @@ instance Listy T.Text Char where
   drop :: Int -> T.Text -> T.Text
   drop = T.drop
 
-  replicate :: Int -> T.Text -> T.Text
-  replicate = T.replicate
-
   length :: T.Text -> Int
   length = T.length
 
@@ -506,3 +517,461 @@ instance Listy T.Text Char where
 
   zipWithSimple :: (Char -> Char -> Char) -> T.Text -> T.Text -> T.Text
   zipWithSimple = T.zipWith
+
+instance Listy LT.Text Char Int64 where
+  concat :: [LT.Text] -> LT.Text 
+  concat = LT.concat
+
+  concatMap :: (Char -> LT.Text) -> LT.Text -> LT.Text
+  concatMap = LT.concatMap
+
+  groupBy :: (Char -> Char -> Bool) -> LT.Text -> [LT.Text]
+  groupBy = LT.groupBy
+
+  group :: LT.Text -> [LT.Text]
+  group = LT.group
+
+  reverse :: LT.Text -> LT.Text
+  reverse = LT.reverse
+
+  dropWhile :: (Char -> Bool) -> LT.Text -> LT.Text
+  dropWhile = LT.dropWhile
+
+  -- note change to increase safety
+  head :: LT.Text -> Maybe Char
+  head = safel unsafeHead
+
+  last :: LT.Text -> Maybe Char
+  last = safel unsafeLast
+
+  tail :: LT.Text -> Maybe LT.Text
+  tail = safel unsafeTail
+
+  init :: LT.Text -> Maybe LT.Text
+  init = safel unsafeInit
+
+  maximum :: (Ord Char) => LT.Text -> Maybe Char
+  maximum = safel unsafeMaximum
+
+  minimum :: (Ord Char) => LT.Text -> Maybe Char 
+  minimum = safel unsafeMinimum 
+
+  -- note change
+  unsafeHead :: LT.Text -> Char
+  unsafeHead = LT.head
+
+  unsafeLast :: LT.Text -> Char
+  unsafeLast = LT.last
+
+  unsafeTail :: LT.Text -> LT.Text
+  unsafeTail = LT.tail
+
+  unsafeInit :: LT.Text -> LT.Text
+  unsafeInit = LT.init
+
+  unsafeMaximum :: LT.Text -> Char
+  unsafeMaximum = LT.maximum
+
+  unsafeMinimum :: LT.Text -> Char 
+  unsafeMinimum = LT.minimum 
+
+  -- no safe version
+  unsafeIndex :: LT.Text -> Int64 -> Char
+  unsafeIndex = LT.index
+
+  null :: LT.Text -> Bool
+  null = LT.null
+
+  any :: (Char -> Bool) -> LT.Text -> Bool
+  any = LT.any
+
+  all :: (Char -> Bool) -> LT.Text -> Bool
+  all = LT.all
+
+  filter :: (Char -> Bool) -> LT.Text -> LT.Text 
+  filter = LT.filter 
+
+  find :: (Char -> Bool) -> LT.Text -> Maybe Char
+  find = LT.find
+
+  foldl :: (b -> Char -> b) -> b -> LT.Text -> b 
+  foldl = LT.foldl' -- note defaulting to strict
+
+  foldlLazy :: (b -> Char -> b) -> b -> LT.Text -> b 
+  foldlLazy = LT.foldl
+
+  foldl1 :: (Char -> Char -> Char) -> LT.Text -> Maybe Char
+  foldl1 = safeFold1l unsafeFoldl1
+
+  foldl1Lazy :: (Char -> Char -> Char) -> LT.Text -> Maybe Char
+  foldl1Lazy = safeFold1l unsafeFoldl1Lazy
+
+  unsafeFoldl1 :: (Char -> Char -> Char) -> LT.Text -> Char
+  unsafeFoldl1 = LT.foldl1'
+
+  unsafeFoldl1Lazy :: (Char -> Char -> Char) -> LT.Text -> Char
+  unsafeFoldl1Lazy = LT.foldl1
+
+  foldr :: (Char -> b -> b) -> b -> LT.Text -> b 
+  foldr = LT.foldr
+
+  foldr1 :: (Char -> Char -> Char) -> LT.Text -> Maybe Char
+  foldr1 = safeFold1l unsafeFoldr1
+
+  unsafeFoldr1 :: (Char -> Char -> Char) -> LT.Text -> Char
+  unsafeFoldr1 = LT.foldr1
+
+  -- note difference so LT.Text and list 
+  -- use functor instance for origonal implementation 
+  -- of list map
+  mapSimple :: (Char -> Char) -> LT.Text -> LT.Text
+  mapSimple = LT.map
+
+  zipSimple :: LT.Text -> LT.Text -> [(Char, Char)] 
+  zipSimple = LT.zip
+
+  chunksOf :: Int64 -> LT.Text -> [LT.Text] 
+  chunksOf = LT.chunksOf
+
+  empty :: LT.Text
+  empty = LT.empty
+
+  unsnoc :: LT.Text -> Maybe (LT.Text, Char)
+  unsnoc = LT.unsnoc
+ 
+  partition :: (Char -> Bool) -> LT.Text -> (LT.Text, LT.Text) 
+  partition = LT.partition
+
+  break :: (Char -> Bool) -> LT.Text -> (LT.Text, LT.Text) 
+  break = LT.break
+
+  breakOn :: LT.Text -> LT.Text -> (LT.Text, LT.Text) 
+  breakOn = LT.breakOn
+
+  breakOnEnd :: LT.Text -> LT.Text -> (LT.Text, LT.Text) 
+  breakOnEnd = LT.breakOnEnd
+
+  span :: (Char -> Bool) -> LT.Text -> (LT.Text, LT.Text) 
+  span = LT.span
+
+  takeEnd :: Int64 -> LT.Text -> LT.Text
+  takeEnd = LT.takeEnd
+
+  takeWhileEnd :: (Char -> Bool) -> LT.Text -> LT.Text
+  takeWhileEnd = LT.takeWhileEnd
+
+  splitOn :: LT.Text -> LT.Text -> [LT.Text]
+  splitOn = LT.splitOn
+
+  split :: (Char -> Bool) -> LT.Text -> [LT.Text] 
+  split = LT.split
+
+  dropWhileEnd :: (Char -> Bool) -> LT.Text -> LT.Text 
+  dropWhileEnd = LT.dropWhileEnd
+
+  inits :: LT.Text -> [LT.Text]
+  inits = LT.inits
+
+  intercalate :: LT.Text -> [LT.Text] -> LT.Text
+  intercalate = LT.intercalate
+
+  intersperse :: Char -> LT.Text -> LT.Text
+  intersperse = LT.intersperse
+
+  isInfixOf :: LT.Text -> LT.Text -> Bool
+  isInfixOf = LT.isInfixOf
+
+  isPrefixOf :: LT.Text -> LT.Text -> Bool
+  isPrefixOf = LT.isPrefixOf
+
+  isSuffixOf :: LT.Text -> LT.Text -> Bool
+  isSuffixOf = LT.isSuffixOf
+
+  stripPrefix :: LT.Text -> LT.Text -> Maybe LT.Text
+  stripPrefix = LT.stripPrefix
+
+  stripSuffix :: LT.Text -> LT.Text -> Maybe LT.Text
+  stripSuffix = LT.stripSuffix
+
+  tails :: LT.Text -> [LT.Text]
+  tails = LT.tails
+
+  transpose :: [LT.Text] -> [LT.Text]
+  transpose = LT.transpose
+
+  unfoldr :: (b -> Maybe (Char, b)) -> b -> LT.Text
+  unfoldr = LT.unfoldr
+
+  mapAccumL :: (b -> Char -> (b, Char)) -> b -> LT.Text -> (b, LT.Text) 
+  mapAccumL = LT.mapAccumL
+
+  mapAccumR :: (b -> Char -> (b, Char)) -> b -> LT.Text -> (b, LT.Text) 
+  mapAccumR = LT.mapAccumR
+
+  drop :: Int64 -> LT.Text -> LT.Text
+  drop = LT.drop
+
+  length :: LT.Text -> Int64
+  length = LT.length
+
+  scanlSimple :: (Char -> Char -> Char) -> Char -> LT.Text -> LT.Text
+  scanlSimple = LT.scanl
+
+  scanl1 :: (Char -> Char -> Char) -> LT.Text -> LT.Text 
+  scanl1 = LT.scanl1
+
+  scanrSimple :: (Char -> Char -> Char) -> Char -> LT.Text -> LT.Text 
+  scanrSimple = LT.scanr
+
+  scanr1 :: (Char -> Char -> Char) -> LT.Text -> LT.Text 
+  scanr1 = LT.scanr1
+
+  splitAt :: Int64 -> LT.Text -> (LT.Text, LT.Text)
+  splitAt = LT.splitAt
+
+  take :: Int64 -> LT.Text -> LT.Text
+  take = LT.take 
+
+  takeWhile :: (Char -> Bool) -> LT.Text -> LT.Text
+  takeWhile = LT.takeWhile
+
+  cons :: Char -> LT.Text -> LT.Text
+  cons = LT.cons
+
+  snoc :: LT.Text -> Char -> LT.Text
+  snoc = LT.snoc
+
+  uncons :: LT.Text -> Maybe (Char, LT.Text) 
+  uncons = LT.uncons
+
+  zipWithSimple :: (Char -> Char -> Char) -> LT.Text -> LT.Text -> LT.Text
+  zipWithSimple = LT.zipWith
+
+instance Listy [a] a Int where
+  concat :: [[a]] -> [a] 
+  concat = L.concat
+
+  concatMap :: (a -> [a]) -> [a] -> [a]
+  concatMap = L.concatMap
+
+  groupBy :: (a -> a -> Bool) -> [a] -> [[a]]
+  groupBy = L.groupBy
+
+  group :: Eq a => [a] -> [[a]]
+  group = L.group
+
+  reverse :: [a] -> [a]
+  reverse = L.reverse
+
+  dropWhile :: (a -> Bool) -> [a] -> [a]
+  dropWhile = L.dropWhile
+
+  -- note change to increase safety
+  head :: [a] -> Maybe a
+  head = safel unsafeHead
+
+  last :: [a] -> Maybe a
+  last = safel unsafeLast
+
+  tail :: [a] -> Maybe [a]
+  tail = safel unsafeTail
+
+  init :: [a] -> Maybe [a]
+  init = safel unsafeInit
+
+  maximum :: (Ord a) => [a] -> Maybe a
+  maximum = safel unsafeMaximum
+
+  minimum :: (Ord a) => [a] -> Maybe a 
+  minimum = safel unsafeMinimum 
+
+  -- note change
+  unsafeHead :: [a] -> a
+  unsafeHead = L.head
+
+  unsafeLast :: [a] -> a
+  unsafeLast = L.last
+
+  unsafeTail :: [a] -> [a]
+  unsafeTail = L.tail
+
+  unsafeInit :: [a] -> [a]
+  unsafeInit = L.init
+
+  unsafeMaximum :: (Ord a) => [a] -> a
+  unsafeMaximum = L.maximum
+
+  unsafeMinimum :: (Ord a) => [a] -> a 
+  unsafeMinimum = L.minimum 
+
+  -- no safe version
+  unsafeIndex :: [a] -> Int -> a
+  unsafeIndex = (!!)
+
+  null :: [a] -> Bool
+  null = L.null
+
+  any :: (a -> Bool) -> [a] -> Bool
+  any = L.any
+
+  all :: (a -> Bool) -> [a] -> Bool
+  all = L.all
+
+  filter :: (a -> Bool) -> [a] -> [a] 
+  filter = L.filter 
+
+  find :: (a -> Bool) -> [a] -> Maybe a
+  find = L.find
+
+  foldl :: (b -> a -> b) -> b -> [a] -> b 
+  foldl = L.foldl' -- note defaulting to strict
+
+  foldlLazy :: (b -> a -> b) -> b -> [a] -> b 
+  foldlLazy = L.foldl
+
+  foldl1 :: (a -> a -> a) -> [a] -> Maybe a
+  foldl1 = safeFold1l unsafeFoldl1
+
+  foldl1Lazy :: (a -> a -> a) -> [a] -> Maybe a
+  foldl1Lazy = safeFold1l unsafeFoldl1Lazy
+
+  unsafeFoldl1 :: (a -> a -> a) -> [a] -> a
+  unsafeFoldl1 = L.foldl1'
+
+  unsafeFoldl1Lazy :: (a -> a -> a) -> [a] -> a
+  unsafeFoldl1Lazy = L.foldl1
+
+  foldr :: (a -> b -> b) -> b -> [a] -> b 
+  foldr = L.foldr
+
+  foldr1 :: (a -> a -> a) -> [a] -> Maybe a
+  foldr1 = safeFold1l unsafeFoldr1
+
+  unsafeFoldr1 :: (a -> a -> a) -> [a] -> a
+  unsafeFoldr1 = L.foldr1
+
+  -- note difference so [a] and list 
+  -- use functor instance for origonal implementation 
+  -- of list map
+  mapSimple :: (a -> a) -> [a] -> [a]
+  mapSimple = L.map
+
+  zipSimple :: [a] -> [a] -> [(a, a)] 
+  zipSimple = L.zip
+
+  chunksOf :: Int -> [a] -> [[a]] 
+  chunksOf = E.chunksOf
+
+  empty :: [a]
+  empty = []
+
+  unsnoc :: [a] -> Maybe ([a], a)
+  unsnoc = E.unsnoc
+ 
+  partition :: (a -> Bool) -> [a] -> ([a], [a]) 
+  partition = L.partition
+
+  break :: (a -> Bool) -> [a] -> ([a], [a]) 
+  break = L.break
+
+  breakOn :: Eq a => [a] -> [a] -> ([a], [a]) 
+  breakOn = E.breakOn
+
+  breakOnEnd :: Eq a => [a] -> [a] -> ([a], [a]) 
+  breakOnEnd = E.breakOnEnd
+
+  span :: (a -> Bool) -> [a] -> ([a], [a]) 
+  span = E.span
+
+  takeEnd :: Int -> [a] -> [a]
+  takeEnd = E.takeEnd
+
+  takeWhileEnd :: (a -> Bool) -> [a] -> [a]
+  takeWhileEnd = E.takeWhileEnd
+
+  splitOn :: Eq a => [a] -> [a] -> [[a]]
+  splitOn = E.splitOn
+
+  split :: (a -> Bool) -> [a] -> [[a]] 
+  split = E.split
+
+  dropWhileEnd :: (a -> Bool) -> [a] -> [a] 
+  dropWhileEnd = L.dropWhileEnd
+
+  inits :: [a] -> [[a]]
+  inits = L.inits
+
+  intercalate :: [a] -> [[a]] -> [a]
+  intercalate = L.intercalate
+
+  intersperse :: a -> [a] -> [a]
+  intersperse = L.intersperse
+
+  isInfixOf :: Eq a => [a] -> [a] -> Bool
+  isInfixOf = L.isInfixOf
+
+  isPrefixOf :: Eq a => [a] -> [a] -> Bool
+  isPrefixOf = L.isPrefixOf
+
+  isSuffixOf :: Eq a => [a] -> [a] -> Bool
+  isSuffixOf = L.isSuffixOf
+
+  stripPrefix :: Eq a => [a] -> [a] -> Maybe [a]
+  stripPrefix = L.stripPrefix
+
+  stripSuffix :: Eq a => [a] -> [a] -> Maybe [a]
+  stripSuffix = E.stripSuffix
+
+  tails :: [a] -> [[a]]
+  tails = L.tails
+
+  transpose :: [[a]] -> [[a]]
+  transpose = L.transpose
+
+  unfoldr :: (b -> Maybe (a, b)) -> b -> [a]
+  unfoldr = L.unfoldr
+
+  mapAccumL :: (b -> a -> (b, a)) -> b -> [a] -> (b, [a]) 
+  mapAccumL = L.mapAccumL
+
+  mapAccumR :: (b -> a -> (b, a)) -> b -> [a] -> (b, [a]) 
+  mapAccumR = L.mapAccumR
+
+  drop :: Int -> [a] -> [a]
+  drop = L.drop
+
+  length :: [a] -> Int
+  length = L.length
+
+  scanlSimple :: (a -> a -> a) -> a -> [a] -> [a]
+  scanlSimple = L.scanl
+
+  scanl1 :: (a -> a -> a) -> [a] -> [a] 
+  scanl1 = L.scanl1
+
+  scanrSimple :: (a -> a -> a) -> a -> [a] -> [a] 
+  scanrSimple = L.scanr
+
+  scanr1 :: (a -> a -> a) -> [a] -> [a] 
+  scanr1 = L.scanr1
+
+  splitAt :: Int -> [a] -> ([a], [a])
+  splitAt = L.splitAt
+
+  take :: Int -> [a] -> [a]
+  take = L.take 
+
+  takeWhile :: (a -> Bool) -> [a] -> [a]
+  takeWhile = L.takeWhile
+
+  cons :: a -> [a] -> [a]
+  cons = E.cons
+
+  snoc :: [a] -> a -> [a]
+  snoc = E.snoc
+
+  uncons :: [a] -> Maybe (a, [a]) 
+  uncons = L.uncons
+
+  zipWithSimple :: (a -> a -> a) -> [a] -> [a] -> [a]
+  zipWithSimple = L.zipWith
