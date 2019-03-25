@@ -56,7 +56,6 @@ import           BasePrelude as P hiding (
    maximum,
    minimum,
    null,
-   and,
    any,
    all,
    filter,
