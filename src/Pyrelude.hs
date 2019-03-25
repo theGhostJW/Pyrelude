@@ -14,7 +14,7 @@ module Pyrelude (
   , module Listy
   , module THEx
   , module Stringy
-  , module Data.Text
+  , module Text
   , module Ternary
   , count
   , firstDuplicate
@@ -23,14 +23,12 @@ module Pyrelude (
   , enumList
   , encodeErrorReplace
   , txt
-  -- , Pyrelude.head
-  -- , Pyrelude.last
-  -- , Pyrelude.tail
-  -- , Pyrelude.init
+  , groupD 
   , uu
 ) where
 
 import           Control.Monad.Catch
+import  qualified  BasePrelude as PAll
 import           BasePrelude as P hiding (
    -- clashes with log in pyrethrym reexport as log10
    log,
@@ -39,9 +37,12 @@ import           BasePrelude as P hiding (
    String, lines, words, unlines, unwords, readFile, writeFile,
    
    -- hiding groupy functions -- favouring Descrimination
-   group, groupWith, nub, sort, sortWith,
+   groupWith, nub, sort, sortWith,
+
 
    -- favourung listy
+   foldl1,
+   foldl1',
    concat,
    concatMap,
    groupBy,
@@ -61,9 +62,8 @@ import           BasePrelude as P hiding (
    filter,
    find,
    foldl,
-   foldlLazy,
+   foldl',
    foldl1,
-   foldl1Lazy,
    foldr,
    foldr1,
    map,
@@ -97,7 +97,6 @@ import           BasePrelude as P hiding (
    take,
    takeWhile,
    uncons,
-   zipWithSimple,
   
 
    -- Hidden because unlikely to be used an clashes with
@@ -121,66 +120,78 @@ import           BasePrelude as P hiding (
    -- Favour Data.Text.IO
    appendFile, getContents, getLine, interact, putStr, putStrLn, 
      ) 
-import Data.Text hiding (
- count, -- use countText
- concat,
- concatMap,
- groupBy,
- group,
- reverse,
- dropWhile,
- head,
- last,
- tail,
- init,
- maximum,
- minimum,
- null,
- and,
- any,
- all,
- filter,
- find,
- foldl,
- foldlLazy,
- foldl1,
- foldl1Lazy,
- foldr,
- foldr1,
- map,
- zip,
- empty,
- partition,
- break,
- span,
- dropWhileEnd,
- findIndex,
- inits,
- intercalate,
- intersperse,
- isInfixOf,
- isPrefixOf,
- isSuffixOf,
- stripPrefix,
- tails,
- transpose,
- unfoldr,
- mapAccumL,
- mapAccumR,
- drop,
- replicate,
- length,
- scanl,
- scanl1,
- scanr,
- scanr1,
- splitAt,
- take,
- takeWhile,
- uncons,
- zipWithSimple
-  )
-import           Data.Discrimination as D
+import Data.Text as Text hiding (
+      breakOn,
+      breakOnEnd,
+      chunksOf,
+      split,
+      splitOn,
+      count, -- use countText
+      concat,
+      concatMap,
+      foldl1',
+      foldl',
+      groupBy,
+      group,
+      reverse,
+      dropWhile,
+      head,
+      last,
+      tail,
+      init,
+      index,
+      maximum,
+      minimum,
+      null,
+      any,
+      all,
+      filter,
+      find,
+      foldl,
+      foldl1,
+      foldr,
+      foldr1,
+      map,
+      zip,
+      empty,
+      partition,
+      break,
+      span,
+      dropWhileEnd,
+      findIndex,
+      inits,
+      intercalate,
+      intersperse,
+      isInfixOf,
+      isPrefixOf,
+      isSuffixOf,
+      unsnoc, 
+      cons, 
+      snoc,
+      stripPrefix,
+      stripSuffix,
+      tails,
+      transpose,
+      unfoldr,
+      mapAccumL,
+      mapAccumR,
+      drop,
+      replicate,
+      length,
+      scanl,
+      scanl1,
+      scanr,
+      scanr1,
+      splitAt,
+      take,
+      takeEnd,
+      takeWhile,
+      takeWhileEnd,
+      uncons,
+      zipWith
+  ) 
+import           Data.Discrimination as D hiding (group)
+import           Data.Discrimination
 import BasePrelude as B
 import           Data.Either.Combinators
 import qualified Data.List                           as L
@@ -199,14 +210,13 @@ import Data.Text.IO
 import Data.List.Extra (
       --- * Note string functions excluded
       --- * depricated for function excluded
-      dropEnd, takeEnd, splitAtEnd, breakEnd, spanEnd,
-      dropWhileEnd, dropWhileEnd', takeWhileEnd,
-      stripSuffix, stripInfix, stripInfixEnd,
+      splitAtEnd, breakEnd, spanEnd,
+      dropWhileEnd', 
+      stripInfix, stripInfixEnd,
       dropPrefix, dropSuffix,
       wordsBy, linesBy,
-      breakOn, breakOnEnd, splitOn, split, chunksOf,
       -- * Basics
-      notNull, list, uncons, unsnoc, cons, snoc, drop1, mconcatMap,
+      notNull, list, drop1, mconcatMap,
       -- * List operations
       groupSort, groupSortOn, groupSortBy,
       nubOrd, nubOrdBy, nubOrdOn,
@@ -217,8 +227,13 @@ import Data.List.Extra (
       repeatedly, firstJust,
       concatUnzip, concatUnzip3,
       zipFrom, zipWithFrom,
-      replace, merge, mergeBy
+      merge, mergeBy,
+
   )
+
+-- todo: orphanned instance for text and move out of Listy
+groupD :: Grouping a => [a] -> [[a]] 
+groupD  = Data.Discrimination.group
 
 log10 :: Floating a => a -> a
 log10 = B.log
@@ -235,10 +250,10 @@ txt :: Show a => a -> Text
 txt = toS . show
 
 count :: (Foldable f, Num n) => (a -> Bool) -> f a -> n
-count p = P.foldl' (\n x -> p x ? n + 1 $ n) 0
+count p = PAll.foldl' (\n x -> p x ? n + 1 $ n) 0
 
 firstDuplicate :: Grouping a => [a] -> Maybe a
-firstDuplicate xs = L.find (\l -> B.length l > 1) (D.group xs) >>= Pyrelude.head
+firstDuplicate xs = L.find (\l -> B.length l > 1) (Data.Discrimination.group xs) >>= Pyrelude.head
 
 eitherf :: Either a b -> (a -> c) -> (b -> c) -> c
 eitherf e lf rf = either lf rf e
@@ -266,5 +281,3 @@ head = safe B.head
 
 -- init :: [a] -> Maybe [a]
 -- init = safeLst B.init
-
-

@@ -21,6 +21,9 @@ unit_head_populated = Just 7 ... head [7, 6, 4, 3]
 unit_head_silgleton = Just 0 ... head [0]
 
 --- last ---
+a :: Maybe [Int]
+a = last []
+
 unit_last_null = Nothing ... last []
 unit_last_populated = Just 3 ... last [7, 6, 4, 3]
 unit_last_silgleton = Just 0 ... last [0]
@@ -31,7 +34,7 @@ unit_tail_populated = Just [6, 4, 3] ... tail [7, 6, 4, 3]
 unit_tail_silgleton = Just [] ... tail [0]
 
 --- init ---
-unit_init_null = Nothing ... init []
+unit_init_null = Nothing ... init ([] :: [Int])
 unit_init_populated = Just [7, 6, 4] ... init [7, 6, 4, 3]
 
 {-# ANN unit_init_silgleton ("HLint: ignore Use fmap" :: P.String) #-}

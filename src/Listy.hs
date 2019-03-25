@@ -202,12 +202,22 @@ class Listy m a | m -> a where
   mapSimple :: (a -> a) -> m -> m
   zipSimple :: m -> m -> [(a, a)] 
 
+  chunksOf :: Int -> m -> [m] 
   empty :: m
+
+  unsnoc :: m -> Maybe (m, a)
  
   partition :: (a -> Bool) -> m -> (m, m) 
   break :: (a -> Bool) -> m -> (m, m) 
+  breakOn :: Eq a => m -> m -> (m, m) 
+  breakOnEnd :: Eq a => m -> m -> (m, m) 
   span :: (m -> Bool) -> m -> (m, m) 
 
+  takeEnd :: Int -> m -> m
+  takeWhileEnd :: (a -> Bool) -> m -> m
+
+  splitOn :: Eq a => m -> m -> [m]
+  split :: (a -> Bool) -> m -> [m] 
 
   dropWhileEnd :: (a -> Bool) -> m -> m 
   findIndex :: (a -> Bool) -> m -> Maybe Int
@@ -218,6 +228,7 @@ class Listy m a | m -> a where
   isPrefixOf :: (Eq a) => m -> m -> Bool
   isSuffixOf :: (Eq a) => m -> m -> Bool
   stripPrefix :: Eq a => m -> m -> Maybe m
+  stripSuffix :: Eq a => m -> m -> Maybe m
   tails :: m -> [m]
   transpose :: [m] -> [m]
   unfoldr :: (b -> Maybe (a, b)) -> b -> m
@@ -233,5 +244,7 @@ class Listy m a | m -> a where
   splitAt :: Int -> m -> (m, m)
   take :: Int -> m -> m
   takeWhile :: (a -> Bool) -> m -> m
+  cons :: a -> m -> m
+  snoc :: m -> a -> m
   uncons :: m -> Maybe (a, mapAccumL) 
   zipWithSimple :: (a -> a -> a) -> m -> m -> m
