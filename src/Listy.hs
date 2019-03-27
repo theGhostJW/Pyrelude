@@ -156,8 +156,8 @@ safel = safeFShared Listy.null
 safeFold1l :: Listy m a i => ((a -> a -> a) -> m -> a) -> (a -> a -> a) -> m -> Maybe a
 safeFold1l = safeF3Shared Listy.null
 
-replicateText :: Int64 -> LT.Text -> LT.Text
-replicateText = LT.replicate
+replicateText :: Int -> T.Text -> T.Text
+replicateText = T.replicate
 
 replicateTextLazy :: Int64 -> LT.Text -> LT.Text
 replicateTextLazy = LT.replicate 

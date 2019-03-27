@@ -14,8 +14,6 @@ unit_concatFoldable = l "abcdef" ... concatFoldable  (l <$> ["ab","cd", "ef"])
 --concatMapFoldable :: Foldable t => (a -> [b]) -> t a -> [b]
 unit_concatMapFoldable =  l "ABCDE" ... concatMapFoldable (\c -> [C.toUpper c]) (l "abcde")
 
-
-
 --anyFoldable :: Foldable t => (a -> Bool) -> t a -> Bool
 unit_anyFoldable = chk $ anyFoldable (== 3) [1..5]
 
