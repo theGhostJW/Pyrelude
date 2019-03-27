@@ -5,7 +5,6 @@ module PyreludeListyLazyTextTest where
   import qualified Data.Text.Lazy as T (Text) 
   import qualified Prelude as OP
   import           Pyrelude.Test as TST hiding (singleton)
-  import qualified ListyTestShared as LTS
   import qualified Data.Char as C
   
   --- simple smoke tests just to make sure wiring is correct
@@ -13,9 +12,8 @@ module PyreludeListyLazyTextTest where
   default (Int64, T.Text)
   
   --- Special Text Functions --
-  unit_countText = 3 ... countText "ab" "abcabab"
-  unit_replicateText = "ababab" ... replicateText 3 "ab"
-  unit_findIndexText = Just 5 ... findIndexText ('5' ==) "0123456"
+  unit_countTextLazy = 3 ... countText "ab" "abcabab"
+  unit_replicateTextLazy = "ababab" ... replicateText 3 "ab"
   
   --- Listy ---
   -- concat :: [T.Text] -> T.Text 

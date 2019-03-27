@@ -6,8 +6,6 @@ module Listy (
   countTextLazy,
   concatFoldable,
   concatMapFoldable,
-  andFoldable,
-  orFoldable,
   anyFoldable,
   allFoldable,
   findFoldable,
@@ -61,12 +59,6 @@ concatFoldable = L.concat
 concatMapFoldable :: Foldable t => (a -> [b]) -> t a -> [b]
 concatMapFoldable = L.concatMap
 
-andFoldable :: Foldable t => t Bool -> Bool
-andFoldable = L.and
-
-orFoldable :: Foldable t => t Bool -> Bool
-orFoldable = L.or
-
 anyFoldable :: Foldable t => (a -> Bool) -> t a -> Bool
 anyFoldable = L.any
 
@@ -95,7 +87,8 @@ nullFoldable = L.null
 lengthFoldable :: Foldable t => t a -> Int
 lengthFoldable = L.length
 
--- TODO:: elem infix 4 -- experiment see if need this
+
+infix 4 `elemFoldable`
 elemFoldable :: Foldable t => Eq a => a -> t a -> Bool
 elemFoldable = L.elem
 

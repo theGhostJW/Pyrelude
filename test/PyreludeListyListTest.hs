@@ -5,10 +5,56 @@ import Pyrelude as P hiding (Text)
 import qualified Pyrelude as T (Text) 
 import qualified Prelude as OP
 import           Pyrelude.Test as TST hiding (singleton)
-import qualified ListyTestShared as LTS
 import qualified Data.Char as C
 
 --- simple smoke tests just to make sure wiring is correct
+-- concatFoldable ::  Foldable t => t [a] -> [a]
+unit_concatFoldable = l "abcdef" ... concatFoldable  (l <$> ["ab","cd", "ef"])
+
+--concatMapFoldable :: Foldable t => (a -> [b]) -> t a -> [b]
+unit_concatMapFoldable =  l "ABCDE" ... concatMapFoldable (\c -> [C.toUpper c]) (l "abcde")
+
+
+
+--anyFoldable :: Foldable t => (a -> Bool) -> t a -> Bool
+unit_anyFoldable = chk $ anyFoldable (== 3) [1..5]
+
+--allFoldable :: Foldable t => (a -> Bool) -> t a -> Bool
+unit_allFoldable_empty = chk $ allFoldable (== 3) []
+unit_allFoldable = chk $ allFoldable (== 3) [3, 3, 3]
+
+-- findFoldable :: Foldable t => (a -> Bool) -> t a -> Maybe a 
+unit_findFoldable = Just 3 ... findFoldable (== 3) [1..5]
+
+-- renamed foldable more general versions than listy
+-- foldrFoldable :: Foldable t => (a -> b -> b) -> b -> t a -> b 
+unit_foldrFoldable = l "abc" ... foldrFoldable cons "" $ l "abc"
+
+--nullFoldable :: Foldable t => t a -> Bool
+unit_nullFoldable = chk $ nullFoldable []
+
+--lengthFoldable :: Foldable t => t a -> Int
+unit_lengthFoldable = 5 ... lengthFoldable [1, 2, 3, 4, 5]
+
+-- elemFoldable :: Foldable t => Eq a => a -> t a -> Bool
+unit_elemFoldable = chk $ elemFoldable 4 [1, 2, 3, 4, 5]
+
+-- renamed maded strict
+--foldlFoldable :: Foldable t => (b -> a -> b) -> b -> t a -> b
+unit_foldlFoldable = 5 ... foldlFoldable (\a _ -> a + 1) 0  $ l "12345"
+
+-- old versions explicitly lazy
+-- foldlFoldableLazy :: Foldable t => (b -> a -> b) -> b -> t a -> b
+unit_foldlFoldableLazy = 5 ... foldlFoldableLazy (\a _ -> a + 1) 0  $ l "12345"
+
+-- foldr1Foldable :: Foldable t => (a -> a -> a) -> t a -> Maybe a
+unit_foldr1Foldable = Just 'a' ... foldr1Foldable const $ l "abc"
+
+-- maximumFoldable :: Foldable t => Ord a => t a -> Maybe a
+unit_maximumFoldable = Just 6 ... maximumFoldable [1,2, 6, 3, 5]
+
+--minimumFoldable :: Foldable t => Ord a => t a ->  Maybe a
+unit_minimumFoldable = Just 1 ... minimumFoldable [1,2, 6, 3, 5]
 
 default (Int, T.Text)
 
