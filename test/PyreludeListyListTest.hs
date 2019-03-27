@@ -152,73 +152,73 @@ unit_intercalate = l "wasabcsawabcMe" ... intercalate (l "abc") $ l <$> ["was", 
 unit_intersperse = l "axbxc" ... intersperse 'x' $ l "abc"
 
 --   isInfixOf :: T.Text -> T.Text -> Bool
-unit_isInfixOf = chk $ isInfixOf "ef" ("abcdefgh" :: T.Text)
+unit_isInfixOf = chk $ isInfixOf (l "ef") $ l "abcdefgh" 
 
 -- isPrefixOf :: T.Text -> T.Text -> Bool
-unit_isPrefixOf = chk $ isPrefixOf "ab" ("abcdefgh" :: T.Text)
+unit_isPrefixOf = chk $ isPrefixOf (l "ab") $ l "abcdefgh"
 
 --   isSuffixOf :: T.Text -> T.Text -> Bool
-unit_isSuffixOf = chk $ isSuffixOf "gh" ("abcdefgh" :: T.Text)
+unit_isSuffixOf = chk $ isSuffixOf (l "gh") $ l "abcdefgh"
 
 --   stripPrefix :: T.Text -> T.Text -> Maybe T.Text
-unit_stripPrefix = Just "cdefgh" ... stripPrefix "ab" ("abcdefgh" :: T.Text)
+unit_stripPrefix = Just "cdefgh" ... stripPrefix (l "ab") (l "abcdefgh")
 
 --   stripSuffix :: T.Text -> T.Text -> Maybe T.Text
-unit_stripSuffix = Just "abcdef" ... stripSuffix "gh" ("abcdefgh" :: T.Text)
+unit_stripSuffix = Just (l "abcdef") ... stripSuffix "gh" $ l "abcdefgh"
 
 --   tails :: T.Text -> [T.Text]
-unit_tails =  ["abcdefgh","bcdefgh","cdefgh","defgh","efgh","fgh","gh","h",""] ... tails ("abcdefgh" :: T.Text)
+unit_tails = l <$> ["abcdefgh","bcdefgh","cdefgh","defgh","efgh","fgh","gh","h",""] ... tails $ l "abcdefgh"
 
 --   transpose :: [T.Text] -> [T.Text]
-unit_transpose = ["go","rr","ea","en","ng","e"] ... transpose ["green","orange"]
+unit_transpose = l <$> ["go","rr","ea","en","ng","e"] ... transpose [l "green", l "orange"]
 
 --   unfoldr :: (b -> Maybe (Char, b)) -> b -> T.Text
-unit_unfoldr = "zyxwvutsrqponmlkjihgfedcba" ... unfoldr (\b -> if b < 97 then Nothing else Just (chr b, b-1)) 122
+unit_unfoldr = l "zyxwvutsrqponmlkjihgfedcba" ... unfoldr (\b -> if b < 97 then Nothing else Just (chr b, b-1)) 122
 
 --   mapAccumL :: (b -> Char -> (b, Char)) -> b -> T.Text -> (b, T.Text) 
-unit_mapAccumL = (9, "bcdefghij") ... mapAccumL (\b c -> (b + 1, chr $ b + 98)) 0 "abcdefghi"
+unit_mapAccumL = (9, l "bcdefghij") ... mapAccumL (\b c -> (b + 1, chr $ b + 98)) 0 $ l "abcdefghi"
 
 --   mapAccumR :: (b -> Char -> (b, Char)) -> b -> T.Text -> (b, T.Text) 
-unit_mapAccumR =  (9,"iiiiiiiii") ... mapAccumR  (\b c -> (b + 1, chr . (+) b $ ord c)) 0 "abcdefghi"
+unit_mapAccumR =  (9, l "iiiiiiiii") ... mapAccumR  (\b c -> (b + 1, chr . (+) b $ ord c)) 0 $ l"abcdefghi"
 
 --   drop :: Int -> T.Text -> T.Text
-unit_drop = "defghi" ... drop 3 "abcdefghi"
+unit_drop = l "defghi" ... drop 3 $ l "abcdefghi"
 
 --   length :: T.Text -> Int
-unit_length = 9 ... length "abcdefghi"
+unit_length = 9 ... length $ l "abcdefghi"
 
 --   scanlSimple :: (Char -> Char -> Char) -> Char -> T.Text -> T.Text
-unit_scanlSimple = "aabcdef" ... scanlSimple (\a b -> if b > a then b else a) 'a' "abcdef"
+unit_scanlSimple = l "aabcdef" ... scanlSimple (\a b -> if b > a then b else a) 'a' $ l "abcdef"
 
 --   scanl1 :: (Char -> Char -> Char) -> T.Text -> T.Text 
-unit_scanl1_empty = "" ... scanl1 (\a b -> if b > a then b else a)  ("" :: T.Text)
-unit_scanl1 = "aaaaaa" ... scanl1 (\a b -> if b < a then b else a)  ("abcdef" :: T.Text)
+unit_scanl1_empty = "" ... scanl1 (\a b -> if b > a then b else a)  []
+unit_scanl1 = l "aaaaaa" ... scanl1 (\a b -> if b < a then b else a) $ l "abcdef"
 
 --   scanrSimple :: (Char -> Char -> Char) -> Char -> T.Text -> T.Text 
-unit_scanrSimple = "ffffffa" ... scanrSimple (\a b -> if b > a then b else a) 'a' "abcdef"
+unit_scanrSimple = l "ffffffa" ... scanrSimple (\a b -> if b > a then b else a) 'a' "abcdef"
 
 --   scanr1 :: (Char -> Char -> Char) -> T.Text -> T.Text 
-unit_scanr1_empty = "" ... scanr1 (\a b -> if b > a then b else a)  ("" :: T.Text)
-unit_scanr1 = "ffffff" ... scanr1 (\a b -> if b > a then b else a)  ("abcdef" :: T.Text)
+unit_scanr1_empty = [] ... scanr1 (\a b -> if b > a then b else a) []
+unit_scanr1 = l "ffffff" ... scanr1 (\a b -> if b > a then b else a) $ l "abcdef" 
 
 --   splitAt :: Int -> T.Text -> (T.Text, T.Text)
-unit_splitAt_outOfBounds = ("abcde", "") ... splitAt 10 "abcde"
-unit_splitAt = ("ab", "cde") ... splitAt 2 "abcde"
+unit_splitAt_outOfBounds = (l "abcde", l "") ... splitAt 10 $ l "abcde"
+unit_splitAt = (l "ab", l "cde") ... splitAt 2 $ l"abcde"
 
 --   take :: Int -> T.Text -> T.Text
-unit_take = "abc" ... take 3 "abcderfdfdfds"
+unit_take = l "abc" ... take 3 $ l "abcderfdfdfds"
 
 --   takeWhile :: (Char -> Bool) -> T.Text -> T.Text
-unit_takeWhile = "abcd" ... takeWhile (< 'e') "abcdefgh"
+unit_takeWhile = l "abcd" ... takeWhile (< 'e') $ l "abcdefgh"
 
 --   cons :: Char -> T.Text -> T.Text
-unit_cons = "abcde" ... cons 'a' "bcde"
+unit_cons = l "abcde" ... cons 'a' $ l "bcde"
 
 --   snoc :: T.Text -> Char -> T.Text
-unit_snoc = "abcde" ... snoc "abcd" 'e'
+unit_snoc = l "abcde" ... snoc (l "abcd") 'e'
 
 --   uncons :: T.Text -> Maybe (Char, T.Text) 
-unit_uncons = Just ('a', "bcde") ... uncons "abcde"
+unit_uncons = Just ('a', l "bcde") ... uncons $ l "abcde"
 
 --   zipWithSimple :: (Char -> Char -> Char) -> T.Text -> T.Text -> T.Text
-unit_zipWithSimple = "cccde" ... zipWith (\a b -> if b > a then b else a)  "abcde" "cccccccccccc"
+unit_zipWithSimple = l "cccde" ... zipWith (\a b -> if b > a then b else a)  (l "abcde") $ l "cccccccccccc"
