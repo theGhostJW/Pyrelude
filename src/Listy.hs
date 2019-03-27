@@ -44,7 +44,6 @@ import Data.Char
 import Data.List.Extra as E
 import GHC.Real
 
--- TODO: check reexported list functions: zip, scanl, scanr, zipWith, index
 -- TODO: hide count in text an lazy -- Text -> Text -> Int -- hide sub-count
 
 countText :: T.Text -> T.Text -> Int
