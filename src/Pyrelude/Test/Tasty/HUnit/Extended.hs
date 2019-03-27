@@ -34,6 +34,8 @@ chkFail = assertFailure . toS
 chkEq :: (Eq a, Show a) => a -> a -> Assertion
 chkEq = (@=?)
 
+
+infixr 0 ...
 (...) :: (Eq a, Show a)
                         => a -- ^ The expected value
                         -> a -- ^ The actual value

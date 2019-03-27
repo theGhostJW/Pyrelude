@@ -105,6 +105,7 @@ library:
     - Pyrelude.Test.Tasty.HUnit.Extended
     - Stringy
     - Ternary
+    - Listy
   dependencies:
     - path
     - path-io

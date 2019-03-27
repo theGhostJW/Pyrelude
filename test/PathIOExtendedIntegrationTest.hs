@@ -10,6 +10,7 @@ import           Paths_pyrelude
 import           System.IO.Error
 import           Pyrelude.Test
 import qualified Data.Text as T
+import Pyrelude.IO
 
 testDir = subDirFromBaseDir (parseAbsDir =<< getBinDir) [reldir|test|]
 baseDir = ((</> [reldir|Integration\testData\subFolder\subSubFolder\subSubFolder\base|] ) <$>) <$> testDir
@@ -21,6 +22,7 @@ chkSuffix sfx dir =
     filePth = toS $ toFilePath dir
   in
     chk' (sfx <> " is not a suffix of actual: " <> filePth) $ sfx `T.isSuffixOf` filePth
+
 
 unit_subDirFromBaseDir_finds_test_dir :: Assertion
 unit_subDirFromBaseDir_finds_test_dir =

@@ -1,14 +1,12 @@
 module Pyrelude (
   module P
   , module Data.Maybe
-  , module Data.Text.IO
   , module Data.List.Extra
   , module Data.Text.Encoding
   , module EncodeError
   , module Control.Monad.Catch
   , module Debug.Trace.Extended
   , module Path.Extended
-  , module Path.IO.Extended
   , module D
   , module Data.Either.Combinators
   , module Listy
@@ -197,13 +195,11 @@ import           Data.Maybe
 import           Debug.Trace.Extended
 import           Language.Haskell.TH.Syntax.Extended as THEx (moduleOf)
 import           Path.Extended
-import           Path.IO.Extended
 import           Data.Text.Encoding
 import           Data.Text.Encoding.Error as EncodeError hiding (replace)
 import           Data.Text.Encoding.Error (replace)
 import Stringy
 import Ternary
-import Data.Text.IO
 import Data.List.Extra (
       --- * Note string functions excluded
       --- * depricated for function excluded
