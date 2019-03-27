@@ -4,7 +4,7 @@ module PyreludeListyListTest where
 import Pyrelude as P hiding (Text)
 import qualified Pyrelude as T (Text) 
 import qualified Prelude as OP
-import           Pyrelude.Test as TST hiding (singleton)
+import           Pyrelude.Test as TST
 import qualified Data.Char as C
 
 --- simple smoke tests just to make sure wiring is correct
