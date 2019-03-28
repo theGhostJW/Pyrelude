@@ -14,6 +14,7 @@ module Pyrelude (
   , module Stringy
   , module Text
   , module Ternary
+  , module Control.Monad.Extra
   , count
   , firstDuplicate
   , eitherf
@@ -22,8 +23,10 @@ module Pyrelude (
   , encodeErrorReplace
   , txt
   , groupD 
+  , unlessJust
   , uu
 ) where
+
 
 import           Control.Monad.Catch
 import  qualified  BasePrelude as PAll
@@ -217,9 +220,17 @@ import Data.List.Extra (
       repeatedly, firstJust,
       concatUnzip, concatUnzip3,
       zipFrom, zipWithFrom,
-      merge, mergeBy,
-
+      merge, mergeBy
   )
+import Control.Monad.Extra (whenJust) 
+
+
+-- | Perform some operation on 'Just', given the field inside the 'Just'.
+--
+-- > whenJust Nothing  print == return ()
+-- > whenJust (Just 1) print == print 1
+unlessJust :: Applicative m => Maybe a -> m () -> m ()
+unlessJust mg notingAction = maybe notingAction (const $ pure ()) mg
 
 -- todo: orphanned instance for text and move out of Listy
 groupD :: Grouping a => [a] -> [[a]] 

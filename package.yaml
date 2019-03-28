@@ -120,3 +120,4 @@ tests:
     dependencies:
       - pyrelude
       - tasty-discover
+      - mtl

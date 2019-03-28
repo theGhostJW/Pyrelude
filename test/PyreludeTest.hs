@@ -5,6 +5,8 @@ import qualified Data.Bool                           as B
 import           Pyrelude
 import           Pyrelude.Test as T
 import qualified Prelude as P
+import Control.Monad.Writer.Class
+import Control.Monad.Writer.Strict
 
 unit_module_of = "PyreludeTest" ... moduleOf ''MyEnum
 
@@ -61,3 +63,20 @@ data MyEnum = Hot
 
 unit_enum_list = [Hot, Warm, Tepid, Cool, Cold, Freezing] ... (enumList :: [MyEnum])
 unit_enum_list_of_Int = [0..10] ... take 11 (enumList :: [Natural])
+
+
+logShowable :: (MonadWriter [Text] m, Show a) => a -> m a
+logShowable x = writer (x, ["Initialised With: " <> txt x])
+
+unlessTest :: Maybe Text -> [Text]
+unlessTest m = execWriter $ do 
+                              unlessJust m 
+                                $ tell ["It's Nothing"]
+                              pure ()
+
+unit_unlessJust_empty = ["It's Nothing"] ... unlessTest Nothing
+unit_unlessJust_just = [] ... unlessTest $ Just "something"
+
+
+
+
