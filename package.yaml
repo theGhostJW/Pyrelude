@@ -50,14 +50,13 @@ ghc-options:
   - -fno-warn-unused-imports
 
 default-extensions:
-  - RecordWildCards
+  - AllowAmbiguousTypes
+  - BangPatterns
+  # - BlockArguments
+  - ConstrainedClassMethods
+  - ConstraintKinds
   - DisambiguateRecordFields
   - DuplicateRecordFields
-  - DeriveFunctor
-  - NoImplicitPrelude
-  - OverloadedStrings
-  - BangPatterns
-  - ConstraintKinds
   - DataKinds
   - DefaultSignatures
   - DeriveFoldable
@@ -77,22 +76,26 @@ default-extensions:
   - InstanceSigs
   - KindSignatures
   - LambdaCase
+  - LiberalTypeSynonyms
   - MultiParamTypeClasses
   - MultiWayIf
   - NamedFieldPuns
+  - NoImplicitPrelude
   - OverloadedStrings
+  - PartialTypeSignatures
   - PatternSynonyms
   - QuasiQuotes
   - RankNTypes
+  - RecordWildCards
   - ScopedTypeVariables
   - StandaloneDeriving
   - StrictData
+  - TemplateHaskell
   - TupleSections
   - TypeApplications
   - TypeFamilies
   - TypeFamilyDependencies
   - TypeOperators
-  - TemplateHaskell
 
 library:
   source-dirs: src

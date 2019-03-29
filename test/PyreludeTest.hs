@@ -64,7 +64,6 @@ data MyEnum = Hot
 unit_enum_list = [Hot, Warm, Tepid, Cool, Cold, Freezing] ... (enumList :: [MyEnum])
 unit_enum_list_of_Int = [0..10] ... take 11 (enumList :: [Natural])
 
-
 logShowable :: (MonadWriter [Text] m, Show a) => a -> m a
 logShowable x = writer (x, ["Initialised With: " <> txt x])
 
