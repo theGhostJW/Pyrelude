@@ -168,6 +168,17 @@ class Integral i => Listy m a i | m -> a i where
   concat :: [m] -> m 
   concatMap :: (a -> m) -> m -> m
 
+  --  https://stackoverflow.com/questions/14922070/haskell-use-data-text-replace-to-replace-only-the-first-occurrence-of-a-text-va
+  replaceFirst :: Eq a => m -- ^ needle
+                       -> m -- ^ replacement
+                       -> m -- ^ haystack
+                       -> m
+  replaceFirst needle replacement haystack
+    | Listy.null back = haystack 
+    | otherwise = Listy.concat [front, replacement, Listy.drop (Listy.length needle) back] 
+      where
+        (front, back) = Listy.breakOn needle haystack
+
   groupBy :: (a -> a -> Bool) -> m -> [m]
   group :: Eq a => m -> [m]
 

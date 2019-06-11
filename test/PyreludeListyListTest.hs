@@ -7,9 +7,23 @@ import qualified Prelude as OP
 import           Pyrelude.Test as TST
 import qualified Data.Char as C
 
+
+l :: T.Text -> OP.String
+l = unpack
+
 --- simple smoke tests just to make sure wiring is correct
 -- concatFoldable ::  Foldable t => t [a] -> [a]
 unit_concatFoldable = l "abcdef" ... concatFoldable  (l <$> ["ab","cd", "ef"])
+
+chkReplaceFirst :: T.Text -> T.Text -> T.Text -> T.Text -> IO()
+chkReplaceFirst expected needle replacemnt haystack = l expected ... replaceFirst (l needle) (l replacemnt) $ l haystack 
+
+unit_replaceFirst_null = chkReplaceFirst "" "rrr" "bbb" ""
+unit_replaceFirst_not_in_text = chkReplaceFirst "abc de fg" "h" "hello" "abc de fg"
+unit_replaceFirst_in_text = chkReplaceFirst "abc hello fg" "de" "hello" "abc de fg"
+unit_replaceFirst_start_text = chkReplaceFirst "hellobc de fg" "a" "hello" "abc de fg" 
+unit_replaceFirst_end_text = chkReplaceFirst  "abc dehello"  " fg" "hello" "abc de fg" 
+unit_replaceFirst_many_in_text = chkReplaceFirst "ahelloc b b b b b de fg" "b" "hello" "abc b b b b b de fg" 
 
 --concatMapFoldable :: Foldable t => (a -> [b]) -> t a -> [b]
 unit_concatMapFoldable =  l "ABCDE" ... concatMapFoldable (\c -> [C.toUpper c]) (l "abcde")
@@ -55,9 +69,6 @@ unit_maximumFoldable = Just 6 ... maximumFoldable [1,2, 6, 3, 5]
 unit_minimumFoldable = Just 1 ... minimumFoldable [1,2, 6, 3, 5]
 
 default (Int, T.Text)
-
-l :: T.Text -> OP.String
-l = unpack
 
 --- Listy ---
 -- concat :: [T.Text] -> T.Text 

@@ -20,6 +20,17 @@ unit_findIndexText = Just 5 ... findIndexText ('5' ==) "0123456"
 -- concat :: [T.Text] -> T.Text 
 unit_concat = "abcdef" ... concat ["ab","cd", "ef"] 
 
+chkReplaceFirst :: T.Text -> T.Text -> T.Text -> T.Text -> IO()
+chkReplaceFirst expected needle replacemnt haystack = expected ... replaceFirst needle replacemnt haystack 
+
+unit_replaceFirst_null = chkReplaceFirst "" "rrr" "bbb" ""
+unit_replaceFirst_not_in_text = chkReplaceFirst "abc de fg" "h" "hello" "abc de fg"
+unit_replaceFirst_in_text = chkReplaceFirst "abc hello fg" "de" "hello" "abc de fg"
+unit_replaceFirst_start_text = chkReplaceFirst "hellobc de fg" "a" "hello" "abc de fg" 
+unit_replaceFirst_end_text = chkReplaceFirst  "abc dehello"  " fg" "hello" "abc de fg" 
+unit_replaceFirst_many_in_text = chkReplaceFirst "ahelloc b b b b b de fg" "b" "hello" "abc b b b b b de fg" 
+
+
 --   concatMap :: (Char -> T.Text) -> T.Text -> T.Text
 unit_concatMap = "ABCDE" ... concatMap (toUpper . singleton) "abcde" 
 

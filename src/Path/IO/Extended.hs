@@ -1,13 +1,6 @@
 module Path.IO.Extended (
   module Path.IO
   , hasSubDir
-  -- , readFile  -- use injected function
-  -- , readFileByteString
-  -- , readFileUTF8
- -- , writeFile
- -- , writeFileUTF8
- -- , StrictReadResult
- -- , StrictReadError(..)
   , seekDirUp
   , subDirFromBaseDir
 ) where
