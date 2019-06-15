@@ -7,7 +7,6 @@ module Pyrelude (
   , module Control.Monad.Catch
   , module Debug.Trace.Extended
   , module Path.Extended
-  , module D
   , module Data.Either.Combinators
   , module Listy
   , module THEx
@@ -36,9 +35,6 @@ import           BasePrelude as P hiding (
 
    -- hiding String et. al. -- favouring Text
    String, lines, words, unlines, unwords, readFile, writeFile,
-   
-   -- hiding groupy functions -- favouring Descrimination
-   groupWith, nub, sort, sortWith,
 
 
    -- favourung listy
@@ -185,8 +181,7 @@ import Data.Text as Text hiding (
       uncons,
       zipWith
   ) 
-import           Data.Discrimination as D hiding (group)
-import           Data.Discrimination
+import           Data.Discrimination as D
 import BasePrelude as B
 import           Data.Either.Combinators
 import qualified Data.List                           as L
@@ -234,7 +229,7 @@ unlessJust mg notingAction = maybe notingAction (const $ pure ()) mg
 
 -- todo: orphanned instance for text and move out of Listy
 groupD :: Grouping a => [a] -> [[a]] 
-groupD  = Data.Discrimination.group
+groupD  = D.group
 
 log10 :: Floating a => a -> a
 log10 = B.log
@@ -254,7 +249,7 @@ count :: (Foldable f, Num n) => (a -> Bool) -> f a -> n
 count p = PAll.foldl' (\n x -> p x ? n + 1 $ n) 0
 
 firstDuplicate :: Grouping a => [a] -> Maybe a
-firstDuplicate xs = L.find (\l -> B.length l > 1) (Data.Discrimination.group xs) >>= Pyrelude.head
+firstDuplicate xs = L.find (\l -> B.length l > 1) (D.group xs) >>= Pyrelude.head
 
 eitherf :: Either a b -> (a -> c) -> (b -> c) -> c
 eitherf e lf rf = either lf rf e
