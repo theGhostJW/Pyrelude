@@ -31,6 +31,9 @@ dependencies:
   - text
   - base
   - encode-string
+  - containers
+  - fmt
+  - pretty-show
 
 ghc-options:
   - -fmax-pmcheck-iterations=10000000

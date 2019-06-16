@@ -7,8 +7,36 @@ import           Pyrelude.Test as T
 import qualified Prelude as P
 import Control.Monad.Writer.Class
 import Control.Monad.Writer.Strict
+import qualified Data.Map.Strict as M
 
+--- moduleOf ---
 unit_module_of = "PyreludeTest" ... moduleOf ''MyEnum
+
+--- countValues ---
+baseMap :: M.Map Int Text = M.fromList 
+  [
+    (1, "Hi"), 
+    (2, "Ho"), 
+    (3, "Hii"), 
+    (4, "Ho"), 
+    (5, "Ho"), 
+    (6, "Ho"), 
+    (7, "Hii")
+  ]
+
+expected :: M.Map Text Int = M.fromList 
+  [
+    ("Hi", 1), 
+    ("Ho", 4), 
+    ("Hii", 2)
+  ]
+
+unit_countValues = expected ... countValues baseMap
+unit_countValues_empty = M.empty ... countValues M.empty
+
+--- txtPretty ---
+unit_txtPretty = chk . isInfixOf "Hi" $ txtPretty baseMap
+
 
 --- count ---
 unit_count_many = 4 ... count (== 5) [1, 2, 3, 5, 5, 6, 7, 5, 5]

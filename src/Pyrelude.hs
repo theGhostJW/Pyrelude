@@ -14,13 +14,16 @@ module Pyrelude (
   , module Text
   , module Ternary
   , module Control.Monad.Extra
+  , module Fmt
   , count
+  , countValues
   , firstDuplicate
   , eitherf
   , maybef
   , enumList
   , encodeErrorReplace
   , txt
+  , txtPretty
   , groupD 
   , unlessJust
   , uu
@@ -195,6 +198,10 @@ import           Data.Text.Encoding.Error as EncodeError hiding (replace)
 import           Data.Text.Encoding.Error (replace)
 import Stringy
 import Ternary
+import qualified Data.Map.Strict as M
+import Text.Show.Pretty as PP
+import Fmt
+
 import Data.List.Extra (
       --- * Note string functions excluded
       --- * depricated for function excluded
@@ -218,6 +225,10 @@ import Data.List.Extra (
       merge, mergeBy
   )
 import Control.Monad.Extra (whenJust) 
+
+
+countValues :: Ord v => M.Map k v -> M.Map v Int
+countValues = M.fromList . fmap ((\arr' -> (unsafeHead arr', Listy.length arr')) <$>) Listy.group . P.sort . M.elems
 
 
 -- | Perform some operation on 'Just', given the field inside the 'Just'.
@@ -244,6 +255,9 @@ uu = undefined
 -- equivalent of show for text
 txt :: Show a => a -> Text
 txt = toS . show
+
+txtPretty :: Show a => a -> Text
+txtPretty = toS . ppShow
 
 count :: (Foldable f, Num n) => (a -> Bool) -> f a -> n
 count p = PAll.foldl' (\n x -> p x ? n + 1 $ n) 0
