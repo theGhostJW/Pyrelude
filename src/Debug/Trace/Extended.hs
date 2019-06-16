@@ -4,26 +4,34 @@ module Debug.Trace.Extended (
   , debug'
   , debugf
   , debugf'
-  , debugPrint
 ) where
 
 import           BasePrelude
 import    qualified       Data.Text as T
+import Text.Show.Pretty as PP
+import qualified Prelude as P
 
-debugPrint :: T.Text -> a -> a
-debugPrint s = trace (T.unpack ("DEBUG: " <> s))
+
+debugLbl :: T.Text
+debugLbl = "DEBUG"
 
 debug :: Show a => a -> a
-debug a = debugPrint (T.pack $ show a) a
-
-label :: Show a => T.Text -> a -> T.Text
-label name a = name <> ": " <> T.pack (show a)
+debug = debug' debugLbl
 
 debug' :: Show a => T.Text -> a -> a
-debug' name a = debugPrint (label name a) a
+debug' = debugf' id
 
 debugf :: Show b => (a -> b) -> a -> a
-debugf shower a = debugPrint (T.pack $ show (shower a)) a
+debugf shower = debugf' shower debugLbl
 
 debugf' :: Show b => (a -> b) -> T.Text -> a -> a
-debugf' shower name a = debugPrint (label name $ shower a) a
+debugf' shower lbl expr = 
+  let 
+    lst = T.lines . T.pack . ppShow $ shower expr
+  in
+    unsafePerformIO $ do
+      case lst of 
+        [] -> traceIO $ T.unpack lbl
+        [x] -> traceIO . T.unpack $ lbl <> ": " <> x
+        ls@(x : xs) -> sequence_ $ traceIO . T.unpack <$> "--- " <> lbl <> " ---" : ls
+      return expr

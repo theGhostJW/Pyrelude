@@ -37,7 +37,6 @@ unit_countValues_empty = M.empty ... countValues M.empty
 --- txtPretty ---
 unit_txtPretty = chk . isInfixOf "Hi" $ txtPretty baseMap
 
-
 --- count ---
 unit_count_many = 4 ... count (== 5) [1, 2, 3, 5, 5, 6, 7, 5, 5]
 unit_count_last = 1 ... count (== 5) [1, 2, 3, 3, 2, 6, 7, 1, 5]
@@ -67,7 +66,7 @@ unit_tail_silgleton = Just [] ... tail [0]
 unit_init_null = Nothing ... init ([] :: [Int])
 unit_init_populated = Just [7, 6, 4] ... init [7, 6, 4, 3]
 
-{-# ANN unit_init_silgleton ("HLint: ignore Use fmap" :: P.String) #-}
+{-# ANN unit_init_silgleton ("HLint: ignore Use fmap" :: Text) #-}
 unit_init_silgleton = Just [] ... init [0]
 
 --- firstDuplicate ---
@@ -103,6 +102,20 @@ unlessTest m = execWriter $ do
 
 unit_unlessJust_empty = ["It's Nothing"] ... unlessTest Nothing
 unit_unlessJust_just = [] ... unlessTest $ Just "something"
+
+-- debug --
+data Address = Address {
+  line1 :: Text,
+  postCode :: Text 
+} deriving Show
+
+data Person = Person {
+  name :: Text,
+  surname :: Text,
+  address :: Address
+} deriving Show
+
+_debug = debug $ Person "John" "Smith" $ Address "22 vernon St" "3123"
 
 
 

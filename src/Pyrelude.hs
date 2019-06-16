@@ -277,17 +277,5 @@ enumList = enumFrom $ toEnum 0
 safe :: ([a] -> a) -> [a] -> Maybe a
 safe f l  = L.null l ? Nothing $ Just $ f l
 
--- safeLst :: ([a] -> [a]) -> [a] -> Maybe [a]
--- safeLst f l  = Listy.null l ? Nothing $ Just $ f l
-
 head :: [a] -> Maybe a
 head = safe B.head
-
--- last :: [a] -> Maybe a
--- last = safe B.last
-
--- tail :: [a] -> Maybe [a]
--- tail = safeLst B.tail
-
--- init :: [a] -> Maybe [a]
--- init = safeLst B.init
