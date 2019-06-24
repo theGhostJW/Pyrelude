@@ -9,6 +9,22 @@ import Control.Monad.Writer.Class
 import Control.Monad.Writer.Strict
 import qualified Data.Map.Strict as M
 
+--- firstJustf ---
+
+unit_firstJustf_middle = Just 5 ... firstJustf (P.length <$>) ([Nothing, Just "12345", Nothing] :: [Maybe P.String])
+unit_firstJustf_start = Just 5 ... firstJustf (P.length <$>)  [Just "12345", Just "1", Nothing]
+unit_firstJustf_end = Just 5 ... firstJustf (P.length <$>)  [Nothing, Nothing, Just "12345"]
+unit_firstJustf_nothing = Nothing ... firstJustf (P.length <$>)  [Nothing, Nothing, Nothing]
+unit_firstJustf_empty = Nothing ... firstJustf (P.length <$>) []
+
+--- firstJust ---
+
+unit_firstJust_middle = Just "12345" ... firstJust ([Nothing, Just "12345", Nothing] :: [Maybe P.String])
+unit_firstJust_start = Just "12345" ... firstJust [Just "12345", Just "1", Nothing]
+unit_firstJust_end = Just "12345" ... firstJust [Nothing, Nothing, Just "12345"]
+unit_firstJust_nothing = Nothing ... firstJust  [Nothing, Nothing, Nothing]
+unit_firstJust_empty = Nothing ... firstJust []
+
 --- moduleOf ---
 unit_module_of = "PyreludeTest" ... moduleOf ''MyEnum
 

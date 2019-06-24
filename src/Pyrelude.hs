@@ -18,6 +18,8 @@ module Pyrelude (
   , count
   , countValues
   , firstDuplicate
+  , firstJust
+  , firstJustf
   , eitherf
   , maybef
   , enumList
@@ -32,6 +34,7 @@ module Pyrelude (
 
 import           Control.Monad.Catch
 import  qualified  BasePrelude as PAll
+import qualified  Data.List.Extra as ListExtra
 import           BasePrelude as P hiding (
    -- clashes with log in pyrethrym reexport as log10
    log,
@@ -219,13 +222,19 @@ import Data.List.Extra (
       nubSort, nubSortBy, nubSortOn,
       maximumOn, minimumOn,
       disjoint, allSame, anySame,
-      repeatedly, firstJust,
+      repeatedly, 
+      -- firstJust hidden see firstJust
       concatUnzip, concatUnzip3,
       zipFrom, zipWithFrom,
       merge, mergeBy
   )
 import Control.Monad.Extra (whenJust) 
 
+firstJustf :: (a -> Maybe b) -> [a] -> Maybe b
+firstJustf = ListExtra.firstJust
+
+firstJust :: [Maybe a] -> Maybe a
+firstJust = ListExtra.firstJust id
 
 countValues :: Ord v => M.Map k v -> M.Map v Int
 countValues = M.fromList . fmap ((\arr' -> (unsafeHead arr', Listy.length arr')) <$>) Listy.group . P.sort . M.elems
