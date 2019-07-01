@@ -95,9 +95,6 @@ elemFoldable = L.elem
 foldlFoldable :: Foldable t => (b -> a -> b) -> b -> t a -> b
 foldlFoldable = L.foldl'
 
--- hidden due to renaming (above)
--- foldl' :: (b -> a -> b) -> b -> t a -> b
-
 -- old versions explicitly lazy
 foldlFoldableLazy :: Foldable t => (b -> a -> b) -> b -> t a -> b
 foldlFoldableLazy = L.foldl
@@ -222,7 +219,8 @@ class Integral i => Listy m a i | m -> a i where
   filter :: (a -> Bool) -> m -> m 
   find :: (a -> Bool) -> m -> Maybe a
 
-  foldl :: (b -> a -> b) -> b -> m -> b 
+  foldl' :: (b -> a -> b) -> b -> m -> b 
+
   foldlLazy :: (b -> a -> b) -> b -> m -> b 
 
   foldl1 :: (a -> a -> a) -> m -> Maybe a
@@ -368,8 +366,8 @@ instance Listy T.Text Char Int where
   find :: (Char -> Bool) -> T.Text -> Maybe Char
   find = T.find
 
-  foldl :: (b -> Char -> b) -> b -> T.Text -> b 
-  foldl = T.foldl' -- note defaulting to strict
+  foldl' :: (b -> Char -> b) -> b -> T.Text -> b 
+  foldl' = T.foldl'
 
   foldlLazy :: (b -> Char -> b) -> b -> T.Text -> b 
   foldlLazy = T.foldl
@@ -597,8 +595,8 @@ instance Listy LT.Text Char Int64 where
   find :: (Char -> Bool) -> LT.Text -> Maybe Char
   find = LT.find
 
-  foldl :: (b -> Char -> b) -> b -> LT.Text -> b 
-  foldl = LT.foldl' -- note defaulting to strict
+  foldl' :: (b -> Char -> b) -> b -> LT.Text -> b 
+  foldl' = LT.foldl'
 
   foldlLazy :: (b -> Char -> b) -> b -> LT.Text -> b 
   foldlLazy = LT.foldl
@@ -826,8 +824,8 @@ instance Listy [a] a Int where
   find :: (a -> Bool) -> [a] -> Maybe a
   find = L.find
 
-  foldl :: (b -> a -> b) -> b -> [a] -> b 
-  foldl = L.foldl' -- note defaulting to strict
+  foldl' :: (b -> a -> b) -> b -> [a] -> b 
+  foldl' = L.foldl' -- note defaulting to strict'
 
   foldlLazy :: (b -> a -> b) -> b -> [a] -> b 
   foldlLazy = L.foldl

@@ -84,7 +84,7 @@ unit_filter = "aaa" ... P.filter (== 'a') "afgrdavgwatyu"
 unit_find = Just 'a' ... P.find (== 'a') "afgrdavgwatyu" 
 
 --   foldl :: (b -> Char -> b) -> b -> T.Text -> b 
-unit_foldl = 5 ... foldl (\a _ -> a + 1) 0 "12345"
+unit_foldl = 5 ... foldl' (\a _ -> a + 1) 0 "12345"
 
 -- foldlLazy :: (b -> Char -> b) -> b -> T.Text -> b 
 unit_foldlLazy = 5 ... foldlLazy (\a _ -> a + 1) 0 "12345"
