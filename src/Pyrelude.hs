@@ -3,11 +3,14 @@ module Pyrelude (
   , module Data.Maybe
   , module Data.List.Extra
   , module Data.Text.Encoding
+  , module Data.Thyme.Clock.TAI
   , module EncodeError
   , module Control.Monad.Catch
   , module Debug.Trace.Extended
   , module Path.Extended
   , module Data.Either.Combinators
+  , module Data.Thyme
+  , module Data.Thyme.Clock.POSIX
   , module Listy
   , module THEx
   , module Stringy
@@ -43,7 +46,7 @@ import           BasePrelude as P hiding (
    String, lines, words, unlines, unwords, readFile, writeFile,
 
 
-   -- favourung listy
+   -- favouring listy
    foldl1,
    foldl1',
    concat,
@@ -204,6 +207,9 @@ import Ternary
 import qualified Data.Map.Strict as M
 import Text.Show.Pretty as PP
 import Fmt
+import Data.Thyme hiding (getCurrentTime, getCurrentTimeZone, utcToLocalZonedTime)
+import Data.Thyme.Clock.POSIX hiding (getPOSIXTime)
+import Data.Thyme.Clock.TAI
 
 import Data.List.Extra (
       --- * Note string functions excluded

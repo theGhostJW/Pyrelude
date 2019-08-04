@@ -34,6 +34,7 @@ dependencies:
   - containers
   - fmt
   - pretty-show
+  - thyme
 
 ghc-options:
   - -fmax-pmcheck-iterations=10000000
