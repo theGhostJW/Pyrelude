@@ -4,6 +4,7 @@ module Pyrelude (
   , module Data.List.Extra
   , module Data.Text.Encoding
   , module Data.Thyme.Clock.TAI
+  , module Data.Thyme.Time
   , module EncodeError
   , module Control.Monad.Catch
   , module Debug.Trace.Extended
@@ -207,9 +208,10 @@ import Ternary
 import qualified Data.Map.Strict as M
 import Text.Show.Pretty as PP
 import Fmt
-import Data.Thyme hiding (getCurrentTime, getCurrentTimeZone, utcToLocalZonedTime)
+import Data.Thyme hiding (getCurrentTime, getTimeZone, getCurrentTimeZone, utcToLocalZonedTime)
 import Data.Thyme.Clock.POSIX hiding (getPOSIXTime)
 import Data.Thyme.Clock.TAI
+import Data.Thyme.Time
 
 import Data.List.Extra (
       --- * Note string functions excluded

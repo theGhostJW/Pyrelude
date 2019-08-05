@@ -7,5 +7,5 @@ module Pyrelude.IO (
 
 import           Path.IO.Extended
 import Data.Text.IO
-import Data.Thyme (getCurrentTime, getCurrentTimeZone, utcToLocalZonedTime)
+import Data.Thyme (getCurrentTime, getTimeZone, getCurrentTimeZone, utcToLocalZonedTime)
 import Data.Thyme.Clock.POSIX (getPOSIXTime)
