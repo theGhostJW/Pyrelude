@@ -15,6 +15,7 @@ module Pyrelude (
   , module Listy
   , module THEx
   , module Stringy
+  , module System.Locale
   , module Text
   , module Ternary
   , module Control.Monad.Extra
@@ -212,6 +213,7 @@ import Data.Thyme hiding (getCurrentTime, getTimeZone, getCurrentTimeZone, utcTo
 import Data.Thyme.Clock.POSIX hiding (getPOSIXTime)
 import Data.Thyme.Clock.TAI
 import Data.Thyme.Time
+import System.Locale (defaultTimeLocale)
 
 import Data.List.Extra (
       --- * Note string functions excluded

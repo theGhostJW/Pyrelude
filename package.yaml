@@ -119,6 +119,7 @@ library:
     - bytestring
     - template-haskell
     - discrimination
+    - old-locale
 
 tests:
   pyrelude-test:
