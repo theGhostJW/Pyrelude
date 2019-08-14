@@ -5,13 +5,18 @@ module Pyrelude (
   , module Data.Text.Encoding
   , module Data.Thyme.Clock.TAI
   , module Data.Thyme.Time
+  , module Data.Thyme.Calendar.MonthDay
+  , module Data.Thyme.Calendar.OrdinalDate
+  , module Data.Thyme.Calendar.WeekDate
+  , module Data.Thyme.Calendar.WeekdayOfMonth
+  , module Data.Thyme.Clock.POSIX
+  , module Data.Thyme.Format.Aeson
+  , module Data.Thyme.Format.Human
   , module EncodeError
   , module Control.Monad.Catch
   , module Debug.Trace.Extended
   , module Path.Extended
   , module Data.Either.Combinators
-  , module Data.Thyme
-  , module Data.Thyme.Clock.POSIX
   , module Listy
   , module THEx
   , module Stringy
@@ -209,10 +214,15 @@ import Ternary
 import qualified Data.Map.Strict as M
 import Text.Show.Pretty as PP
 import Fmt
-import Data.Thyme hiding (getCurrentTime, getTimeZone, getCurrentTimeZone, utcToLocalZonedTime)
-import Data.Thyme.Clock.POSIX hiding (getPOSIXTime)
+import Data.Thyme.Calendar.MonthDay
+import Data.Thyme.Calendar.OrdinalDate
+import Data.Thyme.Calendar.WeekDate
+import Data.Thyme.Calendar.WeekdayOfMonth
+import Data.Thyme.Clock.POSIX
 import Data.Thyme.Clock.TAI
-import Data.Thyme.Time
+import Data.Thyme.Format.Aeson
+import Data.Thyme.Format.Human
+import Data.Thyme.Time hiding (getCurrentTime, getTimeZone, getCurrentTimeZone, utcToLocalZonedTime)
 import System.Locale (defaultTimeLocale)
 
 import Data.List.Extra (
