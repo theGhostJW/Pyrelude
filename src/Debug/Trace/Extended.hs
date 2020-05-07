@@ -4,6 +4,11 @@ module Debug.Trace.Extended (
   , debug'
   , debugf
   , debugf'
+  
+  , debug_
+  , debug'_
+  , debugf_
+  , debugf'_
 ) where
 
 import           BasePrelude
@@ -35,3 +40,17 @@ debugf' shower lbl expr =
         [x] -> traceIO . T.unpack $ lbl <> ": " <> x
         ls@(x : xs) -> sequence_ $ traceIO . T.unpack <$> "--- " <> lbl <> " ---" : ls
       return expr
+
+-- id functions to enable disabling debug messages --
+
+debug'_ :: T.Text -> a -> a
+debug'_ _ a = a
+
+debug_ :: a -> a
+debug_ = id
+
+debugf'_ :: f -> T.Text -> a -> a
+debugf'_ _ _ a = a
+
+debugf_ :: (a -> b) -> a -> a
+debugf_ _ a = a

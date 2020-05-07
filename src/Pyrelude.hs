@@ -3,15 +3,7 @@ module Pyrelude (
   , module Data.Maybe
   , module Data.List.Extra
   , module Data.Text.Encoding
-  , module Data.Thyme.Clock.TAI
-  , module Data.Thyme.Time
-  , module Data.Thyme.Calendar.MonthDay
-  , module Data.Thyme.Calendar.OrdinalDate
-  , module Data.Thyme.Calendar.WeekDate
-  , module Data.Thyme.Calendar.WeekdayOfMonth
-  , module Data.Thyme.Clock.POSIX
-  , module Data.Thyme.Format.Aeson
-  , module Data.Thyme.Format.Human
+  , module Chronos
   , module EncodeError
   , module Control.Monad.Catch
   , module Debug.Trace.Extended
@@ -25,6 +17,8 @@ module Pyrelude (
   , module Ternary
   , module Control.Monad.Extra
   , module Fmt
+  , sec -- second from Chronos - resolves name conflict with Base
+  , singletonInterval
   , count
   , countValues
   , firstDuplicate
@@ -43,6 +37,8 @@ module Pyrelude (
 
 
 import           Control.Monad.Catch
+import Chronos hiding (second, singleton, today, tomorrow, yesterday, now, todayDayOfWeek, yesterdayDayOfWeek, tomorrowDayOfWeek, stopwatch, stopwatch_ ) 
+import qualified Chronos as Chron 
 import  qualified  BasePrelude as PAll
 import qualified  Data.List.Extra as ListExtra
 import           BasePrelude as P hiding (
@@ -214,15 +210,6 @@ import Ternary
 import qualified Data.Map.Strict as M
 import Text.Show.Pretty as PP
 import Fmt
-import Data.Thyme.Calendar.MonthDay
-import Data.Thyme.Calendar.OrdinalDate
-import Data.Thyme.Calendar.WeekDate
-import Data.Thyme.Calendar.WeekdayOfMonth
-import Data.Thyme.Clock.POSIX
-import Data.Thyme.Clock.TAI
-import Data.Thyme.Format.Aeson
-import Data.Thyme.Format.Human
-import Data.Thyme.Time hiding (getCurrentTime, getTimeZone, getCurrentTimeZone, utcToLocalZonedTime)
 import System.Locale (defaultTimeLocale)
 
 import Data.List.Extra (
@@ -250,6 +237,9 @@ import Data.List.Extra (
   )
 import Control.Monad.Extra (whenJust) 
 
+sec = Chron.second
+singletonInterval = Chron.singleton
+
 firstJustf :: (a -> Maybe b) -> [a] -> Maybe b
 firstJustf = ListExtra.firstJust
 
@@ -267,7 +257,7 @@ countValues = M.fromList . fmap ((\arr' -> (unsafeHead arr', Listy.length arr'))
 unlessJust :: Applicative m => Maybe a -> m () -> m ()
 unlessJust mg notingAction = maybe notingAction (const $ pure ()) mg
 
--- todo: orphanned instance for text and move out of Listy
+-- todo: orphaned instance for text and move out of Listy
 groupD :: Grouping a => [a] -> [[a]] 
 groupD  = D.group
 

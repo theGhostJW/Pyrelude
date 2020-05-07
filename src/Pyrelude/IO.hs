@@ -1,11 +1,9 @@
 module Pyrelude.IO (
     module Path.IO.Extended
   , module Data.Text.IO
-  , module Data.Thyme
-  , module Data.Thyme.Clock.POSIX
+  , module Chronos
 ) where
 
 import           Path.IO.Extended
 import Data.Text.IO
-import Data.Thyme (getCurrentTime, getTimeZone, getCurrentTimeZone, utcToLocalZonedTime)
-import Data.Thyme.Clock.POSIX (getPOSIXTime)
+import Chronos (today, tomorrow, yesterday, now, todayDayOfWeek, yesterdayDayOfWeek, stopwatch, stopwatch_)
