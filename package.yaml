@@ -114,8 +114,8 @@ library:
     - Ternary
     - Listy
   dependencies:
-    - path
-    - path-io
+    - path # - version set in extra deps - until can roll forward
+    - path-io # - version set in extra deps - until ide supports later version of haskell
     - bytestring
     - template-haskell
     - discrimination

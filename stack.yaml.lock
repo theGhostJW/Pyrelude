@@ -18,16 +18,9 @@ packages:
       sha256: 5274956f408e71d9f43b433a19df5f49660f65d1b9bde77f9ab362c8b7e85fe0
   original:
     hackage: encode-string-0.1.0.0@sha256:b960508cede9547f5af3ade3d07ed79cbdb575ed128fcac1d7cff0a1162260ce
-- completed:
-    hackage: chronos-1.1.1@sha256:56df537bc68cea2fe1df3a71d78f1437fe8f97054be8a479ba56f47cc52fa8f6,3723
-    pantry-tree:
-      size: 637
-      sha256: 4da766f49cb34fbedf5180ca304bbbc91d2303e2a43ccb8cbe1a96041dbba23c
-  original:
-    hackage: chronos-1.1.1
 snapshots:
 - completed:
-    size: 511252
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2020/4/10.yaml
-    sha256: 336e02c3b381ec740d73ac099e56f6786c0ba022cfbfaf1558849a1526dcaef0
-  original: nightly-2020-04-10
+    size: 521183
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2020/5/7.yaml
+    sha256: c72b9c63b7faa8812cb6308a3d74652cf0e9b793ff197e972ee74ade774ec4eb
+  original: nightly-2020-05-07

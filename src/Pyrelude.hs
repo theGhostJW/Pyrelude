@@ -18,6 +18,7 @@ module Pyrelude (
   , module Control.Monad.Extra
   , module Fmt
   , sec -- second from Chronos - resolves name conflict with Base
+  , (....) -- chronos ...
   , singletonInterval
   , count
   , countValues
@@ -37,7 +38,7 @@ module Pyrelude (
 
 
 import           Control.Monad.Catch
-import Chronos hiding (second, singleton, today, tomorrow, yesterday, now, todayDayOfWeek, yesterdayDayOfWeek, tomorrowDayOfWeek, stopwatch, stopwatch_ ) 
+import Chronos hiding (second, singleton, today, tomorrow, yesterday, now, todayDayOfWeek, yesterdayDayOfWeek, tomorrowDayOfWeek, stopwatch, stopwatch_, (...) {-  clashes with pyrethrym test equality check ... -} ) 
 import qualified Chronos as Chron 
 import  qualified  BasePrelude as PAll
 import qualified  Data.List.Extra as ListExtra
@@ -239,6 +240,7 @@ import Control.Monad.Extra (whenJust)
 
 sec = Chron.second
 singletonInterval = Chron.singleton
+(....) = (Chron....)
 
 firstJustf :: (a -> Maybe b) -> [a] -> Maybe b
 firstJustf = ListExtra.firstJust
