@@ -35,6 +35,7 @@ dependencies:
   - fmt
   - pretty-show
   - chronos
+  - time # need for timezone which is missing from chronos
 
 ghc-options:
   - -fmax-pmcheck-iterations=10000000
