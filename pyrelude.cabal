@@ -1,0 +1,110 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 718789773df770aa90325414d07c0bc91046ec8dcc91653d74a8293f2a84fc29
+
+name:           pyrelude
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/simple-hpack#readme>
+homepage:       https://github.com/githubuser/simple-hpack#readme
+bug-reports:    https://github.com/githubuser/simple-hpack/issues
+author:         John Walker
+maintainer:     theghostjw@gmail.com
+copyright:      2018 John Walker
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/simple-hpack
+
+library
+  exposed-modules:
+      Pyrelude
+      Pyrelude.Hidden
+      Pyrelude.IO
+      Pyrelude.Test
+  other-modules:
+      Debug.Trace.Extended
+      Language.Haskell.TH.Syntax.Extended
+      Path.Extended
+      Path.IO.Extended
+      Pyrelude.Test.Hedgehog.Extended
+      Pyrelude.Test.Tasty.HUnit.Extended
+      Stringy
+      Ternary
+      Listy
+  hs-source-dirs:
+      src
+  default-extensions: AllowAmbiguousTypes BangPatterns ConstrainedClassMethods ConstraintKinds DisambiguateRecordFields DuplicateRecordFields DataKinds DefaultSignatures DeriveFoldable DeriveFunctor DeriveGeneric DeriveLift DeriveTraversable DerivingStrategies EmptyCase ExistentialQuantification ExtendedDefaultRules FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving InstanceSigs KindSignatures LambdaCase LiberalTypeSynonyms MultiParamTypeClasses MultiWayIf NamedFieldPuns NoImplicitPrelude OverloadedStrings PartialTypeSignatures PatternSynonyms QuasiQuotes RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators
+  ghc-options: -fmax-pmcheck-iterations=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
+  build-depends:
+      base
+    , base-prelude
+    , bytestring
+    , chronos
+    , containers
+    , discrimination
+    , either
+    , encode-string
+    , exceptions
+    , extra
+    , fmt
+    , hedgehog
+    , old-locale
+    , path
+    , path-io
+    , pretty-show
+    , tasty
+    , tasty-hedgehog
+    , tasty-hunit
+    , template-haskell
+    , text
+    , time
+  default-language: Haskell2010
+
+test-suite pyrelude-test
+  type: exitcode-stdio-1.0
+  main-is: driver.hs
+  other-modules:
+      PathExtendedTest
+      PathIOExtendedIntegrationTest
+      PyreludeListyLazyTextTest
+      PyreludeListyListTest
+      PyreludeListyTextTest
+      PyreludeTest
+      StringyTest
+      TastyHUnitExtendedTest
+      Paths_pyrelude
+  hs-source-dirs:
+      test
+  default-extensions: AllowAmbiguousTypes BangPatterns ConstrainedClassMethods ConstraintKinds DisambiguateRecordFields DuplicateRecordFields DataKinds DefaultSignatures DeriveFoldable DeriveFunctor DeriveGeneric DeriveLift DeriveTraversable DerivingStrategies EmptyCase ExistentialQuantification ExtendedDefaultRules FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving InstanceSigs KindSignatures LambdaCase LiberalTypeSynonyms MultiParamTypeClasses MultiWayIf NamedFieldPuns NoImplicitPrelude OverloadedStrings PartialTypeSignatures PatternSynonyms QuasiQuotes RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators
+  ghc-options: -fmax-pmcheck-iterations=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
+  build-depends:
+      base
+    , base-prelude
+    , chronos
+    , containers
+    , either
+    , encode-string
+    , exceptions
+    , extra
+    , fmt
+    , hedgehog
+    , mtl
+    , pretty-show
+    , pyrelude
+    , tasty
+    , tasty-discover
+    , tasty-hedgehog
+    , tasty-hunit
+    , text
+    , time
+  default-language: Haskell2010
