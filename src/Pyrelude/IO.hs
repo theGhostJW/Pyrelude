@@ -7,5 +7,5 @@ module Pyrelude.IO (
 
 import Path.IO.Extended
 import Data.Text.IO
-import Data.Time (getCurrentTimeZone)
+import Data.Time (getCurrentTimeZone, TimeZone(..))
 import Chronos (today, tomorrow, yesterday, now, todayDayOfWeek, yesterdayDayOfWeek, stopwatch, stopwatch_)
