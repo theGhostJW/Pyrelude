@@ -41,7 +41,7 @@ module Pyrelude (
 import           Control.Monad.Catch
 import Chronos hiding (second, singleton, today, tomorrow, yesterday, now, todayDayOfWeek, yesterdayDayOfWeek, tomorrowDayOfWeek, stopwatch, stopwatch_, (...) {-  clashes with pyrethrym test equality check ... -} ) 
 import qualified Chronos as Chron 
-import Data.Time (TimeZone(..))
+import Data.Time (TimeZone(..), utc)
 import  qualified  BasePrelude as PAll
 import qualified  Data.List.Extra as ListExtra
 import           BasePrelude as P hiding (
