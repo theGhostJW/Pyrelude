@@ -31,7 +31,6 @@ module Listy (
 import qualified Data.List as L
 
 import Data.Bool as B
-import Data.List as L
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as LT
 import Data.Foldable as F
