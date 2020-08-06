@@ -6,7 +6,6 @@ module Path.IO.Extended (
 ) where
 
 import           BasePrelude as P
-import  Data.ByteString as B (ByteString, readFile) 
 import           Path.IO
 import           Path
 import           Stringy
@@ -46,7 +45,7 @@ subDirFromBaseDir dir subDir =
     baseParent <- dir
     let
       errLbl :: String
-      errLbl = "Seeking directorry: " <> toS (toFilePath subDir) <> " out from " <> toS (toFilePath baseParent)
+      errLbl = "Seeking directory: " <> toS (toFilePath subDir) <> " out from " <> toS (toFilePath baseParent)
 
       dirPred :: MonadIO m => Path a Dir ->  m Bool
       dirPred parentDir = hasSubDir parentDir subDir
