@@ -223,9 +223,9 @@ import Data.List.Extra (
       stripInfix, stripInfixEnd,
       dropPrefix, dropSuffix,
       wordsBy, linesBy,
-      -- * Basics
+
       notNull, list, drop1, mconcatMap,
-      -- * List operations
+
       groupSort, groupSortOn, groupSortBy,
       nubOrd, nubOrdBy, nubOrdOn,
       nubOn, groupOn, sortOn,

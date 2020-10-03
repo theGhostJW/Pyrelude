@@ -3,7 +3,7 @@ module PathExtendedTest where
 
 import qualified Control.Monad.Catch     as C
 import           Data.Either.Combinators
-import           Pyrelude
+import           Pyrelude as P
 import           Pyrelude.Test
 import qualified Prelude as P
 
@@ -12,7 +12,7 @@ type PathParser ar fd = forall m s. (C.MonadCatch m, ConvertString s P.String) =
 chkValid :: Text -> Text -> PathParser ar fd -> Assertion
 chkValid expected parseTarget psr = do
                                       rslt <- psr parseTarget
-                                      either
+                                      P.either
                                        (\l -> chkFail $ "Parsing expected valid path resulted in error: " <> show l)
                                        (\pth -> chkEq expected (toS $ toFilePath pth))
                                        rslt
