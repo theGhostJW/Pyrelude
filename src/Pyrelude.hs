@@ -113,7 +113,8 @@ import           BasePrelude as P hiding (
    -- TODO: work this out make sure behaviour is the same
    Handler, catches, bracket, bracketOnError, bracket_, catchJust, finally, handle, handleJust,
    onException, try, tryJust, catch, mask, mask_, uninterruptibleMask, uninterruptibleMask_, 
-   catchIOError, hPutStrLn,
+   catchIOError, 
+  --  hPutStrLn,
    
    (!!), -- use unsafeIndex
 
