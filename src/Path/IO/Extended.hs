@@ -9,10 +9,7 @@ import           BasePrelude as P
 import           Path.IO
 import           Path
 import           Stringy
-import Data.Text as T
-import qualified Data.Text.Encoding          as E
 import Ternary
-import Control.Monad.Catch
 
 notExistError :: String  -> Either IOError (Path a t)
 notExistError errMsg = Left (mkIOError doesNotExistErrorType (toS errMsg) Nothing Nothing)

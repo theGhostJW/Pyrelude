@@ -14,7 +14,6 @@ module Debug.Trace.Extended (
 import           BasePrelude
 import    qualified       Data.Text as T
 import Text.Show.Pretty as PP
-import qualified Prelude as P
 
 
 debugLbl :: T.Text
@@ -38,7 +37,7 @@ debugf' shower lbl expr =
       case lst of 
         [] -> traceIO $ T.unpack lbl
         [x] -> traceIO . T.unpack $ lbl <> ": " <> x
-        ls@(x : xs) -> sequence_ $ traceIO . T.unpack <$> "--- " <> lbl <> " ---" : ls
+        ls -> sequence_ $ traceIO . T.unpack <$> "--- " <> lbl <> " ---" : ls
       return expr
 
 -- id functions to enable disabling debug messages --

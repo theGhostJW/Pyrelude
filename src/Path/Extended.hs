@@ -14,7 +14,6 @@ import qualified Control.Monad.Catch         as C
 import           Path hiding ((-<.> {- depricated -})) 
 import           BasePrelude
 import Data.String.Encode 
-import Data.Text
 import Stringy
 
 type AbsDir = Path Abs Dir
