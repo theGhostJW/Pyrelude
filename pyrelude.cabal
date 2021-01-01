@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 718789773df770aa90325414d07c0bc91046ec8dcc91653d74a8293f2a84fc29
+-- hash: 7b18875041bd4fc356e69606d0654cf35ccb02140fc0050205575b8dabaa145f
 
 name:           pyrelude
 version:        0.1.0.0
@@ -44,7 +44,7 @@ library
   hs-source-dirs:
       src
   default-extensions: AllowAmbiguousTypes BangPatterns ConstrainedClassMethods ConstraintKinds DisambiguateRecordFields DuplicateRecordFields DataKinds DefaultSignatures DeriveFoldable DeriveFunctor DeriveGeneric DeriveLift DeriveTraversable DerivingStrategies EmptyCase ExistentialQuantification ExtendedDefaultRules FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving InstanceSigs KindSignatures LambdaCase LiberalTypeSynonyms MultiParamTypeClasses MultiWayIf NamedFieldPuns NoImplicitPrelude OverloadedStrings PartialTypeSignatures PatternSynonyms QuasiQuotes RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators
-  ghc-options: -fmax-pmcheck-iterations=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
+  ghc-options: -fmax-pmcheck-models=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
   build-depends:
       base
     , base-prelude
@@ -86,7 +86,7 @@ test-suite pyrelude-test
   hs-source-dirs:
       test
   default-extensions: AllowAmbiguousTypes BangPatterns ConstrainedClassMethods ConstraintKinds DisambiguateRecordFields DuplicateRecordFields DataKinds DefaultSignatures DeriveFoldable DeriveFunctor DeriveGeneric DeriveLift DeriveTraversable DerivingStrategies EmptyCase ExistentialQuantification ExtendedDefaultRules FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving InstanceSigs KindSignatures LambdaCase LiberalTypeSynonyms MultiParamTypeClasses MultiWayIf NamedFieldPuns NoImplicitPrelude OverloadedStrings PartialTypeSignatures PatternSynonyms QuasiQuotes RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeFamilyDependencies TypeOperators
-  ghc-options: -fmax-pmcheck-iterations=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
+  ghc-options: -fmax-pmcheck-models=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
   build-depends:
       base
     , base-prelude

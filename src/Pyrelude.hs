@@ -30,6 +30,7 @@ module Pyrelude (
   , maybef
   , enumList
   , encodeErrorReplace
+  , log10
   , txt
   , txtPretty
   , groupD 

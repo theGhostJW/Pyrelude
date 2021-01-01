@@ -19,7 +19,7 @@
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
 # ghc-8.8.3
-resolver:  lts-16.1  
+resolver:  nightly-2021-01-01
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -43,8 +43,8 @@ packages:
 allow-newer: true
 
 extra-deps:
-  - discrimination-0.4@sha256:ad60cb42d42648ebc6f649ce761fe61cb58eca9e2b17a6b4fe68ed2e1fdd4146
-  - encode-string-0.1.0.0@sha256:b960508cede9547f5af3ade3d07ed79cbdb575ed128fcac1d7cff0a1162260ce
+- discrimination-0.4@sha256:d42ae36c97ea9c0c8844b47ee162c5530f3daf708636f01010f58dcf52602876,2571
+- encode-string-0.1.0.0@sha256:b960508cede9547f5af3ade3d07ed79cbdb575ed128fcac1d7cff0a1162260ce,1864
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

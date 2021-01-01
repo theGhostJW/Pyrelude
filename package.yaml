@@ -38,8 +38,7 @@ dependencies:
   - time # need for timezone which is missing from chronos
 
 ghc-options:
-  # - -fmax-pmcheck-models=10000000
-  - -fmax-pmcheck-iterations=10000000
+  - -fmax-pmcheck-models=10000000
   - -ferror-spans
   - -O2
   - -Wall
