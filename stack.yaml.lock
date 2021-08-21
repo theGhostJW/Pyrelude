@@ -20,7 +20,7 @@ packages:
     hackage: encode-string-0.1.0.0@sha256:b960508cede9547f5af3ade3d07ed79cbdb575ed128fcac1d7cff0a1162260ce
 snapshots:
 - completed:
-    size: 533430
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2020/9/29.yaml
-    sha256: 257d950f082432a4807a9f18fb35c4712470cd534d3e45af9732753e30b967d3
-  original: nightly-2020-09-29
+    size: 585393
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/18/0.yaml
+    sha256: c632012da648385b9fa3c29f4e0afd56ead299f1c5528ee789058be410e883c0
+  original: lts-18.0

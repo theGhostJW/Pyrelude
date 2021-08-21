@@ -269,6 +269,7 @@ import Data.List.Extra hiding (
                                 split,
                                 splitOn,
                                 unsnoc,
+                                compareLength,
                                 cons,
                                 snoc,
                                 stripSuffix,
