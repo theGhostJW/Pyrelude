@@ -215,29 +215,84 @@ import Text.Show.Pretty as PP
 import Fmt
 import System.Locale (defaultTimeLocale)
 
-import Data.List.Extra (
-      --- * Note string functions excluded
-      --- * depricated for function excluded
-      splitAtEnd, breakEnd, spanEnd,
-      dropWhileEnd', 
-      stripInfix, stripInfixEnd,
-      dropPrefix, dropSuffix,
-      wordsBy, linesBy,
-
-      notNull, list, drop1, mconcatMap,
-
-      groupSort, groupSortOn, groupSortBy,
-      nubOrd, nubOrdBy, nubOrdOn,
-      nubOn, groupOn, sortOn,
-      nubSort, nubSortBy, nubSortOn,
-      maximumOn, minimumOn,
-      disjoint, allSame, anySame,
-      repeatedly, 
-      -- firstJust hidden see firstJust
-      concatUnzip, concatUnzip3,
-      zipFrom, zipWithFrom,
-      merge, mergeBy
-  )
+import Data.List.Extra hiding (
+                                lower,
+                                upper,
+                                trim,
+                                trimStart,
+                                trimEnd,
+                                word1,
+                                line1,
+                                escapeHTML,
+                                escapeJSON,
+                                unescapeHTML,
+                                unescapeJSON,
+                                firstJust,
+                                --  in Listy
+                                group, 
+                                foldl1,
+                                concat, 
+                                concatMap,
+                                groupBy,
+                                reverse, 
+                                dropWhile,
+                                head, 
+                                last, 
+                                init,
+                                maximum,
+                                minimum,
+                                null,
+                                all,
+                                filter,
+                                find,
+                                foldl',
+                                foldr,
+                                partition,
+                                break,
+                                span, 
+                                dropWhileEnd,
+                                inits,
+                                isInfixOf,
+                                isPrefixOf,
+                                stripPrefix,
+                                transpose,
+                                unfoldr,
+                                mapAccumR,
+                                drop,
+                                length,
+                                scanl1,
+                                scanr1,
+                                take,
+                                takeWhile,
+                                breakOn,
+                                chunksOf,
+                                split,
+                                splitOn,
+                                unsnoc,
+                                cons,
+                                snoc,
+                                stripSuffix,
+                                takeWhileEnd,
+                                lines,
+                                words,
+                                dropEnd,
+                                replace,
+                                unwords,
+                                unlines,
+                                takeEnd,
+                                breakOnEnd,
+                                uncons,
+                                splitAt,
+                                mapAccumL,
+                                tails,
+                                isSuffixOf,
+                                intersperse,
+                                intercalate,
+                                foldr1,
+                                any,
+                                tail
+                                )
+import qualified Data.List.Extra as DE
 import Control.Monad.Extra (whenJust) 
 
 sec = Chron.second
@@ -245,10 +300,10 @@ singletonInterval = Chron.singleton
 (....) = (Chron....)
 
 firstJustf :: (a -> Maybe b) -> [a] -> Maybe b
-firstJustf = ListExtra.firstJust
+firstJustf = DE.firstJust
 
 firstJust :: [Maybe a] -> Maybe a
-firstJust = ListExtra.firstJust id
+firstJust = DE.firstJust id
 
 countValues :: Ord v => M.Map k v -> M.Map v Int
 countValues = M.fromList . fmap ((\arr' -> (unsafeHead arr', Listy.length arr')) <$>) Listy.group . P.sort . M.elems
