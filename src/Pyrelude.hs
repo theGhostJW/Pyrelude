@@ -189,6 +189,7 @@ import Data.Text as Text hiding (
       scanr,
       scanr1,
       splitAt,
+      singleton, -- in favour of list
       take,
       takeEnd,
       takeWhile,
@@ -218,6 +219,7 @@ import System.Locale (defaultTimeLocale)
 import Data.List.Extra hiding (
                                 lower,
                                 upper,
+                                singleton,
                                 trim,
                                 trimStart,
                                 trimEnd,
@@ -293,7 +295,8 @@ import Data.List.Extra hiding (
                                 any,
                                 tail
                                 )
-import qualified Data.List.Extra as DE
+import qualified Data.List.Extra as DE -- hiding (singleton)
+  
 import Control.Monad.Extra (whenJust) 
 
 sec = Chron.second
