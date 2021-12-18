@@ -258,6 +258,8 @@ class Integral i => Listy m a i | m -> a i where
   takeEnd :: i -> m -> m
   takeWhileEnd :: (a -> Bool) -> m -> m
 
+  singleton :: a -> m
+
   splitOn :: Eq a => m -> m -> [m]
   split :: (a -> Bool) -> m -> [m] 
 
@@ -464,6 +466,9 @@ instance Listy T.Text Char Int where
   stripSuffix :: T.Text -> T.Text -> Maybe T.Text
   stripSuffix = T.stripSuffix
 
+  singleton :: Char -> T.Text
+  singleton = T.singleton
+
   tails :: T.Text -> [T.Text]
   tails = T.tails
 
@@ -533,6 +538,9 @@ instance Listy LT.Text Char Int64 where
 
   reverse :: LT.Text -> LT.Text
   reverse = LT.reverse
+
+  singleton :: Char -> LT.Text
+  singleton = LT.singleton
 
   dropWhile :: (Char -> Bool) -> LT.Text -> LT.Text
   dropWhile = LT.dropWhile
@@ -915,6 +923,9 @@ instance Listy [a] a Int where
 
   isSuffixOf :: Eq a => [a] -> [a] -> Bool
   isSuffixOf = L.isSuffixOf
+
+  singleton :: a -> [a]
+  singleton = L.singleton
 
   stripPrefix :: Eq a => [a] -> [a] -> Maybe [a]
   stripPrefix = L.stripPrefix

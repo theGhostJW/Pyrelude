@@ -99,6 +99,7 @@ import           BasePrelude as P hiding (
    length,
    scanl1,
    scanr1,
+   singleton,
    splitAt,
    take,
    takeWhile,
@@ -198,9 +199,9 @@ import Data.Text as Text hiding (
       zipWith
   ) 
 import           Data.Discrimination as D
-import BasePrelude as B
+import BasePrelude as B  hiding (singleton)
 import           Data.Either.Combinators
-import qualified Data.List                           as L
+import qualified Data.List                           as L hiding (singleton)
 import  Listy
 import           Data.Maybe
 import           Debug.Trace.Extended
@@ -295,7 +296,7 @@ import Data.List.Extra hiding (
                                 any,
                                 tail
                                 )
-import qualified Data.List.Extra as DE -- hiding (singleton)
+import qualified Data.List.Extra as DE hiding (singleton)
   
 import Control.Monad.Extra (whenJust) 
 

@@ -2,7 +2,7 @@
 module PyreludeListyLazyTextTest where
 
 import Pyrelude as P hiding (Text)
-import qualified Data.Text.Lazy as T (Text) 
+import qualified Data.Text.Lazy as T
 import qualified Prelude as OP
 import           Pyrelude.Test as TST hiding (singleton)
 import qualified Data.Char as C
