@@ -39,7 +39,9 @@ module Pyrelude (
 
 
 import           Control.Monad.Catch
-import Chronos hiding (second, singleton, today, tomorrow, yesterday, now, todayDayOfWeek, yesterdayDayOfWeek, tomorrowDayOfWeek, stopwatch, stopwatch_, (...) {-  clashes with pyrethrym test equality check ... -} ) 
+import Chronos hiding (second, 
+    singleton, 
+    (...) {-  clashes with pyrethrym test equality check ... -} ) 
 import qualified Chronos as Chron 
 import Data.Time (TimeZone(..), utc)
 import  qualified  BasePrelude as PAll
@@ -300,8 +302,13 @@ import qualified Data.List.Extra as DE hiding (singleton)
   
 import Control.Monad.Extra (whenJust) 
 
+sec :: Timespan
 sec = Chron.second
+
+singletonInterval :: Time -> TimeInterval
 singletonInterval = Chron.singleton
+
+(....) :: Time -> Time -> TimeInterval
 (....) = (Chron....)
 
 firstJustf :: (a -> Maybe b) -> [a] -> Maybe b
