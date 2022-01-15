@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d7df62f483951461bb4423020307a6f713e5db5c7b6b6933c61024727a0531b4
+-- hash: 9370255ee00505fc55a8e5067276ce04e67bf5b83ba31677b0991e6abea58e3f
 
 name:           pyrelude
 version:        0.1.0.0
@@ -40,7 +40,7 @@ library
       Pyrelude.Test.Tasty.HUnit.Extended
       Stringy
       Ternary
-      Listy
+      ListLike
   hs-source-dirs:
       src
   default-extensions:
@@ -123,9 +123,9 @@ test-suite pyrelude-test
   other-modules:
       PathExtendedTest
       PathIOExtendedIntegrationTest
-      PyreludeListyLazyTextTest
+      PyreludeListLikeLazyTextTest
+      PyreludeListLikeTextTest
       PyreludeListyListTest
-      PyreludeListyTextTest
       PyreludeTest
       StringyTest
       TastyHUnitExtendedTest
