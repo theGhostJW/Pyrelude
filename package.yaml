@@ -36,6 +36,7 @@ dependencies:
   - pretty-show
   - chronos
   - time # need for timezone which is missing from chronos
+  - Win32 > 2.13.0.0
 
 ghc-options:
   - -fmax-pmcheck-models=10000000

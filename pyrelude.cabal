@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 555a58426ada3aeb37ef4754148d223d2191796a1fd7634e9ddc2dc8456c4d37
+-- hash: d7df62f483951461bb4423020307a6f713e5db5c7b6b6933c61024727a0531b4
 
 name:           pyrelude
 version:        0.1.0.0
@@ -92,7 +92,8 @@ library
       TypeOperators
   ghc-options: -fmax-pmcheck-models=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
   build-depends:
-      base
+      Win32 >2.13.0.0
+    , base
     , base-prelude
     , bytestring
     , chronos
@@ -180,7 +181,8 @@ test-suite pyrelude-test
       TypeOperators
   ghc-options: -fmax-pmcheck-models=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
   build-depends:
-      base
+      Win32 >2.13.0.0
+    , base
     , base-prelude
     , chronos
     , containers

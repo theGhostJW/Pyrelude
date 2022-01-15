@@ -59,6 +59,7 @@ import           BasePrelude as P hiding (
    foldl1',
    concat,
    concatMap,
+   elem,
    groupBy,
    group,
    reverse,
@@ -133,6 +134,7 @@ import Data.Text as Text hiding (
       breakOn,
       breakOnEnd,
       chunksOf,
+      elem,
       split,
       splitOn,
       count, -- use countText
@@ -230,6 +232,7 @@ import Data.List.Extra hiding (
                                 line1,
                                 escapeHTML,
                                 escapeJSON,
+                                elem,
                                 unescapeHTML,
                                 unescapeJSON,
                                 firstJust,
@@ -298,7 +301,7 @@ import Data.List.Extra hiding (
                                 any,
                                 tail
                                 )
-import qualified Data.List.Extra as DE hiding (singleton)
+import qualified Data.List.Extra as DE hiding (singleton, elem)
   
 import Control.Monad.Extra (whenJust) 
 

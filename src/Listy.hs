@@ -41,7 +41,21 @@ import Data.Ord
 import Data.Function
 import Data.Char
 import Data.List.Extra as E
+    ( (!!),
+      span,
+      breakOn,
+      breakOnEnd,
+      chunksOf,
+      cons,
+      snoc,
+      split,
+      splitOn,
+      stripSuffix,
+      takeEnd,
+      takeWhileEnd,
+      unsnoc )
 import GHC.Real
+import qualified BasePrelude as BP
 
 -- TODO: hide count in text an lazy -- Text -> Text -> Int -- hide sub-count
 
@@ -163,6 +177,8 @@ findIndexText = T.findIndex
 class Integral i => Listy m a i | m -> a i where
   concat :: [m] -> m 
   concatMap :: (a -> m) -> m -> m
+
+  elem :: Eq a => a -> m -> Bool
 
   --  https://stackoverflow.com/questions/14922070/haskell-use-data-text-replace-to-replace-only-the-first-occurrence-of-a-text-va
   replaceFirst :: Eq a => m -- ^ needle
@@ -297,6 +313,9 @@ instance Listy T.Text Char Int where
 
   concatMap :: (Char -> T.Text) -> T.Text -> T.Text
   concatMap = T.concatMap
+
+  elem :: Char -> T.Text -> Bool
+  elem = T.elem
 
   groupBy :: (Char -> Char -> Bool) -> T.Text -> [T.Text]
   groupBy = T.groupBy
@@ -530,6 +549,9 @@ instance Listy LT.Text Char Int64 where
   concatMap :: (Char -> LT.Text) -> LT.Text -> LT.Text
   concatMap = LT.concatMap
 
+  elem :: Char -> LT.Text -> Bool
+  elem = LT.elem
+
   groupBy :: (Char -> Char -> Bool) -> LT.Text -> [LT.Text]
   groupBy = LT.groupBy
 
@@ -761,6 +783,9 @@ instance Listy [a] a Int where
 
   concatMap :: (a -> [a]) -> [a] -> [a]
   concatMap = L.concatMap
+
+  elem :: Eq a => a -> [a] -> Bool
+  elem = L.elem
 
   groupBy :: (a -> a -> Bool) -> [a] -> [[a]]
   groupBy = L.groupBy
