@@ -1,5 +1,5 @@
 
-module PyreludeListyListTest where
+module PyreludeListLikeListTest where
 
 import Pyrelude as P hiding (Text)
 import qualified Pyrelude as T (Text) 
@@ -38,7 +38,7 @@ unit_allFoldable = chk $ allFoldable (== 3) [3, 3, 3]
 -- findFoldable :: Foldable t => (a -> Bool) -> t a -> Maybe a 
 unit_findFoldable = Just 3 ... findFoldable (== 3) [1..5]
 
--- renamed foldable more general versions than listy
+-- renamed foldable more general versions than ListLike
 -- foldrFoldable :: Foldable t => (a -> b -> b) -> b -> t a -> b 
 unit_foldrFoldable = l "abc" ... foldrFoldable cons "" $ l "abc"
 
@@ -70,7 +70,7 @@ unit_minimumFoldable = Just 1 ... minimumFoldable [1,2, 6, 3, 5]
 
 default (Int, T.Text)
 
---- Listy ---
+--- ListLike ---
 -- concat :: [T.Text] -> T.Text 
 unit_concat = l "abcdef" ... concat  (l <$> ["ab","cd", "ef"])
 

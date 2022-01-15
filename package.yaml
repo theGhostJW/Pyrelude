@@ -115,7 +115,7 @@ library:
     - Pyrelude.Test.Tasty.HUnit.Extended
     - Stringy
     - Ternary
-    - Listy
+    - ListLike
   dependencies:
     - path # - version set in extra deps - until can roll forward
     - path-io # - version set in extra deps - until ide supports later version of haskell

@@ -1,5 +1,5 @@
 
-module PyreludeListyTextTest where
+module PyreludeListLikeTextTest where
 
 import Pyrelude as P hiding (Text)
 import qualified Pyrelude as T (Text) 
@@ -16,7 +16,7 @@ unit_countText = 3 ... countText "ab" "abcabab"
 unit_replicateText = "ababab" ... replicateText 3 "ab"
 unit_findIndexText = Just 5 ... findIndexText ('5' ==) "0123456"
 
---- Listy ---
+--- ListLike ---
 -- concat :: [T.Text] -> T.Text 
 unit_concat = "abcdef" ... concat ["ab","cd", "ef"] 
 

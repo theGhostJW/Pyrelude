@@ -1,7 +1,7 @@
 {-# OPTIONS_GHC -fno-warn-redundant-constraints #-}
 
-module Listy (
-  Listy(..),
+module ListLike (
+  ListLike(..),
   countText,
   countTextLazy,
   concatFoldable,
@@ -89,7 +89,7 @@ findFoldable = L.find
 -- sum :: Num a => t a -> a
 -- product :: Num a => t a -> a 
 
--- renamed foldable more general versions than listy
+-- renamed foldable more general versions than ListLike
 foldrFoldable :: Foldable t => (a -> b -> b) -> b -> t a -> b 
 foldrFoldable = L.foldr
 
@@ -159,11 +159,11 @@ unsafeMinimumFoldable = L.minimum
 unsafeFoldl1FoldableLazy :: Foldable t =>  (a -> a -> a) -> t a -> a
 unsafeFoldl1FoldableLazy = F.foldl1
 
-safel :: Listy m a i => (m -> b) -> m -> Maybe b
-safel = safeFShared Listy.null
+safel :: ListLike m a i => (m -> b) -> m -> Maybe b
+safel = safeFShared ListLike.null
 
-safeFold1l :: Listy m a i => ((a -> a -> a) -> m -> a) -> (a -> a -> a) -> m -> Maybe a
-safeFold1l = safeF3Shared Listy.null
+safeFold1l :: ListLike m a i => ((a -> a -> a) -> m -> a) -> (a -> a -> a) -> m -> Maybe a
+safeFold1l = safeF3Shared ListLike.null
 
 replicateText :: Int -> T.Text -> T.Text
 replicateText = T.replicate
@@ -174,7 +174,7 @@ replicateTextLazy = LT.replicate
 findIndexText :: (Char -> Bool) -> T.Text -> Maybe Int
 findIndexText = T.findIndex
 
-class Integral i => Listy m a i | m -> a i where
+class Integral i => ListLike m a i | m -> a i where
   concat :: [m] -> m 
   concatMap :: (a -> m) -> m -> m
 
@@ -186,10 +186,10 @@ class Integral i => Listy m a i | m -> a i where
                        -> m -- ^ haystack
                        -> m
   replaceFirst needle replacement haystack
-    | Listy.null back = haystack 
-    | otherwise = Listy.concat [front, replacement, Listy.drop (Listy.length needle) back] 
+    | ListLike.null back = haystack 
+    | otherwise = ListLike.concat [front, replacement, ListLike.drop (ListLike.length needle) back] 
       where
-        (front, back) = Listy.breakOn needle haystack
+        (front, back) = ListLike.breakOn needle haystack
 
   groupBy :: (a -> a -> Bool) -> m -> [m]
   group :: Eq a => m -> [m]
@@ -307,7 +307,7 @@ class Integral i => Listy m a i | m -> a i where
   uncons :: m -> Maybe (a, m) 
   zipWithSimple :: (a -> a -> a) -> m -> m -> m
 
-instance Listy T.Text Char Int where
+instance ListLike T.Text Char Int where
   concat :: [T.Text] -> T.Text 
   concat = T.concat
 
@@ -542,7 +542,7 @@ instance Listy T.Text Char Int where
   zipWithSimple :: (Char -> Char -> Char) -> T.Text -> T.Text -> T.Text
   zipWithSimple = T.zipWith
 
-instance Listy LT.Text Char Int64 where
+instance ListLike LT.Text Char Int64 where
   concat :: [LT.Text] -> LT.Text 
   concat = LT.concat
 
@@ -777,7 +777,7 @@ instance Listy LT.Text Char Int64 where
   zipWithSimple :: (Char -> Char -> Char) -> LT.Text -> LT.Text -> LT.Text
   zipWithSimple = LT.zipWith
 
-instance Listy [a] a Int where
+instance ListLike [a] a Int where
   concat :: [[a]] -> [a] 
   concat = L.concat
 

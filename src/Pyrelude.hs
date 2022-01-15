@@ -10,7 +10,7 @@ module Pyrelude (
   , module Debug.Trace.Extended
   , module Path.Extended
   , module Data.Either.Combinators
-  , module Listy
+  , module ListLike
   , module THEx
   , module Stringy
   , module System.Locale
@@ -54,7 +54,7 @@ import           BasePrelude as P hiding (
    String, lines, words, unlines, unwords, readFile, writeFile,
 
 
-   -- favouring listy
+   -- favouring ListLike
    foldl1,
    foldl1',
    concat,
@@ -206,7 +206,7 @@ import           Data.Discrimination as D
 import BasePrelude as B  hiding (singleton)
 import           Data.Either.Combinators
 import qualified Data.List                           as L hiding (singleton)
-import  Listy
+import  ListLike
 import           Data.Maybe
 import           Debug.Trace.Extended
 import           Language.Haskell.TH.Syntax.Extended as THEx (moduleOf)
@@ -236,7 +236,7 @@ import Data.List.Extra hiding (
                                 unescapeHTML,
                                 unescapeJSON,
                                 firstJust,
-                                --  in Listy
+                                --  in ListLike
                                 group, 
                                 foldl1,
                                 concat, 
@@ -321,7 +321,7 @@ firstJust :: [Maybe a] -> Maybe a
 firstJust = DE.firstJust id
 
 countValues :: Ord v => M.Map k v -> M.Map v Int
-countValues = M.fromList . fmap ((\arr' -> (unsafeHead arr', Listy.length arr')) <$>) Listy.group . P.sort . M.elems
+countValues = M.fromList . fmap ((\arr' -> (unsafeHead arr', ListLike.length arr')) <$>) ListLike.group . P.sort . M.elems
 
 
 -- | Perform some operation on 'Just', given the field inside the 'Just'.
@@ -331,7 +331,7 @@ countValues = M.fromList . fmap ((\arr' -> (unsafeHead arr', Listy.length arr'))
 unlessJust :: Applicative m => Maybe a -> m () -> m ()
 unlessJust mg notingAction = maybe notingAction (const $ pure ()) mg
 
--- todo: orphaned instance for text and move out of Listy
+-- todo: orphaned instance for text and move out of ListLike
 groupD :: Grouping a => [a] -> [[a]] 
 groupD  = D.group
 

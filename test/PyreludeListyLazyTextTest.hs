@@ -1,5 +1,5 @@
 
-module PyreludeListyLazyTextTest where
+module PyreludeListLikeLazyTextTest where
 
 import Pyrelude as P hiding (Text)
 import qualified Data.Text.Lazy as T
@@ -15,7 +15,7 @@ default (Int64, T.Text)
 unit_countTextLazy = 3 ... countText "ab" "abcabab"
 unit_replicateTextLazy = "ababab" ... replicateText 3 "ab"
 
---- Listy ---
+--- ListLike ---
 -- concat :: [T.Text] -> T.Text 
 unit_concat = "abcdef" ... concat ["ab","cd", "ef"] 
 
