@@ -33,13 +33,6 @@ packages:
   original:
     hackage: process-1.6.13.2@sha256:a6530a5698796e29d85817f74ca3ae20d2172fb9fa52b492c2e6816e1306bfe8,2963
 - completed:
-    hackage: time-1.12.1@sha256:af1fafc1fb66e3d0afb66fb5ab8629f74c038bebd42c234b581aff7abc201089,6295
-    pantry-tree:
-      size: 7208
-      sha256: 96205222b57c39156ee646d710a4100a119dc28f211c57cacaf741f6c1bb35da
-  original:
-    hackage: time-1.12.1@sha256:af1fafc1fb66e3d0afb66fb5ab8629f74c038bebd42c234b581aff7abc201089,6295
-- completed:
     hackage: bytebuild-0.3.9.0@sha256:8639f2640dc5905d6d57d74d391cdff47b16218aa80420fa6ef35e344fe1b134,3196
     pantry-tree:
       size: 1135
@@ -95,13 +88,6 @@ packages:
       sha256: 7ec9396abc19f19514132e250eaeda541c5c9ffb5b7cd111d9a60592213b78be
   original:
     hackage: unix-compat-0.5.4
-- completed:
-    hackage: text-1.2.5.0@sha256:791f0f6c97ed96113f17ab520cf0efe1a3a4f883a8c85910a5660567c8241c40,7895
-    pantry-tree:
-      size: 7395
-      sha256: f41504ec5c04a3f3358ef104362f02fdef29cbce4e5e4e6dbd6b6db70c40d4bf
-  original:
-    hackage: text-1.2.5.0
 snapshots:
 - completed:
     size: 618527
