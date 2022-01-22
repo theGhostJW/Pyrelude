@@ -18,7 +18,8 @@
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-resolver: nightly-2022-01-10
+resolver: nightly-2022-01-06 # 9.0.1 - needed for hls
+# nightly-2022-01-10 -- 9.0.2
 # resolver: lts-18.0
 
 # User packages to be built.
