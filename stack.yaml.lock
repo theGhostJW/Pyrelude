@@ -97,7 +97,7 @@ packages:
     hackage: unix-compat-0.5.4
 snapshots:
 - completed:
-    size: 623654
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2022/1/6.yaml
-    sha256: efba441fbb0fff82c5be10ccda625e25b38f6673588ed5ddb8ef9239ec130d39
-  original: nightly-2022-01-06
+    size: 631483
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2022/1/27.yaml
+    sha256: 9fd3a84e21a00cbd62abe0cfd8e3620d8014272d27b9357dfe27704270d49624
+  original: nightly-2022-01-27

@@ -314,12 +314,8 @@ instance ListLike T.Text Char Int where
   concatMap :: (Char -> T.Text) -> T.Text -> T.Text
   concatMap = T.concatMap
 
-  -- TODO from 9.0.2
-  -- elem :: Char -> T.Text -> Bool
-  -- elem = T.elem
-
   elem :: Char -> T.Text -> Bool
-  elem c t = elemFoldable c (T.unpack t)
+  elem = T.elem
 
   groupBy :: (Char -> Char -> Bool) -> T.Text -> [T.Text]
   groupBy = T.groupBy
@@ -553,13 +549,9 @@ instance ListLike LT.Text Char Int64 where
   concatMap :: (Char -> LT.Text) -> LT.Text -> LT.Text
   concatMap = LT.concatMap
 
-
   -- TODO from 9.0.2
-  -- elem :: Char -> LT.Text -> Bool
-  -- elem = LT.elem
-
   elem :: Char -> LT.Text -> Bool
-  elem c t = elemFoldable c (LT.unpack t)
+  elem = LT.elem
 
   groupBy :: (Char -> Char -> Bool) -> LT.Text -> [LT.Text]
   groupBy = LT.groupBy

@@ -134,8 +134,7 @@ import Data.Text as Text hiding (
       breakOn,
       breakOnEnd,
       chunksOf,
-      -- put back when 9.0.2
-      -- elem,
+      elem,
       split,
       splitOn,
       count, -- use countText
