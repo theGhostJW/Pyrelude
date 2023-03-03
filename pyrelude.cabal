@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.34.5.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9370255ee00505fc55a8e5067276ce04e67bf5b83ba31677b0991e6abea58e3f
+-- hash: 72b51b55a3946bf4a3aa8176c452d58ec9b4013735bddf5c439248654473ebed
 
 name:           pyrelude
 version:        0.1.0.0
@@ -92,7 +92,7 @@ library
       TypeOperators
   ghc-options: -fmax-pmcheck-models=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
   build-depends:
-      Win32 >2.13.0.0
+      Win32
     , base
     , base-prelude
     , bytestring
@@ -181,7 +181,7 @@ test-suite pyrelude-test
       TypeOperators
   ghc-options: -fmax-pmcheck-models=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
   build-depends:
-      Win32 >2.13.0.0
+      Win32
     , base
     , base-prelude
     , chronos

@@ -79,6 +79,7 @@ import           BasePrelude as P hiding (
    foldl',
    foldl1,
    foldr,
+   foldr',
    foldr1,
    map,
    empty,
