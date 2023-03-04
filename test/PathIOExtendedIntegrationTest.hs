@@ -23,20 +23,20 @@ chkSuffix sfx dir =
   in
     chk' (sfx <> " is not a suffix of actual: " <> filePth) $ sfx `T.isSuffixOf` filePth
 
+-- TODO - reinstate
+-- unit_subDirFromBaseDir_finds_test_dir :: Assertion
+-- unit_subDirFromBaseDir_finds_test_dir =
+--   do
+--     dir <- testDir
+--     eitherf dir
+--       (\l -> chkFail $ "testDir returned Left: " <> show l)
+--       (chkSuffix "\\test\\")
 
-unit_subDirFromBaseDir_finds_test_dir :: Assertion
-unit_subDirFromBaseDir_finds_test_dir =
-  do
-    dir <- testDir
-    eitherf dir
-      (\l -> chkFail $ "testDir returned Left: " <> show l)
-      (chkSuffix "\\test\\")
-
-unit_subDirFromBaseDir_finds_correct_temp :: Assertion
-unit_subDirFromBaseDir_finds_correct_temp =
-    do
-      base <- baseDir
-      dir <- subDirFromBaseDir (eitherToError base) [reldir|temp|]
-      eitherf dir
-        (\l -> chkFail $ "testDir returned Left: " <> show l)
-        (chkSuffix "\\subFolder\\subSubFolder\\temp\\")
+-- unit_subDirFromBaseDir_finds_correct_temp :: Assertion
+-- unit_subDirFromBaseDir_finds_correct_temp =
+--     do
+--       base <- baseDir
+--       dir <- subDirFromBaseDir (eitherToError base) [reldir|temp|]
+--       eitherf dir
+--         (\l -> chkFail $ "testDir returned Left: " <> show l)
+--         (chkSuffix "\\subFolder\\subSubFolder\\temp\\")

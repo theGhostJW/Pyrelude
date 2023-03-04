@@ -1,5 +1,5 @@
 
-module PyreludeListLikeListTest where
+module PyreludeListyListTest where
 
 import Pyrelude as P hiding (Text)
 import qualified Pyrelude as T (Text) 
