@@ -2,7 +2,7 @@
 module PyreludeListyListTest where
 
 import Pyrelude as P hiding (Text)
-import qualified Pyrelude as T (Text) 
+import qualified Pyrelude as T (Text)
 import qualified Prelude as OP
 import           Pyrelude.Test as TST
 import qualified Data.Char as C
@@ -16,14 +16,14 @@ l = unpack
 unit_concatFoldable = l "abcdef" ... concatFoldable  (l <$> ["ab","cd", "ef"])
 
 chkReplaceFirst :: T.Text -> T.Text -> T.Text -> T.Text -> IO()
-chkReplaceFirst expected needle replacemnt haystack = l expected ... replaceFirst (l needle) (l replacemnt) $ l haystack 
+chkReplaceFirst expected needle replacemnt haystack = l expected ... replaceFirst (l needle) (l replacemnt) $ l haystack
 
 unit_replaceFirst_null = chkReplaceFirst "" "rrr" "bbb" ""
 unit_replaceFirst_not_in_text = chkReplaceFirst "abc de fg" "h" "hello" "abc de fg"
 unit_replaceFirst_in_text = chkReplaceFirst "abc hello fg" "de" "hello" "abc de fg"
-unit_replaceFirst_start_text = chkReplaceFirst "hellobc de fg" "a" "hello" "abc de fg" 
-unit_replaceFirst_end_text = chkReplaceFirst  "abc dehello"  " fg" "hello" "abc de fg" 
-unit_replaceFirst_many_in_text = chkReplaceFirst "ahelloc b b b b b de fg" "b" "hello" "abc b b b b b de fg" 
+unit_replaceFirst_start_text = chkReplaceFirst "hellobc de fg" "a" "hello" "abc de fg"
+unit_replaceFirst_end_text = chkReplaceFirst  "abc dehello"  " fg" "hello" "abc de fg"
+unit_replaceFirst_many_in_text = chkReplaceFirst "ahelloc b b b b b de fg" "b" "hello" "abc b b b b b de fg"
 
 --concatMapFoldable :: Foldable t => (a -> [b]) -> t a -> [b]
 unit_concatMapFoldable =  l "ABCDE" ... concatMapFoldable (\c -> [C.toUpper c]) (l "abcde")
@@ -72,7 +72,7 @@ default (Int, T.Text)
 
 --- ListLike ---
 -- concat :: [T.Text] -> T.Text 
-unit_concat = l "abcdef" ... concat  (l <$> ["ab","cd", "ef"])
+unit_concat = l "abcdef" ... OP.concatMap l ["ab","cd", "ef"]
 
 --   concatMap :: (Char -> T.Text) -> T.Text -> T.Text
 unit_concatMap = l "ABCDE" ... concatMap (\c -> [C.toUpper c]) (l "abcde")
@@ -88,7 +88,7 @@ unit_group = l <$> ["aaa", "bbb", "cc"] ... group $ l "aaabbbcc"
 unit_reverse = l "cba" ... reverse $ l "abc"
 
 --   dropWhile :: (Char -> Bool) -> T.Text -> T.Text
-unit_dropWhile = l "de" ... dropWhile (<= 'c') $ l"abcde"
+unit_dropWhile = l "de" ... dropWhile (<= 'c') $ l "abcde"
 
 --   -- note change to increase safety
 --   head :: T.Text -> Maybe Char
@@ -98,7 +98,7 @@ unit_head = Just 'a' ... head $ l "abc"
 unit_last =  Just 'c' ... last $ l "abc"
 
 --   tail :: T.Text -> Maybe T.Text
-unit_tail = Just (l "bc") ... tail $ l"abc"
+unit_tail = Just (l "bc") ... tail $ l "abc"
 
 --   init :: T.Text -> Maybe T.Text
 unit_init = Just "ab" ... init "abc"
@@ -123,10 +123,10 @@ unit_any = chk $ any (== 'a') $ l "xyzab"
 unit_all = chkFalse $ all (== 'a') $ l "aaaab"
 
 --   filter :: (Char -> Bool) -> T.Text -> T.Text 
-unit_filter = "aaa" ... P.filter (== 'a') $ l  "afgrdavgwatyu" 
+unit_filter = "aaa" ... P.filter (== 'a') $ l  "afgrdavgwatyu"
 
 --   find :: (Char -> Bool) -> T.Text -> Maybe Char
-unit_find = Just 'a' ... P.find (== 'a') $ l  "afgrdavgwatyu" 
+unit_find = Just 'a' ... P.find (== 'a') $ l  "afgrdavgwatyu"
 
 --   foldl :: (b -> Char -> b) -> b -> T.Text -> b 
 unit_foldl = 5 ... foldl' (\a _ -> a + 1) 0  $ l "12345"
@@ -166,7 +166,7 @@ unit_empty = [] ... empty
 
 --   unsnoc :: T.Text -> Maybe (T.Text, Char)
 unit_unsnoc = Just (l "abc", 'd') ... unsnoc $ l "abcd"
- 
+
 --   partition :: (Char -> Bool) -> T.Text -> (T.Text, T.Text) 
 unit_unit_partition = (l "aaa", l "bbyb") ... partition ('a' ==) $ l "ababyab"
 
@@ -207,7 +207,7 @@ unit_intercalate = l "wasabcsawabcMe" ... intercalate (l "abc") $ l <$> ["was", 
 unit_intersperse = l "axbxc" ... intersperse 'x' $ l "abc"
 
 --   isInfixOf :: T.Text -> T.Text -> Bool
-unit_isInfixOf = chk $ isInfixOf (l "ef") $ l "abcdefgh" 
+unit_isInfixOf = chk $ isInfixOf (l "ef") $ l "abcdefgh"
 
 -- isPrefixOf :: T.Text -> T.Text -> Bool
 unit_isPrefixOf = chk $ isPrefixOf (l "ab") $ l "abcdefgh"
@@ -234,7 +234,7 @@ unit_unfoldr = l "zyxwvutsrqponmlkjihgfedcba" ... unfoldr (\b -> if b < 97 then 
 unit_mapAccumL = (9, l "bcdefghij") ... mapAccumL (\b c -> (b + 1, chr $ b + 98)) 0 $ l "abcdefghi"
 
 --   mapAccumR :: (b -> Char -> (b, Char)) -> b -> T.Text -> (b, T.Text) 
-unit_mapAccumR =  (9, l "iiiiiiiii") ... mapAccumR  (\b c -> (b + 1, chr . (+) b $ ord c)) 0 $ l"abcdefghi"
+unit_mapAccumR =  (9, l "iiiiiiiii") ... mapAccumR  (\b c -> (b + 1, chr . (+) b $ ord c)) 0 $ l "abcdefghi"
 
 --   drop :: Int -> T.Text -> T.Text
 unit_drop = l "defghi" ... drop 3 $ l "abcdefghi"
@@ -254,11 +254,11 @@ unit_scanrSimple = l "ffffffa" ... scanrSimple (\a b -> if b > a then b else a) 
 
 --   scanr1 :: (Char -> Char -> Char) -> T.Text -> T.Text 
 unit_scanr1_empty = [] ... scanr1 (\a b -> if b > a then b else a) []
-unit_scanr1 = l "ffffff" ... scanr1 (\a b -> if b > a then b else a) $ l "abcdef" 
+unit_scanr1 = l "ffffff" ... scanr1 (\a b -> if b > a then b else a) $ l "abcdef"
 
 --   splitAt :: Int -> T.Text -> (T.Text, T.Text)
 unit_splitAt_outOfBounds = (l "abcde", l "") ... splitAt 10 $ l "abcde"
-unit_splitAt = (l "ab", l "cde") ... splitAt 2 $ l"abcde"
+unit_splitAt = (l "ab", l "cde") ... splitAt 2 $ l "abcde"
 
 --   take :: Int -> T.Text -> T.Text
 unit_take = l "abc" ... take 3 $ l "abcderfdfdfds"
