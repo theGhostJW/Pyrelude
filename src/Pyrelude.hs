@@ -26,8 +26,6 @@ module Pyrelude (
   , firstDuplicate
   , firstJust
   , firstJustf
-  , eitherf
-  , maybef
   , enumList
   , encodeErrorReplace
   , txt
@@ -344,7 +342,7 @@ encodeErrorReplace = Data.Text.Encoding.Error.replace
 
 -- undefined in less keystrokes
 uu :: forall a. a
-uu = undefined
+uu = error "Not implemented"
 
 -- equivalent of show for text
 txt :: Show a => a -> Text
@@ -358,12 +356,6 @@ count p = PAll.foldl' (\n x -> p x ? n + 1 $ n) 0
 
 firstDuplicate :: Grouping a => [a] -> Maybe a
 firstDuplicate xs = L.find (\l -> B.length l > 1) (D.group xs) >>= Pyrelude.head
-
-eitherf :: Either a b -> (a -> c) -> (b -> c) -> c
-eitherf e lf rf = either lf rf e
-
-maybef :: Maybe a -> b -> (a -> b) -> b
-maybef m d f = maybe d f m
 
 enumList :: Enum a => [a]
 enumList = enumFrom $ toEnum 0

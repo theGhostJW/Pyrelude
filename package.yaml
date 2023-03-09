@@ -58,7 +58,7 @@ ghc-options:
 default-extensions:
   - AllowAmbiguousTypes
   - BangPatterns
-  # - BlockArguments
+  - BlockArguments
   - ConstrainedClassMethods
   - ConstraintKinds
   - DisambiguateRecordFields
@@ -84,10 +84,12 @@ default-extensions:
   - KindSignatures
   - LambdaCase
   - LiberalTypeSynonyms
+  - OverloadedRecordDot
   - MultiParamTypeClasses
   - MultiWayIf
   - NamedFieldPuns
   - NoImplicitPrelude
+  - NoFieldSelectors
   - OverloadedStrings
   - PartialTypeSignatures
   - PatternSynonyms

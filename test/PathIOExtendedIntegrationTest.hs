@@ -28,7 +28,7 @@ chkSuffix sfx dir =
 -- unit_subDirFromBaseDir_finds_test_dir =
 --   do
 --     dir <- testDir
---     eitherf dir
+--     dir & either
 --       (\l -> chkFail $ "testDir returned Left: " <> show l)
 --       (chkSuffix "\\test\\")
 
@@ -37,6 +37,6 @@ chkSuffix sfx dir =
 --     do
 --       base <- baseDir
 --       dir <- subDirFromBaseDir (eitherToError base) [reldir|temp|]
---       eitherf dir
+--       dir & either
 --         (\l -> chkFail $ "testDir returned Left: " <> show l)
 --         (chkSuffix "\\subFolder\\subSubFolder\\temp\\")
