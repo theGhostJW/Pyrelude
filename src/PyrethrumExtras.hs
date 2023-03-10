@@ -20,16 +20,12 @@ module PyrethrumExtras (
 
 
 import           Control.Monad.Catch
-import Chronos hiding (second, 
-    singleton, 
-    (...) {-  clashes with pyrethrym test equality check ... -} ) 
-import qualified Chronos as Chron 
-import Data.Time (TimeZone(..), utc)
 import  qualified  BasePrelude as PAll
 import qualified  Data.List.Extra as ListExtra
 
 import           Data.Discrimination as D
 import Data.Text
+import Text.Show.Pretty as PP
 import BasePrelude as B  hiding (singleton)
 import           Data.Either.Combinators
 import qualified Data.List                           as L hiding (singleton)
@@ -41,8 +37,6 @@ import           Data.Text.Encoding
 import Stringy
 import Ternary
 import qualified Data.Map.Strict as M
-import Text.Show.Pretty as PP
-import Fmt
 import System.Locale (defaultTimeLocale)
   
 import Control.Monad.Extra (whenJust) 

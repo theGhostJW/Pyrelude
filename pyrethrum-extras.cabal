@@ -92,18 +92,15 @@ library
       TypeOperators
   ghc-options: -fmax-pmcheck-models=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
   build-depends:
-      Win32
-    , base
+      base
     , base-prelude
     , bytestring
-    , chronos
     , containers
     , discrimination
     , either
     , encode-string
     , exceptions
     , extra
-    , fmt
     , hedgehog
     , old-locale
     , path
@@ -114,7 +111,6 @@ library
     , tasty-hunit
     , template-haskell
     , text
-    , time
   default-language: Haskell2010
 
 test-suite pyrelude-test
@@ -181,16 +177,13 @@ test-suite pyrelude-test
       TypeOperators
   ghc-options: -fmax-pmcheck-models=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
   build-depends:
-      Win32
-    , base
+      base
     , base-prelude
-    , chronos
     , containers
     , either
     , encode-string
     , exceptions
     , extra
-    , fmt
     , hedgehog
     , mtl
     , pretty-show
@@ -200,5 +193,4 @@ test-suite pyrelude-test
     , tasty-hedgehog
     , tasty-hunit
     , text
-    , time
   default-language: Haskell2010

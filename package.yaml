@@ -32,11 +32,11 @@ dependencies:
   - base
   - encode-string
   - containers
-  - fmt
   - pretty-show
-  - chronos
-  - time # need for timezone which is missing from chronos
-  - Win32
+  # - fmt
+  # - chronos
+  # - time # need for timezone which is missing from chronos
+  # - Win32
 
 ghc-options:
   - -fmax-pmcheck-models=10000000
@@ -127,6 +127,7 @@ library:
     - template-haskell
     - discrimination
     - old-locale
+    - pretty-show
 
 tests:
   pyrelude-test:
