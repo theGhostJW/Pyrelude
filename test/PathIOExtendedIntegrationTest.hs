@@ -5,18 +5,20 @@ module PathIOExtendedIntegrationTest where
 
 import           Control.Monad.IO.Class
 import           Data.Either.Combinators
-import           Pyrelude
-import           Paths_pyrelude
+import           PyrethrumExtras
 import           System.IO.Error
-import           Pyrelude.Test
+import           PyrethrumExtras.Test
 import qualified Data.Text as T
-import Pyrelude.IO
+import PyrethrumExtras.IO
+import Paths_pyrethrum_extras
+import BasePrelude.Operators ((=<<))
+import BasePrelude ((<>), (<$>), ($))
 
 testDir = subDirFromBaseDir (parseAbsDir =<< getBinDir) [reldir|test|]
 baseDir = ((</> [reldir|Integration\testData\subFolder\subSubFolder\subSubFolder\base|] ) <$>) <$> testDir
 invalidBaseDir = ((</> [reldir|Integration\testData\subFolder\subSubFolder\subSubFolder\base|] ) <$>) <$> testDir
 
-chkSuffix :: Text -> Path a Dir -> Assertion
+chkSuffix :: T.Text -> Path a Dir -> Assertion
 chkSuffix sfx dir =
   let
     filePth = toS $ toFilePath dir

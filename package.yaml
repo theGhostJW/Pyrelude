@@ -1,14 +1,14 @@
-name:                pyrethrum-extras
-version:             0.1.0.0
-github:              "githubuser/simple-hpack"
-license:             MIT
-author:              "John Walker"
-maintainer:          "theghostjw@gmail.com"
-copyright:           "2018 John Walker"
+name: pyrethrum-extras
+version: 0.1.0.0
+github: "githubuser/simple-hpack"
+license: MIT
+author: "John Walker"
+maintainer: "theghostjw@gmail.com"
+copyright: "2018 John Walker"
 
 extra-source-files:
-- README.md
-- ChangeLog.md
+  - README.md
+  - ChangeLog.md
 
 # Metadata used when publishing your package
 # synopsis:            Short description of your package
@@ -17,7 +17,7 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/simple-hpack#readme>
+description: Please see the README on GitHub at <https://github.com/githubuser/simple-hpack#readme>
 
 dependencies:
   - base-prelude
@@ -108,11 +108,14 @@ default-extensions:
 
 library:
   source-dirs: src
-  other-modules:
+  exposed-modules:
     - Debug.Trace.Extended
     - Language.Haskell.TH.Syntax.Extended
     - Path.Extended
     - Path.IO.Extended
+    - PyrethrumExtras
+    - PyrethrumExtras.IO
+    - PyrethrumExtras.Test
     - PyrethrumExtras.Test.Hedgehog.Extended
     - PyrethrumExtras.Test.Tasty.HUnit.Extended
     - Stringy
@@ -125,11 +128,10 @@ library:
     - discrimination
     - old-locale
 
-
 tests:
   pyrelude-test:
-    main:                driver.hs
-    source-dirs:         test
+    main: driver.hs
+    source-dirs: test
     dependencies:
       - pyrethrum-extras
       - tasty-discover

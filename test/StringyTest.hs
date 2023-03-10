@@ -2,9 +2,11 @@
 module StringyTest where
 
 import qualified Data.Bool                           as B
-import           Pyrelude
+import           PyrethrumExtras
 import  qualified Prelude as P
-import           Pyrelude.Test
+import           PyrethrumExtras.Test
+import Data.Text (Text)
+import BasePrelude (($))
 
 
 hprop_string_to_text :: Property

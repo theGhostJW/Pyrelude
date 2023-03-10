@@ -1,7 +1,7 @@
 
 module TastyHUnitExtendedTest where
 
-import           Pyrelude.Test 
+import           PyrethrumExtras.Test 
 
 unit_chkEq = chkEq 1 1
 

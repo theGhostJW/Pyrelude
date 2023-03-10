@@ -5,6 +5,7 @@ module PyrethrumExtras (
   , module THEx
   , module Stringy
   , module Ternary
+  , PyrethrumExtras.count
   , countValues
   , firstDuplicate
   , firstJust
@@ -94,9 +95,3 @@ firstDuplicate xs = L.find (\l -> B.length l > 1) (D.group xs)
 
 enumList :: Enum a => [a]
 enumList = enumFrom $ toEnum 0
-
-safe :: ([a] -> a) -> [a] -> Maybe a
-safe f l  = L.null l ? Nothing $ Just $ f l
-
-head :: [a] -> Maybe a
-head = safe B.head

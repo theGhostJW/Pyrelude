@@ -2,10 +2,22 @@
 module PathExtendedTest where
 
 import qualified Control.Monad.Catch     as C
-import           Data.Either.Combinators
-import           Pyrelude as P
-import           Pyrelude.Test
+import Data.Either.Combinators ( isLeft )
+import Path.Extended as P
+    ( Path,
+      toFilePath,
+      PathException,
+      parseRelDirSafe,
+      parseAbsDirSafe,
+      parseRelFileSafe,
+      parseAbsFileSafe )
+import Stringy as P ( ConvertString, toS )
+import PyrethrumExtras.Test.Tasty.HUnit.Extended
+    ( Assertion, chkFail, chkEq, chk )
 import qualified Prelude as P
+import Data.Text
+import BasePrelude (Either, show)
+import BasePrelude.Operators ( ($), (<>) )
 
 type PathParser ar fd = forall m s. (C.MonadCatch m, ConvertString s P.String) => s -> m (Either PathException (Path ar fd))
 

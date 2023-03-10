@@ -25,18 +25,19 @@ source-repository head
 
 library
   exposed-modules:
-      PyrethrumExtras
-      PyrethrumExtras.IO
-      PyrethrumExtras.Test
-  other-modules:
       Debug.Trace.Extended
       Language.Haskell.TH.Syntax.Extended
       Path.Extended
       Path.IO.Extended
+      PyrethrumExtras
+      PyrethrumExtras.IO
+      PyrethrumExtras.Test
       PyrethrumExtras.Test.Hedgehog.Extended
       PyrethrumExtras.Test.Tasty.HUnit.Extended
       Stringy
       Ternary
+  other-modules:
+      Paths_pyrethrum_extras
   hs-source-dirs:
       src
   default-extensions:
@@ -122,7 +123,7 @@ test-suite pyrelude-test
   other-modules:
       PathExtendedTest
       PathIOExtendedIntegrationTest
-      PyreludeTest
+      PyrethrumExtrasTest
       StringyTest
       TastyHUnitExtendedTest
       Paths_pyrethrum_extras

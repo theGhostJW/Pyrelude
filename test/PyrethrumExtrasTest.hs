@@ -1,16 +1,30 @@
-module PyreludeTest where
+module PyrethrumExtrasTest where
 
 import Control.Monad.Writer.Class
 import Control.Monad.Writer.Strict
 import Data.Bool qualified as B
 import Data.Map.Strict qualified as M
-import Pyrelude
-import Pyrelude.Test as T
+import PyrethrumExtras.Test as T
+import Data.Text ( Text, init, isInfixOf, tail )
 import Prelude qualified as P
+import PyrethrumExtras as PE
+import BasePrelude
+    ( Int,
+      Show,
+      Eq (..),
+      Enum,
+      Natural,
+      Maybe(..),
+      ($),
+      Bool(..),
+      Ord(..),
+      Applicative(..),
+      String, (<$>), (.) )
+import BasePrelude.DataTypes (Maybe)
 
 --- firstJustf ---
 
-unit_firstJustf_middle = Just 5 ... firstJustf (P.length <$>) ([Nothing, Just "12345", Nothing] :: [Maybe P.String])
+unit_firstJustf_middle = Just 5 ... firstJustf (P.length <$>) ([Nothing, Just "12345", Nothing] :: [Maybe String])
 
 unit_firstJustf_start = Just 5 ... firstJustf (P.length <$>) [Just "12345", Just "1", Nothing]
 
@@ -22,7 +36,7 @@ unit_firstJustf_empty = Nothing ... firstJustf (P.length <$>) []
 
 --- firstJust ---
 
-unit_firstJust_middle = Just "12345" ... firstJust ([Nothing, Just "12345", Nothing] :: [Maybe P.String])
+unit_firstJust_middle = Just "12345" ... firstJust ([Nothing, Just "12345", Nothing] :: [Maybe String])
 
 unit_firstJust_start = Just "12345" ... firstJust [Just "12345", Just "1", Nothing]
 
@@ -33,7 +47,7 @@ unit_firstJust_nothing = Nothing ... firstJust [Nothing, Nothing, Nothing]
 unit_firstJust_empty = Nothing ... firstJust []
 
 --- moduleOf ---
-unit_module_of = "PyreludeTest" ... moduleOf ''MyEnum
+unit_module_of = "PyrethrumExtrasTest" ... moduleOf ''MyEnum
 
 --- countValues ---
 baseMap :: M.Map Int Text =
@@ -47,7 +61,7 @@ baseMap :: M.Map Int Text =
       (7, "Hii")
     ]
 
-expected :: M.Map Text Int =
+expected :: M.Map Text P.Int =
   M.fromList
     [ ("Hi", 1),
       ("Ho", 4),
@@ -72,38 +86,6 @@ unit_count_zero = 0 ... count (== 5) [7, 2, 3, 3, 2, 6, 7, 1, 9]
 
 unit_count_empty = 0 ... count (== 5) []
 
---- head ---
-unit_head_null = Nothing ... head []
-
-unit_head_populated = Just 7 ... head [7, 6, 4, 3]
-
-unit_head_silgleton = Just 0 ... head [0]
-
---- last ---
-a :: Maybe [Int]
-a = last []
-
-unit_last_null = Nothing ... last []
-
-unit_last_populated = Just 3 ... last [7, 6, 4, 3]
-
-unit_last_silgleton = Just 0 ... last [0]
-
---- tail ---
-unit_tail_null = Nothing ... tail []
-
-unit_tail_populated = Just [6, 4, 3] ... tail [7, 6, 4, 3]
-
-unit_tail_silgleton = Just [] ... tail [0]
-
---- init ---
-unit_init_null = Nothing ... init ([] :: [Int])
-
-unit_init_populated = Just [7, 6, 4] ... init [7, 6, 4, 3]
-
-{-# ANN unit_init_silgleton ("HLint: ignore Use fmap" :: Text) #-}
-unit_init_silgleton = Just [] ... init [0]
-
 --- firstDuplicate ---
 unit_firstDuplicate_null = Nothing ... firstDuplicate []
 
@@ -116,9 +98,6 @@ unit_firstDuplicate_multiple = Just 9 ... firstDuplicate ([9, 0, 6, 4, 3, 0, 9] 
 unit_firstDuplicate_big = Just 10000 ... firstDuplicate (10000 : 700 : [0 .. 20000] :: [Int])
 
 -- Ternary --
-unit_bool_flipped_ternary_true = chk $ (1 < 2) /? False $ True
-
-unit_bool_filpped_ternary_false = chkFalse $ (1 > 2) /? False $ True
 
 unit_bool_ternary_true = chk $ (1 < 2) ? True $ False
 
@@ -135,7 +114,7 @@ data MyEnum
 
 unit_enum_list = [Hot, Warm, Tepid, Cool, Cold, Freezing] ... (enumList :: [MyEnum])
 
-unit_enum_list_of_Int = [0 .. 10] ... take 11 (enumList :: [Natural])
+unit_enum_list_of_Int = [0 .. 10] ... P.take 11 (enumList :: [Natural])
 
 logShowable :: (MonadWriter [Text] m, Show a) => a -> m a
 logShowable x = writer (x, ["Initialised With: " <> txt x])
