@@ -26,21 +26,17 @@ source-repository head
 library
   exposed-modules:
       PyrethrumExtras
-      PyrethrumExtras.Hidden
       PyrethrumExtras.IO
       PyrethrumExtras.Test
-      PyrethrumExtras.Test.Hedgehog.Extended
-      PyrethrumExtras.Test.Tasty.HUnit.Extended
   other-modules:
       Debug.Trace.Extended
       Language.Haskell.TH.Syntax.Extended
       Path.Extended
       Path.IO.Extended
-      Pyrelude.Test.Hedgehog.Extended
-      Pyrelude.Test.Tasty.HUnit.Extended
+      PyrethrumExtras.Test.Hedgehog.Extended
+      PyrethrumExtras.Test.Tasty.HUnit.Extended
       Stringy
       Ternary
-      ListLike
   hs-source-dirs:
       src
   default-extensions:
@@ -126,9 +122,6 @@ test-suite pyrelude-test
   other-modules:
       PathExtendedTest
       PathIOExtendedIntegrationTest
-      PyreludeListLikeLazyTextTest
-      PyreludeListLikeTextTest
-      PyreludeListyListTest
       PyreludeTest
       StringyTest
       TastyHUnitExtendedTest
@@ -200,7 +193,7 @@ test-suite pyrelude-test
     , hedgehog
     , mtl
     , pretty-show
-    , pyrelude
+    , pyrethrum-extras
     , tasty
     , tasty-discover
     , tasty-hedgehog

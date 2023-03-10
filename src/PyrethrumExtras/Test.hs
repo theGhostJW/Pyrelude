@@ -1,10 +1,9 @@
 
-module Pyrelude.Test (
-  module Pyrelude.Test.Tasty.HUnit.Extended,
-  module Pyrelude.Test.Hedgehog.Extended
+module PyrethrumExtras.Test (
+  module PyrethrumExtras.Test.Tasty.HUnit.Extended,
+  module PyrethrumExtras.Test.Hedgehog.Extended
 
 ) where
 
- --- import           System.IO.Silently replace with Extra
-import        Pyrelude.Test.Hedgehog.Extended
-import        Pyrelude.Test.Tasty.HUnit.Extended
+import        PyrethrumExtras.Test.Hedgehog.Extended
+import        PyrethrumExtras.Test.Tasty.HUnit.Extended

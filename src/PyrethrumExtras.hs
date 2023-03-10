@@ -1,6 +1,5 @@
 module PyrethrumExtras (
-  module P
-  , module Control.Monad.Catch
+  module Control.Monad.Catch
   , module Debug.Trace.Extended
   , module Path.Extended
   , module THEx
@@ -27,98 +26,12 @@ import qualified Chronos as Chron
 import Data.Time (TimeZone(..), utc)
 import  qualified  BasePrelude as PAll
 import qualified  Data.List.Extra as ListExtra
-import           BasePrelude as P hiding (
-   -- clashes with log in pyrethrym reexport as log10
-   log,
-
-   -- hiding String et. al. -- favouring Text
-   String, lines, words, unlines, unwords, readFile, writeFile,
-
-
-   -- favouring ListLike
-   foldl1,
-   foldl1',
-   concat,
-   concatMap,
-   elem,
-   groupBy,
-   group,
-   reverse,
-   dropWhile,
-   head,
-   last,
-   tail,
-   init,
-   maximum,
-   minimum,
-   null,
-   any,
-   all,
-   filter,
-   find,
-   foldl,
-   foldl',
-   foldl1,
-   foldr,
-   foldr',
-   foldr1,
-   map,
-   empty,
-   partition,
-   break,
-   span,
-   dropWhileEnd,
-   inits,
-   intercalate,
-   intersperse,
-   isInfixOf,
-   isPrefixOf,
-   isSuffixOf,
-   stripPrefix,
-   tails,
-   transpose,
-   unfoldr,
-   mapAccumL,
-   mapAccumR,
-   drop,
-   length,
-   scanl1,
-   scanr1,
-   singleton,
-   splitAt,
-   take,
-   takeWhile,
-   uncons,
-  
-
-   -- Hidden because unlikely to be used an clashes with
-   -- filter constructors in Pyretherum
-   All, Last,
-
-   -- hidng in favour of Control.Monad.Catch -- exceptions
-   -- TODO: work this out make sure behaviour is the same
-   Handler, catches, bracket, bracketOnError, bracket_, catchJust, finally, handle, handleJust,
-   onException, try, tryJust, catch, mask, mask_, uninterruptibleMask, uninterruptibleMask_, 
-   catchIOError, hPutStrLn,
-   
-   (!!), -- use unsafeIndex
-
-   -- favouring Data.Either.Combinators
-   isLeft, fromRight, isRight, fromLeft,
-
-   -- Favour Text
-   toLower, toTitle, toUpper, 
-
-   -- Favour Data.Text.IO
-   appendFile, getContents, getLine, interact, putStr, putStrLn, 
-     ) 
 
 import           Data.Discrimination as D
 import Data.Text
 import BasePrelude as B  hiding (singleton)
 import           Data.Either.Combinators
 import qualified Data.List                           as L hiding (singleton)
-import  ListLike
 import           Data.Maybe
 import           Debug.Trace.Extended
 import           Language.Haskell.TH.Syntax.Extended as THEx (moduleOf)
@@ -132,6 +45,8 @@ import Fmt
 import System.Locale (defaultTimeLocale)
   
 import Control.Monad.Extra (whenJust) 
+import Data.Foldable (length)
+import Data.List (head)
 
 firstJustf :: (a -> Maybe b) -> [a] -> Maybe b
 firstJustf = ListExtra.firstJust
@@ -140,7 +55,7 @@ firstJust :: [Maybe a] -> Maybe a
 firstJust = ListExtra.firstJust id
 
 countValues :: Ord v => M.Map k v -> M.Map v Int
-countValues = M.fromList . fmap ((\arr' -> (unsafeHead arr', ListLike.length arr')) <$>) ListLike.group . P.sort . M.elems
+countValues = M.fromList . fmap ((\arr' -> (L.head arr', Data.Foldable.length arr')) <$>) L.group . L.sort . M.elems
 
 
 -- | Perform some operation on 'Just', given the field inside the 'Just'.

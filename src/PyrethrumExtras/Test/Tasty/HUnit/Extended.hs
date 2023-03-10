@@ -1,4 +1,4 @@
-module Pyrelude.Test.Tasty.HUnit.Extended
+module PyrethrumExtras.Test.Tasty.HUnit.Extended
   ( module HUnit,
     safeLoad,
     chkEq,

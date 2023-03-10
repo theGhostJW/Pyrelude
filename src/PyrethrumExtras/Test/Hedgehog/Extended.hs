@@ -1,5 +1,5 @@
 
-module Pyrelude.Test.Hedgehog.Extended (
+module PyrethrumExtras.Test.Hedgehog.Extended (
     module Hedgehog
   , module Gen 
   , module Hedgehog.Range

@@ -113,11 +113,10 @@ library:
     - Language.Haskell.TH.Syntax.Extended
     - Path.Extended
     - Path.IO.Extended
-    - Pyrelude.Test.Hedgehog.Extended
-    - Pyrelude.Test.Tasty.HUnit.Extended
+    - PyrethrumExtras.Test.Hedgehog.Extended
+    - PyrethrumExtras.Test.Tasty.HUnit.Extended
     - Stringy
     - Ternary
-    - ListLike
   dependencies:
     - path # - version set in extra deps - until can roll forward
     - path-io # - version set in extra deps - until ide supports later version of haskell
@@ -132,6 +131,6 @@ tests:
     main:                driver.hs
     source-dirs:         test
     dependencies:
-      - pyrelude
+      - pyrethrum-extras
       - tasty-discover
       - mtl
