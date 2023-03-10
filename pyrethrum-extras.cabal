@@ -3,10 +3,8 @@ cabal-version: 1.12
 -- This file has been generated from package.yaml by hpack version 0.35.2.
 --
 -- see: https://github.com/sol/hpack
---
--- hash: d2022a388ce14c1eb330653063568e2e51d384d74437729244b8eecf023e1016
 
-name:           pyrelude
+name:           pyrethrum-extras
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/simple-hpack#readme>
 homepage:       https://github.com/githubuser/simple-hpack#readme
@@ -27,10 +25,12 @@ source-repository head
 
 library
   exposed-modules:
-      Pyrelude
-      Pyrelude.Hidden
-      Pyrelude.IO
-      Pyrelude.Test
+      PyrethrumExtras
+      PyrethrumExtras.Hidden
+      PyrethrumExtras.IO
+      PyrethrumExtras.Test
+      PyrethrumExtras.Test.Hedgehog.Extended
+      PyrethrumExtras.Test.Tasty.HUnit.Extended
   other-modules:
       Debug.Trace.Extended
       Language.Haskell.TH.Syntax.Extended
@@ -132,7 +132,7 @@ test-suite pyrelude-test
       PyreludeTest
       StringyTest
       TastyHUnitExtendedTest
-      Paths_pyrelude
+      Paths_pyrethrum_extras
   hs-source-dirs:
       test
   default-extensions:

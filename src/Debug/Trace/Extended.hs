@@ -4,7 +4,7 @@ module Debug.Trace.Extended (
   , debug'
   , debugf
   , debugf'
-  
+
   , debug_
   , debug'_
   , debugf_
@@ -30,15 +30,15 @@ debugf :: Show b => (a -> b) -> a -> a
 debugf shower = debugf' shower debugLbl
 
 debugf' :: Show b => (a -> b) -> T.Text -> a -> a
-debugf' shower lbl expr = 
-  let 
+debugf' shower lbl expr =
+  let
     lst = T.lines . T.pack . ppShow $ shower expr
   in
     unsafePerformIO $ do
-      case lst of 
+      case lst of
         [] -> traceIO $ T.unpack lbl
         [x] -> traceIO . T.unpack $ lbl <> ": " <> x
-        ls@(x : xs) -> sequence_ $ traceIO . T.unpack <$> "--- " <> lbl <> " ---" : ls
+        ls@(x : xs) -> P.mapM_ (traceIO . T.unpack) ("--- " <> lbl <> " ---" : ls)
       return expr
 
 -- id functions to enable disabling debug messages --
