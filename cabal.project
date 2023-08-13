@@ -9,7 +9,7 @@ packages:
 source-repository-package
     type: git
     location: https://github.com/theGhostJW/encode-string
-    tag: 7ebf4741d478635ba2137f6e46b3b1ce7fddf425
+    tag: 6c2ad7c2ef99d2e7d21d68fa8b0f2058aa8f16fe
 
 allow-older: *
 allow-newer: *
