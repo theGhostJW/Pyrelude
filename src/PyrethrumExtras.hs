@@ -50,8 +50,12 @@ firstJust :: [Maybe a] -> Maybe a
 firstJust = ListExtra.firstJust id
 
 countValues :: Ord v => M.Map k v -> M.Map v Int
-countValues = M.fromList . fmap ((\arr' -> (L.head arr', Data.Foldable.length arr')) <$>) L.group . L.sort . M.elems
+countValues = M.fromList . fmap ((\arr' -> (dodgyHead arr', Data.Foldable.length arr')) <$>) L.group . L.sort . M.elems
 
+dodgyHead :: [a] -> a
+dodgyHead = \case 
+  [] -> error "dodgyHead: empty list"
+  x:_ -> x
 
 -- | Perform some operation on 'Just', given the field inside the 'Just'.
 --
