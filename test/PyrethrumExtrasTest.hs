@@ -19,7 +19,7 @@ import BasePrelude
       Bool(..),
       Ord(..),
       Applicative(..),
-      String, (<$>), (.) )
+      String, (<$>), (.), (<>) )
 import BasePrelude.DataTypes (Maybe)
 
 --- firstJustf ---

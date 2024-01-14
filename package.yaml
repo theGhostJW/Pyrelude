@@ -137,3 +137,4 @@ tests:
       - pyrethrum-extras
       - tasty-discover
       - mtl
+    build-tools: tasty-discover:tasty-discover

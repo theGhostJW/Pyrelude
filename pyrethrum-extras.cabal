@@ -1,6 +1,6 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.35.2.
+-- This file has been generated from package.yaml by hpack version 0.36.0.
 --
 -- see: https://github.com/sol/hpack
 
@@ -176,6 +176,8 @@ test-suite pyrelude-test
       TypeFamilyDependencies
       TypeOperators
   ghc-options: -fmax-pmcheck-models=10000000 -ferror-spans -O2 -Wall -Werror -fprint-potential-instances -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -fno-warn-missing-signatures -fno-warn-type-defaults -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports
+  build-tool-depends:
+      tasty-discover:tasty-discover
   build-depends:
       base
     , base-prelude
