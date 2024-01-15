@@ -23,10 +23,16 @@ import BasePrelude.Operators ( ($), (<>) )
 type PathParser ar fd = forall m s. (C.MonadCatch m, ConvertString s P.String) => s -> m (Either PathException (Path ar fd))
 
 
-chkInvalid :: Text -> PathParser ar fd -> Assertion
-chkInvalid parseTarget psr = do
-                               rslt <- psr parseTarget
-                               chk $ isLeft rslt
+chkInvalid ::  PathParser ar fd -> Text -> Text -> Assertion
+chkInvalid parser parseTargetWin parseTargetLinux = 
+    do
+      rslt <- parser parseTarget
+      chk $ isLeft rslt
+    where
+      parseTarget = case os of
+             "mingw32" -> parseTargetWin
+             "linux" -> parseTargetLinux
+             _ -> P.error "Untested operating system"
 
 chkParseValid :: PathParser ar fd -> Text -> Text -> Text -> Text -> Assertion
 chkParseValid parser expectedWin parseTargetWin expectedLinux parseTargetLinux  = 
@@ -81,29 +87,25 @@ Here's a quick clarification:
 So, for a relative path in Linux, you would use something like temp/ without the leading slash.
 -}
 
-unit_parseRelDirSafe_valid = chkParseValid parseRelDirSafe "\\Temp\\" "\\Temp" "temp/" "temp/"
 unit_parseRelDirSafe_valid_nested = chkParseValid parseRelDirSafe "\\Temp\\Data\\" "\\Temp\\Data" "Temp/Data/" "Temp/Data"
 
-unit_parseRelDirSafe_invalid = chkInvalid "..\\Temp" parseRelDirSafe
-unit_parseRelDirSafe_invalid_empty = chkInvalid "" parseRelDirSafe
+unit_parseRelDirSafe_invalid = chkInvalid parseRelDirSafe "..\\Temp" "/Temp/Data/"
+unit_parseRelDirSafe_invalid_empty = chkInvalid parseRelDirSafe """"
 
-unit_parseAbsDirSafe_valid = chkParseValid parseAbsDirSafe "C:\\Temp\\" "C:\\Temp" "/Temp/" "/Temp/"
 unit_parseAbsDirSafe_valid_nested = chkParseValid parseAbsDirSafe "D:\\Temp\\Data\\" "D:\\Temp\\Data" "/Temp/Data/" "/Temp/Data"
 
-unit_parseAbsDirSafe_invalid = chkInvalid "\\Temp" parseAbsDirSafe
-unit_parseAbsDirSafe_invalid_empty = chkInvalid "" parseAbsDirSafe
+unit_parseAbsDirSafe_invalid = chkInvalid parseAbsDirSafe "\\Temp" "Temp/Data/"
+unit_parseAbsDirSafe_invalid_empty = chkInvalid parseAbsDirSafe "" ""
 
-unit_parseRelFileSafe_valid = chkParseValid parseRelFileSafe "\\Temp\\MyFile.txt" "\\Temp\\MyFile.txt" "Temp/File.txt" "Temp/File.txt"
 unit_parseRelFileSafe_valid_nested = chkParseValid parseRelFileSafe "\\Temp\\Data\\MyFile.txt" "\\Temp\\Data\\MyFile.txt" "Temp/Data/File.txt" "Temp/Data/File.txt"
 
-unit_parseRelFileSafe_invalid = chkInvalid "..\\Temp\\MyFile" parseRelFileSafe
-unit_parseRelFileSafe_invalid_empty = chkInvalid "" parseRelFileSafe
+unit_parseRelFileSafe_invalid = chkInvalid parseRelFileSafe "..\\Temp\\MyFile.txt"  "/Temp/Data.txt"
+unit_parseRelFileSafe_invalid_empty = chkInvalid parseRelFileSafe "" ""
 
-unit_parseAbsFileSafe_valid = chkParseValid parseAbsFileSafe "C:\\Temp\\MyFile" "C:\\Temp\\MyFile" "/Temp/MyFile" "/Temp/MyFile" 
 unit_parseAbsFileSafe_valid_nested = chkParseValid parseAbsFileSafe "D:\\Temp\\Data\\MyFile.csv" "D:\\Temp\\Data\\MyFile.csv" "/Temp/Data/MyFile.csv"  "/Temp/Data/MyFile.csv"
 
-unit_parseAbsFileSafe_invalid = chkInvalid "\\Temp\\MyFile.csv" parseAbsFileSafe
-unit_parseAbsFileSafe_invalid_empty = chkInvalid "" parseAbsFileSafe
+unit_parseAbsFileSafe_invalid = chkInvalid parseAbsFileSafe "\\Temp\\MyFile.csv" "Temp/MyFile.csv"
+unit_parseAbsFileSafe_invalid_empty = chkInvalid parseAbsFileSafe "" ""
 
 
 
