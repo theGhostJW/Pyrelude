@@ -1,23 +1,27 @@
 module Debug.Trace.Extended (
+  -- primary db functions
+  db,
   dbNoLbl,
   dbTag,
-  db,
-  dbfNoLbl,
   dbf,
+  dbfNoLbl,
+  -- monadic db functions
+  db_,
   dbTag_,
   dbfNoLbl_,
   dbNoLbl_,
-  db_,
+  -- disabled versions
+  db',
   dbNoLbl',
   dbTag',
-  db',
   dbfNoLbl',
   dbf',
+  db_',
   dbTag_',
   dbf_',
   dbfNoLbl_',
   dbNoLbl_',
-  db_',
+  -- bottom
   uu,
 ) where
 
