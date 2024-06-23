@@ -12,7 +12,7 @@ module PyrethrumExtras (
   , firstJustf
   , enumList
   , txt
-  , txtPretty
+  , txtShow
   , groupD 
   , unlessJust
 ) where
@@ -22,17 +22,34 @@ import           Control.Monad.Catch
 import  qualified  BasePrelude as PAll
 import qualified  Data.List.Extra as ListExtra
 
-import           Data.Discrimination as D
-import Data.Text
-import Text.Show.Pretty as PP
-import BasePrelude as B  hiding (singleton)
-import           Data.Either.Combinators
+import Data.Discrimination as D ( group, Grouping )
+import Data.Text ( Text )
+import Text.Show.Pretty as PP ( ppShow )
+import BasePrelude as B
+    ( ($),
+      Enum(toEnum, enumFrom),
+      Floating(log),
+      Monad((>>=)),
+      Functor(fmap),
+      Num((+)),
+      Ord((>)),
+      Show(show),
+      Applicative(pure),
+      Foldable(length),
+      Bool,
+      Int,
+      Maybe(..),
+      (<$>),
+      maybe,
+      const,
+      error,
+      Category((.), id) )
 import qualified Data.List                           as L hiding (singleton)
-import           Data.Maybe
+import Data.Maybe ( Maybe(..), maybe )
 import           Debug.Trace.Extended
 import           Language.Haskell.TH.Syntax.Extended as THEx (moduleOf)
 import           Path.Extended
-import           Data.Text.Encoding
+import Data.Text.Encoding ()
 import Stringy
 import Ternary
 import qualified Data.Map.Strict as M
@@ -72,10 +89,10 @@ log10 = B.log
 
 -- equivalent of show for text
 txt :: Show a => a -> Text
-txt = toS . show
+txt = toS . ppShow
 
-txtPretty :: Show a => a -> Text
-txtPretty = toS . ppShow
+txtShow :: Show a => a -> Text
+txtShow = toS . show
 
 count :: (Foldable f, Num n) => (a -> Bool) -> f a -> n
 count p = PAll.foldl' (\n x -> p x ? n + 1 $ n) 0
