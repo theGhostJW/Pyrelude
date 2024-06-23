@@ -1,49 +1,47 @@
-
-
 module Debug.Trace.Extended (
-    dbNoLbl
-    ,dbTag
-    ,db
-    ,dbfNoLbl
-    ,dbf
-    ,dbTag_
-    ,dbfNoLbl_
-    ,dbNoLbl_
-    ,db_
-    ,dbNoLbl'
-    ,dbTag'
-    ,db'
-    ,dbfNoLbl'
-    ,dbf'
-    ,dbTag_'
-    ,dbf_'
-    ,dbfNoLbl_'
-    ,dbNoLbl_'
-    ,db_'
-    , uu
+  dbNoLbl,
+  dbTag,
+  db,
+  dbfNoLbl,
+  dbf,
+  dbTag_,
+  dbfNoLbl_,
+  dbNoLbl_,
+  db_,
+  dbNoLbl',
+  dbTag',
+  db',
+  dbfNoLbl',
+  dbf',
+  dbTag_',
+  dbf_',
+  dbfNoLbl_',
+  dbNoLbl_',
+  db_',
+  uu,
 ) where
 
-import BasePrelude
-    ( ($),
-      Monad((>>)),
-      Show,
-      Applicative(pure),
-      Semigroup((<>)),
-      void,
-      traceIO,
-      traceM,
-      error,
-      unsafePerformIO,
-      Category(id, (.)) )
-import    qualified       Data.Text as T
-import Text.Show.Pretty as PP ( ppShow )
-import qualified Prelude as P
-
+import BasePrelude (
+  Applicative (pure),
+  Category (id, (.)),
+  Monad ((>>)),
+  Semigroup ((<>)),
+  Show,
+  error,
+  traceIO,
+  traceM,
+  unsafePerformIO,
+  void,
+  ($),
+ )
+import Data.Text qualified as T
+import Text.Show.Pretty as PP (ppShow)
+import Prelude qualified as P
 
 dbLbl :: T.Text
 dbLbl = "DEBUG"
 
-dbNoLbl :: Show a => a -> a
+dbNoLbl :: (Show a) => a -> a
 dbNoLbl = db dbLbl
 {-# WARNING dbNoLbl "code includes debug function: dbNoLbl" #-}
 
@@ -51,19 +49,19 @@ dbTag :: T.Text -> a -> a
 dbTag lbl a = unsafePerformIO $ traceIO (T.unpack ("DEBUG: " <> lbl)) >> pure a
 {-# WARNING dbTag "code includes debug function: dbTag" #-}
 
-db :: Show a => T.Text -> a -> a
+db :: (Show a) => T.Text -> a -> a
 db lbl = dbf lbl id
 {-# WARNING db "code includes debug function: db" #-}
 
-dbfNoLbl :: Show b => (a -> b) -> a -> a
+dbfNoLbl :: (Show b) => (a -> b) -> a -> a
 dbfNoLbl = dbf dbLbl
 {-# WARNING dbfNoLbl "code includes debug function: dbfNoLbl" #-}
 
-dbf :: Show b => T.Text -> (a -> b) -> a -> a
+dbf :: (Show b) => T.Text -> (a -> b) -> a -> a
 dbf lbl f a =
   let
     lst = T.lines . T.pack . ppShow $ f a
-  in
+   in
     unsafePerformIO $ do
       case lst of
         [] -> traceIO $ T.unpack lbl
@@ -85,7 +83,7 @@ dbfNoLbl_ = dbf_ dbLbl
 {-# WARNING dbfNoLbl_ "code includes debug function: dbfNoLbl_" #-}
 
 dbNoLbl_ :: (Show a, Applicative f) => a -> f ()
-dbNoLbl_  = dbfNoLbl_ id 
+dbNoLbl_ = dbfNoLbl_ id
 {-# WARNING dbNoLbl_ "code includes debug function: dbNoLbl_" #-}
 
 db_ :: (Show a, Applicative f) => T.Text -> a -> f ()
@@ -114,28 +112,26 @@ dbf' :: T.Text -> (a -> b) -> a -> a
 dbf' lbl f a = a
 {-# WARNING dbf' "code includes debug function: dbf'" #-}
 
-dbTag_' :: Applicative f => T.Text -> f ()
+dbTag_' :: (Applicative f) => T.Text -> f ()
 dbTag_' _lbl = pure ()
 {-# WARNING dbTag_' "code includes debug function: dbTag_'" #-}
 
-dbf_' :: Applicative f => T.Text -> (a -> b) -> a -> f ()
+dbf_' :: (Applicative f) => T.Text -> (a -> b) -> a -> f ()
 dbf_' _lbl _f a = pure ()
 {-# WARNING dbf_' "code includes debug function: dbf_'" #-}
 
-
-dbfNoLbl_' :: Applicative f => (a -> b) -> a -> f ()
+dbfNoLbl_' :: (Applicative f) => (a -> b) -> a -> f ()
 dbfNoLbl_' _f _val = pure ()
 {-# WARNING dbfNoLbl_' "code includes debug function: dbfNoLbl_'" #-}
 
-dbNoLbl_' :: Applicative f => a -> f ()
+dbNoLbl_' :: (Applicative f) => a -> f ()
 dbNoLbl_' _a = pure ()
 {-# WARNING dbNoLbl_' "code includes debug function: dbNoLbl_'" #-}
 
-db_' :: Applicative f => T.Text -> a -> f ()
+db_' :: (Applicative f) => T.Text -> a -> f ()
 db_' _lbl _a = pure ()
 {-# WARNING db_' "code includes debug function: db_'" #-}
 
 uu :: forall a. a
 uu = error "Not implemented"
 {-# WARNING uu "code includes debug function: uu" #-}
-
