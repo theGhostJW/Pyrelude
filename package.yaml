@@ -55,6 +55,7 @@ ghc-options:
   - -fno-warn-unused-matches
   - -fno-warn-unused-binds
   - -fno-warn-unused-imports
+  - -Wno-unused-do-bind 
 
 default-extensions:
   - AllowAmbiguousTypes

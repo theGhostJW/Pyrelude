@@ -1,13 +1,12 @@
 
+
 module Debug.Trace.Extended (
-  module Debug.Trace.Extended (
     dbNoLbl
     ,dbTag
     ,db
     ,dbfNoLbl
     ,dbf
     ,dbTag_
-    ,dbfM_
     ,dbfNoLbl_
     ,dbNoLbl_
     ,db_
@@ -17,16 +16,27 @@ module Debug.Trace.Extended (
     ,dbfNoLbl'
     ,dbf'
     ,dbTag_'
-    ,dbfM_'
+    ,dbf_'
     ,dbfNoLbl_'
     ,dbNoLbl_'
     ,db_'
     , uu
 ) where
 
-import           BasePrelude
+import BasePrelude
+    ( ($),
+      Monad((>>)),
+      Show,
+      Applicative(pure),
+      Semigroup((<>)),
+      void,
+      traceIO,
+      traceM,
+      error,
+      unsafePerformIO,
+      Category(id, (.)) )
 import    qualified       Data.Text as T
-import Text.Show.Pretty as PP
+import Text.Show.Pretty as PP ( ppShow )
 import qualified Prelude as P
 
 
@@ -34,63 +44,61 @@ dbLbl :: T.Text
 dbLbl = "DEBUG"
 
 dbNoLbl :: Show a => a -> a
-dbNoLbl = db' dbLbl
+dbNoLbl = db dbLbl
 {-# WARNING dbNoLbl "code includes debug function: dbNoLbl" #-}
 
-dbTag :: Text -> a -> a
-dbTag lbl a = unsafePerformIO $ do 
-                traceIO . T.unpack ("DEBUG: " <> lbl)
-                pure a
+dbTag :: T.Text -> a -> a
+dbTag lbl a = unsafePerformIO $ traceIO (T.unpack ("DEBUG: " <> lbl)) >> pure a
 {-# WARNING dbTag "code includes debug function: dbTag" #-}
 
 db :: Show a => T.Text -> a -> a
-db = dbf' id
+db lbl = dbf lbl id
 {-# WARNING db "code includes debug function: db" #-}
 
 dbfNoLbl :: Show b => (a -> b) -> a -> a
-dbfNoLbl f = dbf' f dbLbl
+dbfNoLbl = dbf dbLbl
 {-# WARNING dbfNoLbl "code includes debug function: dbfNoLbl" #-}
 
 dbf :: Show b => T.Text -> (a -> b) -> a -> a
-dbf lbl f val =
+dbf lbl f a =
   let
-    lst = T.lines . T.pack . ppShow $ f val
+    lst = T.lines . T.pack . ppShow $ f a
   in
     unsafePerformIO $ do
       case lst of
         [] -> traceIO $ T.unpack lbl
         [x] -> traceIO . T.unpack $ lbl <> ": " <> x
         ls@(x : xs) -> P.mapM_ (traceIO . T.unpack) ("--- " <> lbl <> " ---" : ls)
-      pure val
+      pure a
 {-# WARNING dbf "code includes debug function: dbf" #-}
 
-dbTag_ :: (Applicative f) => Text -> f ()
+dbTag_ :: (Applicative f) => T.Text -> f ()
 dbTag_ = traceM . T.unpack
 {-# WARNING dbTag_ "code includes debug function: dbTag_" #-}
 
-dbfM_ :: (Applicative f, Show a) => T.Text -> (a -> b) -> a -> f ()
-dbfM_ lbl f val = pure . void . dbf lbl f
-{-# WARNING dbfM_ "code includes debug function: dbfM_" #-}
+dbf_ :: (Applicative f, Show b) => T.Text -> (a -> b) -> a -> f ()
+dbf_ lbl f = void . pure . dbf lbl f
+{-# WARNING dbf_ "code includes debug function: dbf_" #-}
 
-dbfNoLbl_ :: (Applicative f, Show a) => (a -> b) -> a -> f ()
-dbfNoLbl_ f val = dbfM f dbLbl
+dbfNoLbl_ :: (Applicative f, Show b) => (a -> b) -> a -> f ()
+dbfNoLbl_ = dbf_ dbLbl
 {-# WARNING dbfNoLbl_ "code includes debug function: dbfNoLbl_" #-}
 
 dbNoLbl_ :: (Show a, Applicative f) => a -> f ()
-dbNoLbl_ = dbfMNoLbl const
+dbNoLbl_  = dbfNoLbl_ id 
 {-# WARNING dbNoLbl_ "code includes debug function: dbNoLbl_" #-}
 
-db_ :: (Show a, Applicative f) => Text -> a -> f ()
-db_ lbl a = dbfM const
+db_ :: (Show a, Applicative f) => T.Text -> a -> f ()
+db_ lbl = dbf_ lbl id
 {-# WARNING db_ "code includes debug function: db_" #-}
 
 -- id functions to enable temporary disabling disabling db messages --
 
 dbNoLbl' :: a -> a
-dbNoLbl' = const
+dbNoLbl' a = a
 {-# WARNING dbNoLbl' "code includes debug function: dbNoLbl'" #-}
 
-dbTag' :: Text -> a -> a
+dbTag' :: T.Text -> a -> a
 dbTag' _lbl a = a
 {-# WARNING dbTag' "code includes debug function: dbTag'" #-}
 
@@ -99,31 +107,31 @@ db' lbl a = a
 {-# WARNING db' "code includes debug function: db'" #-}
 
 dbfNoLbl' :: (a -> b) -> a -> a
-dbfNoLbl' f = a
+dbfNoLbl' _f a = a
 {-# WARNING dbfNoLbl' "code includes debug function: dbfNoLbl'" #-}
 
 dbf' :: T.Text -> (a -> b) -> a -> a
 dbf' lbl f a = a
 {-# WARNING dbf' "code includes debug function: dbf'" #-}
 
-dbTag_' :: Text -> f ()
+dbTag_' :: Applicative f => T.Text -> f ()
 dbTag_' _lbl = pure ()
 {-# WARNING dbTag_' "code includes debug function: dbTag_'" #-}
 
-dbfM_' :: T.Text -> (a -> b) -> a -> f ()
-dbfM_' _lbl _f a = pure ()
-{-# WARNING dbfM_' "code includes debug function: dbfM_'" #-}
+dbf_' :: Applicative f => T.Text -> (a -> b) -> a -> f ()
+dbf_' _lbl _f a = pure ()
+{-# WARNING dbf_' "code includes debug function: dbf_'" #-}
 
 
-dbfNoLbl_' :: (a -> b) -> a -> f ()
+dbfNoLbl_' :: Applicative f => (a -> b) -> a -> f ()
 dbfNoLbl_' _f _val = pure ()
 {-# WARNING dbfNoLbl_' "code includes debug function: dbfNoLbl_'" #-}
 
-dbNoLbl_' :: a -> f ()
+dbNoLbl_' :: Applicative f => a -> f ()
 dbNoLbl_' _a = pure ()
 {-# WARNING dbNoLbl_' "code includes debug function: dbNoLbl_'" #-}
 
-db_' :: Text -> a -> f ()
+db_' :: Applicative f => T.Text -> a -> f ()
 db_' _lbl _a = pure ()
 {-# WARNING db_' "code includes debug function: db_'" #-}
 

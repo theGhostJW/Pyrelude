@@ -101,6 +101,7 @@ library
     , encode-string
     , exceptions
     , extra
+    , filepath
     , hedgehog
     , old-locale
     , path
@@ -186,6 +187,7 @@ test-suite pyrelude-test
     , encode-string
     , exceptions
     , extra
+    , filepath
     , hedgehog
     , mtl
     , pretty-show
