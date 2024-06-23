@@ -24,6 +24,7 @@ dependencies:
   - either
   - exceptions
   - extra
+  - filepath
   - hedgehog
   - tasty
   - tasty-hunit

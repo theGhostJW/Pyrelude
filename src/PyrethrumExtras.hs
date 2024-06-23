@@ -15,7 +15,6 @@ module PyrethrumExtras (
   , txtPretty
   , groupD 
   , unlessJust
-  , uu
 ) where
 
 
@@ -70,10 +69,6 @@ groupD  = D.group
 
 log10 :: Floating a => a -> a
 log10 = B.log
-
--- undefined in less keystrokes
-uu :: forall a. a
-uu = error "Not implemented"
 
 -- equivalent of show for text
 txt :: Show a => a -> Text
