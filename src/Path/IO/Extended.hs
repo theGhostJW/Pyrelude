@@ -3,21 +3,36 @@ module Path.IO.Extended (
   , hasSubDir
   , seekDirUp
   , subDirFromBaseDir
+  , openFile
 ) where
 
-import           BasePrelude as P
+import BasePrelude as P
+    ( ($),
+      Eq((==)),
+      Monad,
+      Applicative(pure),
+      Semigroup((<>)),
+      Bool,
+      Maybe(Nothing),
+      Either(..),
+      (<$>),
+      doesNotExistErrorType,
+      mkIOError,
+      MonadIO,
+      IOError, IO, String, putStrLn, (.) )
 import           Path.IO
-import           Path
-import           Stringy
-import Data.Text as T
+import Path ( toFilePath, (</>), parent, Path, Dir, Rel )
+import Stringy ( toS, ConvertString )
+import Data.Text as T ( Text )
 import qualified Data.Text.Encoding          as E
-import Ternary
-import Control.Monad.Catch
+import Ternary ( (?) )
+import qualified System.IO as S
+import PyrethrumExtras (AbsFile, catchIOError)
 
-notExistError :: String  -> Either IOError (Path a t)
+notExistError :: Text  -> Either IOError (Path a t)
 notExistError errMsg = Left (mkIOError doesNotExistErrorType (toS errMsg) Nothing Nothing)
 
-seekDirUp :: forall m a. Monad m => String -> Path a Dir -> (Path a Dir -> m Bool) -> m (Either IOError (Path a Dir))
+seekDirUp :: forall m a. Monad m => Text -> Path a Dir -> (Path a Dir -> m Bool) -> m (Either IOError (Path a Dir))
 seekDirUp errLabel dir prd =
   let
     thisParent :: Path a Dir
@@ -44,10 +59,15 @@ subDirFromBaseDir dir subDir =
   do
     baseParent <- dir
     let
-      errLbl :: String
+      errLbl :: Text
       errLbl = "Seeking directory: " <> toS (toFilePath subDir) <> " out from " <> toS (toFilePath baseParent)
 
       dirPred :: MonadIO m => Path a Dir ->  m Bool
       dirPred parentDir = hasSubDir parentDir subDir
 
     ((</> subDir) <$>) <$> seekDirUp errLbl baseParent dirPred
+
+openFile :: AbsFile -> S.IOMode -> IO (Either IOError S.Handle)
+openFile pth mode =
+  catchIOError (Right <$> S.openFile (toFilePath pth) mode) (pure . Left)
+

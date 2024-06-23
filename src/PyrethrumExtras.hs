@@ -5,14 +5,14 @@ module PyrethrumExtras (
   , module THEx
   , module Stringy
   , module Ternary
+  , module Time
+  , module Listy
   , PyrethrumExtras.count
   , countValues
   , firstDuplicate
   , firstJust
   , firstJustf
   , enumList
-  , txt
-  , txtShow
   , groupD 
   , unlessJust
 ) where
@@ -52,6 +52,8 @@ import           Path.Extended
 import Data.Text.Encoding ()
 import Stringy
 import Ternary
+import Listy
+import Time
 import qualified Data.Map.Strict as M
 import System.Locale (defaultTimeLocale)
   
@@ -86,13 +88,6 @@ groupD  = D.group
 
 log10 :: Floating a => a -> a
 log10 = B.log
-
--- equivalent of show for text
-txt :: Show a => a -> Text
-txt = toS . ppShow
-
-txtShow :: Show a => a -> Text
-txtShow = toS . show
 
 count :: (Foldable f, Num n) => (a -> Bool) -> f a -> n
 count p = PAll.foldl' (\n x -> p x ? n + 1 $ n) 0

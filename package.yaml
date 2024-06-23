@@ -20,22 +20,23 @@ extra-source-files:
 description: Please see the README on GitHub at <https://github.com/githubuser/simple-hpack#readme>
 
 dependencies:
+  - base
   - base-prelude
+  - containers
+  - chronos
   - either
+  - encode-string
   - exceptions
   - extra
   - filepath
   - hedgehog
+  - pretty-show
   - tasty
   - tasty-hunit
   - tasty-hedgehog
   - text
-  - base
-  - encode-string
-  - containers
-  - pretty-show
+  - time
   # - fmt
-  # - chronos
   # - time # need for timezone which is missing from chronos
   # - Win32
 
@@ -49,13 +50,10 @@ ghc-options:
   - -Wcompat
   - -Wincomplete-record-updates
   - -Wincomplete-uni-patterns
-  - -Wredundant-constraints
-  - -fno-warn-missing-signatures
   - -fno-warn-type-defaults
   - -fno-warn-unused-matches
   - -fno-warn-unused-binds
-  - -fno-warn-unused-imports
-  - -Wno-unused-do-bind 
+  - -Wno-unused-do-bind
 
 default-extensions:
   - AllowAmbiguousTypes

@@ -64,13 +64,14 @@ dbfNoLbl = dbf dbLbl
 dbf :: (Show b) => T.Text -> (a -> b) -> a -> a
 dbf lbl f a =
   let
-    lst = T.lines . T.pack . ppShow $ f a
+    lbl' = T.unpack lbl
+    lst = P.lines . ppShow $ f a
    in
     unsafePerformIO $ do
       case lst of
-        [] -> traceIO $ T.unpack lbl
-        [x] -> traceIO . T.unpack $ lbl <> ": " <> x
-        ls@(x : xs) -> P.mapM_ (traceIO . T.unpack) ("--- " <> lbl <> " ---" : ls)
+        [] -> traceIO lbl'
+        [x] -> traceIO $ lbl' <> ": " <> x
+        ls@(x : xs) -> P.mapM_ traceIO ("--- " <> lbl' <> " ---" : ls)
       pure a
 {-# WARNING dbf "code includes debug function: dbf" #-}
 
