@@ -1,21 +1,25 @@
+{-# OPTIONS -fno-warn-x-partial #-}
+
 module Listy  (
   module Data.List.Extra,
-  List.Extra.last,
-  List.Extra.init,
-  List.Extra.maximum,
-  List.Extra.minimum,
-  List.Extra.head,
-  List.Extra.tail,
+  Listy.last,
+  Listy.init,
+  Listy.maximum,
+  Listy.minimum,
+  Listy.head,
+  Listy.tail,
   count,
   zipWithIndex,
 ) where
 
 --  shims for relude to ultimately be included in a revived pyrelude
 
-import Data.List.Extra hiding (head, tail, init, last, maximum, minimum)
+import Data.List.Extra hiding (head, tail, init, last, maximum, minimum, firstJust)
 import Data.List.Extra as L hiding (lines, unlines)
 import Ternary ((?))
 import Prelude hiding (last)
+import Data.Function ((&))
+import Data.Foldable (toList)
 
 -- need to hide in p(relude) too - lines / unlines
 

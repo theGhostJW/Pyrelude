@@ -3,46 +3,49 @@ module Stringy (
   toS,
   txt,
   txtShow,
-  last,
-  init,
+  lastChar,
+  initTxt,
   replaceFirst,
 ) where
 
-import Data.String.Encode 
-import BasePrelude (Show (..), (.), Maybe(..), Char, otherwise, ($))
-import Data.Text qualified as T 
-import Data.Text (Text) 
-import Text.Show.Pretty (ppShow)
+import BasePrelude (Char, Maybe (..), Show (..), otherwise, ($), (.))
+import Data.String.Encode
+import Data.Text (Text)
+import Data.Text qualified as T
 import Ternary ((?))
+import Text.Show.Pretty (ppShow)
 
-toS :: ConvertString a b => a -> b
+toS :: (ConvertString a b) => a -> b
 toS = convertString
 
 -- equivalent of show for text
-txt :: Show a => a -> Text
+txt :: (Show a) => a -> Text
 txt = toS . ppShow
 
-txtShow :: Show a => a -> Text
+txtShow :: (Show a) => a -> Text
 txtShow = toS . show
 
-
 safet :: (Text -> b) -> Text -> Maybe b
-safet unsafef t = 
+safet unsafef t =
   T.null t ? Nothing $ Just (unsafef t)
-                                                            
-last:: Text -> Maybe Char
-last = safet T.last  
 
-init :: Text -> Maybe Text
-init = safet T.init
+lastChar :: Text -> Maybe Char
+lastChar = safet T.last
+
+initTxt :: Text -> Maybe Text
+initTxt = safet T.init
 
 --  https://stackoverflow.com/questions/14922070/haskell-use-data-text-replace-to-replace-only-the-first-occurrence-of-a-text-va
-replaceFirst :: Text -- ^ needle
-                  -> Text -- ^ replacement
-                  -> Text -- ^ haystack
-                  -> Text
+replaceFirst ::
+  -- | needle
+  Text ->
+  -- | replacement
+  Text ->
+  -- | haystack
+  Text ->
+  Text
 replaceFirst needle replacement haystack
-    | T.null back = haystack 
-    | otherwise = T.concat [front, replacement, T.drop (T.length needle) back] 
-      where
-        (front, back) = T.breakOn needle haystack
+  | T.null back = haystack
+  | otherwise = T.concat [front, replacement, T.drop (T.length needle) back]
+ where
+  (front, back) = T.breakOn needle haystack

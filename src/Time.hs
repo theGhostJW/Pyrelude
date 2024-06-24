@@ -5,6 +5,7 @@ module Time (
 
 import Chronos
 import Data.Time ( UTCTime (..))
+import BasePrelude
 
 -- TODO :: UnTested Test
 utcToOffsetDateTime :: UTCTime -> OffsetDatetime

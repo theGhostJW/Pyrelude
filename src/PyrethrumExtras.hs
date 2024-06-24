@@ -7,12 +7,11 @@ module PyrethrumExtras (
   , module Ternary
   , module Time
   , module Listy
-  , PyrethrumExtras.count
+  , module ListExtraExport
   , countValues
   , firstDuplicate
   , firstJust
   , firstJustf
-  , enumList
   , groupD 
   , unlessJust
 ) where
@@ -21,6 +20,7 @@ module PyrethrumExtras (
 import           Control.Monad.Catch
 import  qualified  BasePrelude as PAll
 import qualified  Data.List.Extra as ListExtra
+import qualified  Data.List.Extra as ListExtraExport (enumerate)
 
 import Data.Discrimination as D ( group, Grouping )
 import Data.Text ( Text )
@@ -89,14 +89,8 @@ groupD  = D.group
 log10 :: Floating a => a -> a
 log10 = B.log
 
-count :: (Foldable f, Num n) => (a -> Bool) -> f a -> n
-count p = PAll.foldl' (\n x -> p x ? n + 1 $ n) 0
-
 firstDuplicate :: Grouping a => [a] -> Maybe a
 firstDuplicate xs = L.find (\l -> B.length l > 1) (D.group xs) 
                       >>= \case 
                             [] -> Nothing 
                             x:_ -> Just x
-
-enumList :: Enum a => [a]
-enumList = enumFrom $ toEnum 0
