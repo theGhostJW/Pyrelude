@@ -120,6 +120,7 @@ library:
     - PyrethrumExtras.Test.Tasty.HUnit.Extended
     - Stringy
     - Ternary
+    - Listy
   dependencies:
     - path # - version set in extra deps - until can roll forward
     - path-io # - version set in extra deps - until ide supports later version of haskell

@@ -36,6 +36,7 @@ library
       PyrethrumExtras.Test.Tasty.HUnit.Extended
       Stringy
       Ternary
+      Listy
   other-modules:
       Time
       Paths_pyrethrum_extras
@@ -96,6 +97,7 @@ library
       base
     , base-prelude
     , bytestring
+    , chronos
     , containers
     , discrimination
     , either
@@ -184,6 +186,7 @@ test-suite pyrelude-test
   build-depends:
       base
     , base-prelude
+    , chronos
     , containers
     , either
     , encode-string

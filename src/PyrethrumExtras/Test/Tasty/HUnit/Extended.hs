@@ -16,10 +16,6 @@ module PyrethrumExtras.Test.Tasty.HUnit.Extended
 where
 
 import BasePrelude
-import Control.Exception.Base
-import Control.Monad
-import Data.Text as T
-import Stringy
 import Test.Tasty.HUnit as HUnit hiding
   ( Assertable,
     AssertionPredicate,

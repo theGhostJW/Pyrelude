@@ -11,7 +11,6 @@ import           Hedgehog
 import           Hedgehog.Gen        as GenFull
 import qualified Hedgehog.Gen        as Gen hiding (constant, discard)
 import           Hedgehog.Range
-import qualified Prelude
 
 {-# ANN module "HLint: Unnecessary hiding" #-}
 
