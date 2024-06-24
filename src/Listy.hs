@@ -1,7 +1,7 @@
 {-# OPTIONS -fno-warn-x-partial #-}
 
 module Listy  (
-  module Data.List.Extra,
+  module ExtraExport,
   Listy.last,
   Listy.init,
   Listy.maximum,
@@ -15,7 +15,8 @@ module Listy  (
 --  shims for relude to ultimately be included in a revived pyrelude
 
 import Data.List.Extra hiding (head, tail, init, last, maximum, minimum, firstJust)
-import Data.List.Extra as L hiding (lines, unlines)
+import Data.List.Extra as ExtraExport hiding (head, tail, init, last, maximum, minimum, firstJust, lines, unlines)
+import Data.List.Extra qualified as L
 import Ternary ((?))
 import Prelude hiding (last)
 import Data.Function ((&))
