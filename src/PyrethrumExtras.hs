@@ -18,25 +18,18 @@ module PyrethrumExtras (
 
 
 import           Control.Monad.Catch
-import  qualified  BasePrelude as PAll
 import qualified  Data.List.Extra as ListExtra
 import qualified  Data.List.Extra as ListExtraExport (enumerate)
 
 import Data.Discrimination as D ( group, Grouping )
-import Data.Text ( Text )
-import Text.Show.Pretty as PP ( ppShow )
 import BasePrelude as B
     ( ($),
-      Enum(toEnum, enumFrom),
       Floating(log),
       Monad((>>=)),
       Functor(fmap),
-      Num((+)),
       Ord((>)),
-      Show(show),
       Applicative(pure),
       Foldable(length),
-      Bool,
       Int,
       Maybe(..),
       (<$>),
@@ -45,7 +38,6 @@ import BasePrelude as B
       error,
       Category((.), id) )
 import qualified Data.List                           as L hiding (singleton)
-import Data.Maybe ( Maybe(..), maybe )
 import           Debug.Trace.Extended
 import           Language.Haskell.TH.Syntax.Extended as THEx (moduleOf)
 import           Path.Extended
@@ -55,11 +47,9 @@ import Ternary
 import Listy
 import Time
 import qualified Data.Map.Strict as M
-import System.Locale (defaultTimeLocale)
   
-import Control.Monad.Extra (whenJust) 
 import Data.Foldable (length)
-import Data.List (head)
+import Data.List ()
 
 firstJustf :: (a -> Maybe b) -> [a] -> Maybe b
 firstJustf = ListExtra.firstJust

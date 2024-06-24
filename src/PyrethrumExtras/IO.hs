@@ -7,7 +7,6 @@ module PyrethrumExtras.IO (
 
 import Path.IO.Extended
 import BasePrelude
-import Data.String.Encode
 import PyrethrumExtras (toS)
 import Text.Show.Pretty (ppShow)
 import Data.Text (Text)

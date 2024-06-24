@@ -19,12 +19,11 @@ import BasePrelude as P
       doesNotExistErrorType,
       mkIOError,
       MonadIO,
-      IOError, IO, String, putStrLn, (.) )
+      IOError, IO, (.) )
 import           Path.IO
 import Path ( toFilePath, (</>), parent, Path, Dir, Rel )
-import Stringy ( toS, ConvertString )
+import Stringy ( toS)
 import Data.Text as T ( Text )
-import qualified Data.Text.Encoding          as E
 import Ternary ( (?) )
 import qualified System.IO as S
 import PyrethrumExtras (AbsFile, catchIOError)
